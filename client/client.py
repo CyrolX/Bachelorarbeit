@@ -1,5 +1,6 @@
 import os
 import requests
+from secret import client_secrets
 
 ADMIN_LOGIN_URL = 'http://172.17.22.64/admin'
 TERMINAL_SIZE = os.get_terminal_size()
@@ -24,7 +25,7 @@ def main():
     # entsprechend, sollten im Folgenden weitere Aktionen gewünscht sein, nach je-
     # der Request neu abgefragt werden.
     csrf_token = client.cookies['csrftoken']
-    admin_login_data = {'username':'m611', 'password':'', 'csrfmiddlewaretoken':csrf_token}
+    admin_login_data = {'username':'m611', 'password': client_secrets.ADMIN_PASSWORD, 'csrfmiddlewaretoken':csrf_token}
     # Django hat eine gewisse Eigenheit was seine automatisch generierte Admin-
     # Login-Seite angeht. Es ist wichtig auf /admin zu routen, wodurch man bei
     # /admin/login/?next=/admin/ landet. Am einfachsten ist es hier einfach die
