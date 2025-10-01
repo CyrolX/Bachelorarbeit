@@ -1,0 +1,34 @@
+<!--
+This is an edited version of the original login.html found under the following link:
+https://github.com/pennersr/django-allauth/blob/main/allauth/templates/socialaccount/login.html
+-->
+
+{% extends "socialaccount/base_entrance.html" %}
+{% load i18n %}
+{% load allauth %}
+{% block head_title %}
+    {% trans "Sign In" %}
+{% endblock head_title %}
+{% block content %}
+    {% if process == "connect" %}
+        {% element h1 %}
+            {% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}
+        {% endelement %}
+        {% element p %}
+            {% blocktrans with provider.name as provider %}You are about to connect a new third-party account from {{ provider }}.{% endblocktrans %}
+        {% endelement %}
+    {% else %}
+        {% element h1 %}
+            {% blocktrans with provider.name as provider %}Sign In Via {{ provider }}{% endblocktrans %}
+        {% endelement %}
+        {% element p %}
+            {% blocktrans with provider.name as provider %}zonk scoomb {{ provider }}.{% endblocktrans %}
+        {% endelement %}
+    {% endif %}
+    <form id="submitMe" method="post" no_visible_fields=True>
+        {% csrf_token %}
+        {% element button type="submit" %}
+            {% trans "Continue" %}
+        {% endelement %}
+    </form>
+{% endblock content %}
