@@ -85,6 +85,104 @@ AUTHENTICATION_BACKENDS = [
 
 ]
 
+SOCIALACCOUNT_PROVIDERS = {
+     "openid_connect": {
+        "APPS": [
+            {
+                "provider_id": "keycloak",
+                "name": "Keycloak",
+                "client_id": "test1",
+                "secret": service_secrets.OIDC_KEY,
+                "settings": {
+                    "server_url": "https://kc-ba-runtemund-iam-openstack.uni-osnabrueck.de/realms/BA-Service/.well-known/openid-configuration"
+                }
+            }
+        ]
+    },
+    "saml": {
+        # Here, each app represents the SAML provider configuration of one
+        # organization.
+        "APPS": [
+            {
+                # Used for display purposes, e.g. over by: {% get_providers %}
+                "name": "Keycloak",
+
+                # Accounts signed up via this provider will have their
+                # `SocialAccount.provider` value set to this ID. The combination
+                # of this value and the `uid` must be unique. The IdP entity ID is a
+                # good choice for this.
+                "provider_id": "https://kc-ba-runtemund-iam-openstack.uni-osnabrueck.de/realms/BA-Service",
+
+                # The organization slug is configured by setting the
+                # `client_id` value. In this example, the SAML login URL is:
+                #
+                #     /accounts/saml/acme-inc/login/
+                "client_id": "keycloak",
+
+                # The fields above are common `SocialApp` fields. For SAML,
+                # additional configuration is needed, which is placed in
+                # `SocialApp.settings`:
+                "settings": {
+
+                    # Mapping account attributes to upstream (IdP specific) attributes.
+                    # If left empty, an attempt will be done to map the attributes using
+                    # built-in defaults.
+                    "attribute_mapping": {
+                        "uid": "http://schemas.auth0.com/clientID",
+                        "email_verified": "http://schemas.auth0.com/email_verified",
+                        "email": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
+                    },
+
+                    # The following setting allows you to force the use of nameID as email.
+                    # This can be useful if you are using a SAML IdP that is broken in some way and
+                    # does not allow use of the emailAddress nameid format
+                    "use_nameid_for_email": False,
+
+                    # The configuration of the IdP.
+                    "idp": {
+                        # The entity ID of the IdP is required.
+                        "entity_id": "https://kc-ba-runtemund-iam-openstack.uni-osnabrueck.de/realms/BA-Service",
+
+                        "metadata_url": "https://kc-ba-runtemund-iam-openstack.uni-osnabrueck.de/realms/BA-Service/protocol/saml/descriptor",
+                    },
+                    # The configuration of the SP.
+                    "sp": {
+                        # Optional entity ID of the SP. If not set, defaults to the `saml_metadata` urlpattern
+                        "entity_id": "test-saml-1",
+                    },
+
+                    # Advanced settings.
+                    "advanced": {
+                        "allow_repeat_attribute_name": True,
+                        "allow_single_label_domains": False,
+                        "authn_request_signed": True,
+                        "digest_algorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+                        "logout_request_signed": False,
+                        "logout_response_signed": False,
+                        "metadata_signed": False,
+                        "name_id_encrypted": False,
+                        "name_id_format": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+                        "private_key": service_secrets.SAML_KEY,
+                        "reject_deprecated_algorithm": True,
+                        # Due to security concerns, IdP initiated SSO is rejected by default.
+                        "reject_idp_initiated_sso": True,
+                        "signature_algorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256",
+                        "want_assertion_encrypted": False,
+                        "want_assertion_signed": False,
+                        "want_attribute_statement": True,
+                        "want_message_signed": False,
+                        "want_name_id": False,
+                        "want_name_id_encrypted": False,
+                        "x509cert": service_secrets.X509_CERT,
+                        "metadata_valid_until": None,
+                        "metadata_cache_duration": None
+                    },
+                },
+            },
+        ]
+    }
+}
+
 WSGI_APPLICATION = 'webpage.wsgi.application'
 
 
