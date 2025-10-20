@@ -78,9 +78,6 @@ def webbrowser_login(login_method):
     # Route to the login_url which will instantaneously redirect us to Keycloak as
     # configured.
     driver.get(login_url)
-    # Old Attempt for a bugfix, see l.90-102
-    #false_url = driver.current_url
-    #attempt = 1
 
     # Wait until the redirect was successful and the Keycloak page is loaded suf-
     # ficiently
@@ -89,33 +86,12 @@ def webbrowser_login(login_method):
     last_url = driver.current_url
     print_nice(f'[DEBUG] WEBDRIVER URL: {driver.current_url}')
 
-    # There was a problem where we were logged in but weren't redirected. I person-
-    # ally assumed, that the login process somehow failed. This was a non-problem
-    # however: the code was faster than the website could process the request. If
-    # we do not wait for the URL to change, the authentication process can't finish.
-    # This code will be removed on the next push request.
-    #uncomment for while
-    #username_input_field = ""
-    #password_input_field = ""
-    #login_button = ""
-
-    #while driver.current_url == false_url:
-    #print_nice(f'[DEBUG] ATTEMPT {attempt} | WEBDRIVER URL: {driver.current_url}')
-    #    if attempt > 1:
-    #        wait.until(EC.staleness_of(username_input_field))
-    #    else:
-    #         wait.until(EC.presence_of_element_located((By.ID, 'username')))
-
     username_input_field = driver.find_element(by=By.ID, value="username")
     password_input_field = driver.find_element(by=By.ID, value="password")
     login_button = driver.find_element(by=By.ID, value="kc-login")
-
     username_input_field.send_keys("testuser2")
     password_input_field.send_keys(client_secrets.TEST_USER_PASSWORD)
     login_button.click()
-
-    #attempt += 1
-    #end indent
     
     # If the URL changes, we most likely have been authenticated correctly and have
     # been redirected to /accounts/profile
