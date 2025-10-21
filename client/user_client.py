@@ -31,7 +31,7 @@ def print_nice(text, top_line = False):
     print(f'+{(TERMINAL_SIZE.columns - 2) * "-"}+')
 
 
-def webbrowser_login(login_method):
+def webbrowser_login(login_method, username, kc_admin):
     """
     Simulates a login from a user through a webbrowser. This fits the Webbrow
     ser-Flow for SAML and the standard flow for OIDC.
@@ -59,22 +59,9 @@ def webbrowser_login(login_method):
     # date.
     wait = WebDriverWait(driver = driver, timeout = 10, poll_frequency = 0.01)
 
-    #print_nice(f'[DEBUG] COOKIES: {driver.get_cookies()}')
-
-    # This is to show that we are not authenticated yet.
-    driver.get(PROTECTED_APP_URL)
-    # As we are working with a webbrowser, we need to wait until the page is
-    # loaded correctly until we can do actions on the website, like printing
-    # the source etc.
-    wait.until(EC.presence_of_element_located((By.TAG_NAME, 'p')))
-    print_nice(f'[DEBUG] WEBDRIVER URL: {driver.current_url}')
-    # Should contain "Not Authenticated"
-    print_nice(driver.page_source)
-
     # Route to the login_url which will instantaneously redirect us to Key-
     # cloak as configured.
     driver.get(login_url)
-
     # Wait until the redirect was successful and the Keycloak page is loaded
     # sufficiently
     wait.until(EC.presence_of_element_located((By.ID, 'username')))
@@ -85,8 +72,10 @@ def webbrowser_login(login_method):
     username_input_field = driver.find_element(by=By.ID, value="username")
     password_input_field = driver.find_element(by=By.ID, value="password")
     login_button = driver.find_element(by=By.ID, value="kc-login")
-    username_input_field.send_keys("testuser2")
-    password_input_field.send_keys(client_secrets.TEST_USER_PASSWORD)
+    username_input_field.send_keys(username)
+    password_input_field.send_keys(
+        kc_admin.get_test_user_password(username = username)
+        )
     login_button.click()
     
     # If the URL changes, we most likely have been authenticated correctly and
@@ -107,6 +96,7 @@ def webbrowser_login(login_method):
     # ies being saved in between calls of client.py
     driver.delete_all_cookies()
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     login_method_group = parser.add_mutually_exclusive_group()
@@ -121,8 +111,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     login_method = 'oidc' if args.oidc else 'saml' if args.saml else None
-    webbrowser_login(login_method)
     kc_admin = KcAdministrator(print_nice)
+    webbrowser_login(login_method, "t_user_611", kc_admin)
     kc_admin.logout_all_kc_sessions()
 else:
     print(f'[ERR] MISMATCH: {__name__} != __main__')
