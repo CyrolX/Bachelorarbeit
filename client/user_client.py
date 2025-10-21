@@ -1,6 +1,7 @@
 #from .testing_logs import run_me
 
 import argparse
+from client.kc_administrator import KcAdministrator
 import os
 #import requests
 from secret import client_secrets#, logger_define_test
@@ -211,7 +212,7 @@ def oidc_login():
     #test = requests.get('http://172.17.22.64/protected_app')
     #print(test.text)
 """
-    
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     login_method_group = parser.add_mutually_exclusive_group()
@@ -220,7 +221,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     login_method = 'oidc' if args.oidc else 'saml' if args.saml else None
-    webbrowser_login(login_method)
+    #webbrowser_login(login_method)
+    kc_admin = KcAdministrator(print_nice)
+    #kc_admin.create_test_users()
+    kc_admin.logout_all_kc_sessions()
     # Tested if the logger is created once or multiple times. It is created once.
     #logger_define_test.oidc_logger.debug("I am here")
     #logger_define_test.saml_logger.debug("I am here")
