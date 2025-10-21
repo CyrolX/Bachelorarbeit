@@ -1,7 +1,7 @@
 import argparse
 from client.kc_administrator import KcAdministrator
 import os
-from secret import client_secrets
+#from secret import client_secrets
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -113,6 +113,6 @@ if __name__ == '__main__':
     login_method = 'oidc' if args.oidc else 'saml' if args.saml else None
     kc_admin = KcAdministrator(print_nice)
     webbrowser_login(login_method, "t_user_611", kc_admin)
-    kc_admin.logout_all_kc_sessions()
+    #kc_admin.logout_all_kc_sessions()
 else:
     print(f'[ERR] MISMATCH: {__name__} != __main__')

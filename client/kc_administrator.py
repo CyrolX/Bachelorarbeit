@@ -96,8 +96,8 @@ class KcAdministrator:
             )
     
 
-    def _is_uid_locally_known(self, user_id):
-        return user_id in kc_admin_secrets.TEST_USER_PASSWORDS
+    def _is_user_locally_known(self, username):
+        return username in kc_admin_secrets.TEST_USER_PASSWORDS
 
         
     def get_uid_from_uname(self, username, uid_to_uname_lookup):
@@ -109,104 +109,33 @@ class KcAdministrator:
             return None 
 
 
-    def get_test_user_password(self, username = "t_user_1", user_id = None):
+    def get_test_user_password(self, username = None):
         """
-        Fetches the password for the given test user. Either username or user_
-        id must be supplied. By extension this function also checks if the
+        Fetches the password for the given test user.
 
         :param username: The username of the test user, whose password is to
             be returned
-
-        :param user_id: The User-ID of the test user, whose password is to be
-            returned
         
         :return: The password for the given user. Returns None if the user
             doesn't exist or if the user doesn't have a locally known password
         """
 
-        # This can be changed so that we do not get the user list containing
-        # all test users. As get_user_password and all the other functions in
-        # this class are used for the sole purpose of doing stuff with test
-        # users though, it isn't done here.
         user_list = self.get_user_list()
         uid_to_uname_lookup = self.build_uid_to_uname_lookup_dict(user_list)
 
-        if not username and not user_id:
-            self.printer(
-                f"[DEBUG | get_pass]: username {username} and user_id " \
-                f"{user_id} are None",
-                *self.printer_args,
-                **self.printer_kwargs
-                )
+        if not username:
             return None
-        # A specific validity check of the uid isn't necessary here, as all
-        # the proof of validity stems from it being contained in the passwords
-        # dictionary.
-        if not username and self._is_uid_locally_known(user_id):
-            self.printer(
-                f"[DEBUG | get_pass]: username {username} is None and user" \
-                f"_id {user_id} is known. SUCCESS!",
-                *self.printer_args,
-                **self.printer_kwargs
-                )
-            return kc_admin_secrets.TEST_USER_PASSWORDS[user_id]
-        # If we got to this point, we know that either there wasn't a username
-        # nor a User-ID, or that there was a User-ID, which was invalid, which
-        # is why we immediately return None here, if user_id is not None.
-        if not username and user_id:
-            self.printer(
-                f"[DEBUG | get_pass]: username {username} is None and user_" \
-                f"id {user_id} is unknown.", 
-                *self.printer_args,
-                **self.printer_kwargs
-                )
-            return None
-        # If we got past this point it means that we have a username but no
-        # User-ID, or we got both.
+        
+        # Checks if the username exists.
+        user_id = self.get_uid_from_uname(username, uid_to_uname_lookup)
         if not user_id:
-            self.printer(
-                f"[DEBUG | get_pass]: username {username} is not None and " \
-                f"user_id {user_id} is None. Fetching user_id.",
-                *self.printer_args,
-                **self.printer_kwargs
-                )
-            user_id = self.get_uid_from_uname(username, uid_to_uname_lookup)
-            self.printer(
-                f"[DEBUG | get_pass]: user_id is now {user_id} ",
-                *self.printer_args,
-                **self.printer_kwargs
-                )
-        # The User-ID could still be None or locally unknown, which is why we
-        # need to check the following case.
-        if not self._is_uid_locally_known(user_id):
-            self.printer(
-                f"[DEBUG | get_pass]: username {username} is not None and " \
-                f"user_id {user_id} is unknown.",
-                *self.printer_args,
-                **self.printer_kwargs
-                )
             return None
-        # We still have to test the following condition in case we originally
-        # got username and User-ID
-        if not uid_to_uname_lookup[user_id] == username:
-            self.printer(
-                f"[DEBUG | get_pass]: username {username} is not None and " \
-                f"user_id {user_id} is not None, yet username and user_id " \
-                "do not match.",
-                *self.printer_args,
-                **self.printer_kwargs
-                )
+        
+        # Checks if the password for the username is known.
+        if not self._is_user_locally_known(username):
             return None
-        # We now are sure, that the User-ID is locally known, and matches the
-        # given username. We can now return the password.
-        self.printer(
-            f"[DEBUG | get_pass]: username {username} is not None and user_" \
-            f"id {user_id} is not None. Everything is in order, returning " \
-            f"password: {kc_admin_secrets.TEST_USER_PASSWORDS[user_id]}",
-            *self.printer_args,
-            **self.printer_kwargs
-            )
-        return kc_admin_secrets.TEST_USER_PASSWORDS[user_id]
+
+        return  kc_admin_secrets.TEST_USER_PASSWORDS[username]
 
 
     def _print_user_list(self, username = "t_user"):
@@ -298,8 +227,3 @@ class KcAdministrator:
         # Clears all sessions of all known users of the current realm.
         for user_id in user_ids:
             self._kc_admin.user_logout(user_id)
-        self.printer(
-            f"[DEBUG] User {uid_to_uname_lookup[user_id]} logged out.",
-            *self.printer_args,
-            **self.printer_kwargs
-            )
