@@ -6,18 +6,12 @@ import re as regex
 from secret import client_secrets
 import subprocess
 
-OIDC_EVAL_TAGS = ["redirect", "complete_login", "dispatch"]
-
 
 def fetch_and_store_log(
         login_method,
         test_length,
         number_of_users_used_in_test
         ):
-    # We can't fetch logs that do not exist.
-    if not (login_method == "oidc" or login_method == "saml"):
-        return
-    
     log_name_on_server = f"{login_method}-eval.log"
     # This pattern is used on all local log files to filter out all the log
     # files, who were created during a test using the supplied login method,
@@ -42,28 +36,29 @@ def fetch_and_store_log(
     local_log_file_name = f"{login_method}-eval-{test_length}-" \
         f"{number_of_users_used_in_test}-{id_for_next_log}.log"
     
+    path_to_log = f"{client_secrets.LOG_STORAGE_PATH}/{local_log_file_name}"
+    
     # This will ask for a password, as I can't pass a password to scp or ssh
     # via options. There are security risks involved in doing so, as the pass-
     # word isn't encoded on the command line and is clearly visible in the
     # shell history or something.
-    command_return = subprocess.run(
-            [
-            "scp", 
-            f"{client_secrets.CONNECTION}/{log_name_on_server}",
-            f"{client_secrets.LOG_STORAGE_PATH}/{local_log_file_name}"
-            ],
-        )
+    subprocess.run(
+        [
+        "scp", 
+        f"{client_secrets.CONNECTION}/{log_name_on_server}",
+        path_to_log
+        ],
+    )
+
+    # We return the path to the log here to use it later on.
+    return path_to_log
 
 
-def serialize_oidc_log_into_json(path_to_oidc_log):
-    # Replaces the file extension .log with .json
-    path_to_oidc_log_json = '.'.join([path_to_oidc_log.split(".")[0], "json"])
-    # The log only needs to be serialized once, so we check if it has already
-    # been serialized, and return if thats the case.
-    if os.path.isfile(path_to_oidc_log_json):
-        return
-    # We don't use with here to save on indents.
-    oidc_log = open(path_to_oidc_log, "r")
+def get_eval_time_from_line(line):
+    return float(line.split(" ")[-1].rstrip())
+
+
+def transform_oidc_log_into_dict(oidc_log):
     # Ordering in the log cannot be guaranteed, so multiple counter variables
     # are necessary to almost correctly keep track of the data for the user.
     #
@@ -84,15 +79,12 @@ def serialize_oidc_log_into_json(path_to_oidc_log):
         if not "INFO" in line:
             # In this case we read a DEBUG line, which is of no importance
             continue
-        # As the evaluation time can always be found at the end of the line,
-        # we split it here to access said end.
-        split_line = line.split(" ")
         if "redirect" in line:
             # Every encountered redirect means that we are looking at a new
             # user.
             redirect_current_test_user_id += 1
             log_data[f"t_user_{redirect_current_test_user_id}"] = {
-                "redirect_time": float(split_line[-1].rstrip())
+                "redirect_time": get_eval_time_from_line(line)
             }
             # We are done with this line
             continue
@@ -102,30 +94,18 @@ def serialize_oidc_log_into_json(path_to_oidc_log):
             # This expands the user data by "complete_login_time" in log_data,
             # because we didn't copy the user from log_data by value, but by
             # reference. 
-            user["complete_login_time"] = float(split_line[-1].rstrip())
+            user["complete_login_time"] = get_eval_time_from_line(line)
             # We are done with this line
             continue
         if "dispatch" in line:
             dispatch_current_test_user_id += 1
             user = log_data[f"t_user_{dispatch_current_test_user_id}"]
-            user["dispatch_time"] = float(split_line[-1].rstrip())
+            user["dispatch_time"] = get_eval_time_from_line(line)
     
-    oidc_log.close()
-    
-    # Serialize the log data.
-    with open(path_to_oidc_log_json, "w") as json_file:
-        json.dump(log_data, json_file, indent = 4, )
+    return log_data
 
 
-def serialize_saml_log_into_json(path_to_saml_log):
-    # Replaces the file extension .log with .json
-    path_to_saml_log_json = '.'.join([path_to_saml_log.split(".")[0], "json"])
-    # The log only needs to be serialized once, so we check if it has already
-    # been serialized, and return if thats the case.
-    if os.path.isfile(path_to_saml_log_json):
-        return
-    # We don't use with here to save on indents.
-    saml_log = open(path_to_saml_log, "r")
+def transform_saml_log_into_dict(saml_log):
     # Ordering in the log cannot be guaranteed, so multiple counter variables
     # are necessary to almost correctly keep track of the data for the user.
     #
@@ -145,15 +125,12 @@ def serialize_saml_log_into_json(path_to_saml_log):
         if not "INFO" in line:
             # In this case we read a DEBUG line, which is of no importance
             continue
-        # As the evaluation time can always be found at the end of the line,
-        # we split it here to access said end.
-        split_line = line.split(" ")
         if "redirect" in line:
             # Every encountered redirect means that we are looking at a new
             # user.
             redirect_current_test_user_id += 1
             log_data[f"t_user_{redirect_current_test_user_id}"] = {
-                "redirect_time": float(split_line[-1].rstrip())
+                "redirect_time": get_eval_time_from_line(line)
             }
             # We are done with this line
             continue
@@ -163,23 +140,77 @@ def serialize_saml_log_into_json(path_to_saml_log):
             # This expands the user data by "acs_dispatch_time" in log_data,
             # because we didn't copy the user from log_data by value, but by
             # reference. 
-            user["acs_dispatch_time"] = float(split_line[-1].rstrip())
+            user["acs_dispatch_time"] = get_eval_time_from_line(line)
             # We are done with this line
             continue
         if "dispatch" in line and ".FinishACSView" in line:
             fin_acs_dispatch_current_test_user_id += 1
             user = log_data[f"t_user_{fin_acs_dispatch_current_test_user_id}"]
-            user["finish_acs_dispatch_time"] = float(split_line[-1].rstrip())
+            user["finish_acs_dispatch_time"] = get_eval_time_from_line(line)
+
+    return log_data
+
+
+def change_file_extension_in_path(path_to_log, new_extension):
+    return '.'.join([path_to_log.split(".")[0], new_extension])
+
+
+def serialize_log_data_into_json(log_data, path_to_log):
+    path_to_log_json = change_file_extension_in_path(path_to_log, "json")
+    with open(path_to_log_json, "w") as json_file:
+        json.dump(log_data, json_file, indent = 4)
+
+
+def is_serialized(path_to_log):
+    return os.path.isfile(change_file_extension_in_path(path_to_log, "json"))
+
+
+def is_login_method_valid(login_method):
+    return login_method == "oidc" or login_method == "saml"
+
+
+def is_number_of_users_valid(number_of_users):
+    return (number_of_users > 0) and (number_of_users <= 1000)
+
+
+def process_test_log(login_method, test_length, number_of_users_used_in_test):
     
-    saml_log.close()
+    if not is_login_method_valid(login_method):
+        return
     
-    # Serialize the log data.
-    with open(path_to_saml_log_json, "w") as json_file:
-        json.dump(log_data, json_file, indent = 4, )
+    if not is_number_of_users_valid(number_of_users_used_in_test):
+        return
+
+    # We now know that the login method is valid and the number of users used
+    # makes sense, so we can now fetch the logs.
+    path_to_log = fetch_and_store_log(
+        login_method, 
+        test_length, 
+        number_of_users_used_in_test
+        )
+
+    # We only need to serialize a log once. The current implementation would
+    # however doesn't allow a comparison of the file that is to be downloaded
+    # with the last file that has been downloaded. Maybe in the future this
+    # could be implemented, but for now this check is unnecessary. I will
+    # leave the code in just in case.
+    if is_serialized(path_to_log):
+        return
+    
+    log_file = open(path_to_log)
+    log_data = {}
+    if login_method == "oidc":
+        log_data = transform_oidc_log_into_dict(log_file)
+    elif login_method == "saml":
+        log_data = transform_saml_log_into_dict(log_file)
+    log_file.close()
+
+    serialize_log_data_into_json(log_data, path_to_log)
 
 
 if __name__ == "__main__":
-    fetch_and_store_log("saml", 300, 10)
-    serialize_saml_log_into_json(
-        f"{client_secrets.LOG_STORAGE_PATH}/saml-eval-300-10-1.log"
-        )
+    process_test_log("saml", 300, 10)
+    #fetch_and_store_log("saml", 300, 10)
+    #serialize_saml_log_into_json(
+    #    f"{client_secrets.LOG_STORAGE_PATH}/saml-eval-300-10-1.log"
+    #    )
