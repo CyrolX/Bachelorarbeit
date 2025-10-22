@@ -101,12 +101,13 @@ def webbrowser_login(login_method, username, kc_admin):
 
 def evaluate_login_method(login_method, evaluation_method, number_of_users):
 
-    if not (evaluation_method == "browser"):
+    if not (evaluation_method == "browser_eval"):
         print_nice(
             f"[ERROR | eval] Eval method {evaluation_method} is not sup" \
             "ported.",
             top_line = True
             )
+        return
     
     kc_admin = KcAdministrator(print_nice)
 
