@@ -6,6 +6,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 import selenium.webdriver.support.expected_conditions as EC
+import threading
+import time
 
 PROTECTED_APP_URL = "https://vm097.rz.uni-osnabrueck.de/protected_app"
 TERMINAL_SIZE = os.get_terminal_size()
@@ -106,8 +108,29 @@ def evaluate_login_method(login_method, evaluation_method, number_of_users):
             top_line = True
             )
     
-    pass
+    kc_admin = KcAdministrator(print_nice)
+
+    # Evaluate over 5 minutes.
+    login_interval = get_login_interval(300, number_of_users)
+    print_nice(f"[DEBUG | eval] Login Interval: {login_interval}")
+    login_threads = []
+    for user_number in range(1, number_of_users+1):
+        login_thread = threading.Thread(
+            target = webbrowser_login,
+            args = (login_method, f"t_user_{user_number}", kc_admin)
+        )
+        login_threads.append(login_thread)
+        login_threads[user_number-1].start()
+        time.sleep(login_interval)
     
+    for login_thread in login_threads:
+        login_thread.join()
+
+    kc_admin.logout_all_kc_sessions()
+
+
+def get_login_interval(eval_time_seconds, number_of_users):
+    return eval_time_seconds / number_of_users
 
 
 if __name__ == "__main__":
@@ -138,6 +161,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--num_users",
+        type = int,
         help = "The amount of users to be logged in using the specified " \
             "method and flow.",
         action = "store"
@@ -148,8 +172,7 @@ if __name__ == "__main__":
     evaluation_method = "browser_eval" if args.browser \
         else "eclient_eval" if args.eclient \
         else None
-    number_of_users = args.num_users if isinstance(args.num_users, int) \
-        and args.num_users <= 1000 \
+    number_of_users = args.num_users if args.num_users <= 1000 \
         and args.num_users > 0 \
         else None
     

@@ -234,16 +234,16 @@ class KcAdministrator:
         Clears all active sessions for all test users
         """
         user_list = self.get_user_list()
-        self.printer(user_list, *self.printer_args, **self.printer_kwargs)
+        #self.printer(user_list, *self.printer_args, **self.printer_kwargs)
 
         # Only really important for debugging / logging purposes.
-        uid_to_uname_lookup = self.build_uid_to_uname_lookup_dict(user_list)
-        self.printer(uid_to_uname_lookup)
+        #uid_to_uname_lookup = self.build_uid_to_uname_lookup_dict(user_list)
+        #self.printer(uid_to_uname_lookup)
 
         # In order to clear all sessions we need to first get all uids from
         # the user_list.
         user_ids = self.fetch_uids_from_user_list(user_list)
-        self.printer(user_ids, *self.printer_args, **self.printer_kwargs)
+        #self.printer(user_ids, *self.printer_args, **self.printer_kwargs)
 
         # Clears all sessions of all known users of the current realm.
         for user_id in user_ids:
