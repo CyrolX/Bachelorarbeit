@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 import selenium.webdriver.support.expected_conditions as EC
 
-PROTECTED_APP_URL = 'https://vm097.rz.uni-osnabrueck.de/protected_app'
+PROTECTED_APP_URL = "https://vm097.rz.uni-osnabrueck.de/protected_app"
 TERMINAL_SIZE = os.get_terminal_size()
 
 
@@ -25,10 +25,10 @@ def print_nice(text, top_line = False):
         checking top_line on every call. Defaults to False.
     """
     if top_line:
-        print(f'+{(TERMINAL_SIZE.columns - 2) * "-"}+')
+        print(f"+{(TERMINAL_SIZE.columns - 2) * "-"}+")
     
-    print(f'+ {text}')
-    print(f'+{(TERMINAL_SIZE.columns - 2) * "-"}+')
+    print(f"+ {text}")
+    print(f"+{(TERMINAL_SIZE.columns - 2) * "-"}+")
 
 
 def webbrowser_login(login_method, username, kc_admin):
@@ -45,8 +45,8 @@ def webbrowser_login(login_method, username, kc_admin):
         return
 
     # Works only because the login URLs are the same.
-    login_url = f'https://vm097.rz.uni-osnabrueck.de/accounts/{login_method}'\
-        '/keycloak/login/?process=login'
+    login_url = f"https://vm097.rz.uni-osnabrueck.de/accounts/{login_method}"\
+        "/keycloak/login/?process=login"
     
     # Chrome is used only because it was the first option. This can be expan-
     # ded in the future to include more Webbrowsers.
@@ -64,10 +64,10 @@ def webbrowser_login(login_method, username, kc_admin):
     driver.get(login_url)
     # Wait until the redirect was successful and the Keycloak page is loaded
     # sufficiently
-    wait.until(EC.presence_of_element_located((By.ID, 'username')))
+    wait.until(EC.presence_of_element_located((By.ID, "username")))
     # Saved for line 115, where we wait until the URL changes from this URL.
     last_url = driver.current_url
-    print_nice(f'[DEBUG] WEBDRIVER URL: {driver.current_url}')
+    print_nice(f"[DEBUG] WEBDRIVER URL: {driver.current_url}")
 
     username_input_field = driver.find_element(by=By.ID, value="username")
     password_input_field = driver.find_element(by=By.ID, value="password")
@@ -81,7 +81,7 @@ def webbrowser_login(login_method, username, kc_admin):
     # If the URL changes, we most likely have been authenticated correctly and
     # have been redirected to /accounts/profile
     wait.until(EC.url_changes(last_url))
-    print_nice(f'[DEBUG] WEBDRIVER URL: {driver.current_url}')
+    print_nice(f"[DEBUG] WEBDRIVER URL: {driver.current_url}")
     last_url = driver.current_url
 
     # Route to /protected_app, for which we need to be authenticated to par-
@@ -90,29 +90,83 @@ def webbrowser_login(login_method, username, kc_admin):
     # A wait is necessary here as well, as we can't get the page source cor-
     # rectly if we don't wait.
     wait.until(EC.url_changes(last_url))
-    print_nice(f'[DEBUG] WEBDRIVER URL: {driver.current_url}')
+    print_nice(f"[DEBUG] WEBDRIVER URL: {driver.current_url}")
     print_nice(driver.page_source)
     # Not really necessary. I just left it in for the irrational fear of cook-
     # ies being saved in between calls of client.py
     driver.delete_all_cookies()
 
 
-if __name__ == '__main__':
+def evaluate_login_method(login_method, evaluation_method, number_of_users):
+
+    if not (evaluation_method == "browser"):
+        print_nice(
+            f"[ERROR | eval] Eval method {evaluation_method} is not sup" \
+            "ported.",
+            top_line = True
+            )
+    
+    pass
+    
+
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     login_method_group = parser.add_mutually_exclusive_group()
     login_method_group.add_argument(
-        "--oidc", help = "Use OIDC to login",
-        action = 'store_true'
+        "--oidc",
+        help = "Use OIDC to login",
+        action = "store_true"
         )
     login_method_group.add_argument(
-        "--saml", help = "Use SAML to login",
-        action = 'store_true'
+        "--saml",
+        help = "Use SAML to login",
+        action = "store_true"
         )
+    evaluation_method_group = parser.add_mutually_exclusive_group()
+    evaluation_method_group.add_argument(
+        "--browser",
+        help = "Evaluate the Webbrowser Login Flow",
+        action = "store_const",
+        const = "browser_eval"
+    )
+    evaluation_method_group.add_argument(
+        "--eclient",
+        help = "Evaluate the Login Flow for enhanced clients",
+        action = "store_const",
+        const = "eclient_eval"
+    )
+    parser.add_argument(
+        "--num_users",
+        help = "The amount of users to be logged in using the specified " \
+            "method and flow.",
+        action = "store"
+    )
     args = parser.parse_args()
 
-    login_method = 'oidc' if args.oidc else 'saml' if args.saml else None
-    kc_admin = KcAdministrator(print_nice)
-    webbrowser_login(login_method, "t_user_611", kc_admin)
+    login_method = "oidc" if args.oidc else "saml" if args.saml else None
+    evaluation_method = "browser_eval" if args.browser \
+        else "eclient_eval" if args.eclient \
+        else None
+    number_of_users = args.num_users if isinstance(args.num_users, int) \
+        and args.num_users <= 1000 \
+        and args.num_users > 0 \
+        else None
+    
+    if not login_method or not evaluation_method or not number_of_users:
+        print_nice(
+            "[INFO | main] No evaluation will take place.",
+            top_line = True
+            )
+    else:
+        evaluate_login_method(
+            login_method,
+            evaluation_method,
+            number_of_users
+            )
+
+    #kc_admin = KcAdministrator(print_nice)
+    #webbrowser_login(login_method, "t_user_611", kc_admin)
     #kc_admin.logout_all_kc_sessions()
 else:
-    print(f'[ERR] MISMATCH: {__name__} != __main__')
+    print(f"[ERROR | main] MISMATCH: {__name__} != __main__")

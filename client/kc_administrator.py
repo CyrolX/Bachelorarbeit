@@ -58,7 +58,7 @@ class KcAdministrator:
         # user was originally user_representation as this was a more accurate
         # name. It was changed because it was too long.
         for user in user_list:
-            lookup[user['id']] = user['username']
+            lookup[user["id"]] = user["username"]
         
         
         return lookup
@@ -76,7 +76,7 @@ class KcAdministrator:
             presentations of the user_list
         """
         return [
-            user_representation['id'] for user_representation in user_list
+            user_representation["id"] for user_representation in user_list
             ]
 
 
@@ -208,11 +208,11 @@ class KcAdministrator:
 
         for i in range(1, 1001):
             # Using .copy() here is important, as dictionaries, as well as
-            # lists, are copied by reference. a = {'a': 1}, b = a and then
-            # b['a'] = 2 would lead to 'a' being set to 2 in a too.
+            # lists, are copied by reference. a = {"a": 1}, b = a and then
+            # b["a"] = 2 would lead to "a" being set to 2 in a too.
             new_user = user_representation_base.copy()
-            new_user['username'] = f"t_user_{i}"
-            new_user['credentials'][0]['value'] = \
+            new_user["username"] = f"t_user_{i}"
+            new_user["credentials"][0]["value"] = \
                 kc_admin_secrets.TEST_USER_PASSWORDS[f"t_user_{i}"]
             self._kc_admin.create_user(new_user)
         
