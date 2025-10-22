@@ -117,8 +117,69 @@ def serialize_oidc_log_into_json(path_to_oidc_log):
         json.dump(log_data, json_file, indent = 4, )
 
 
+def serialize_saml_log_into_json(path_to_saml_log):
+    # Replaces the file extension .log with .json
+    path_to_saml_log_json = '.'.join([path_to_saml_log.split(".")[0], "json"])
+    # The log only needs to be serialized once, so we check if it has already
+    # been serialized, and return if thats the case.
+    if os.path.isfile(path_to_saml_log_json):
+        return
+    # We don't use with here to save on indents.
+    saml_log = open(path_to_saml_log, "r")
+    # Ordering in the log cannot be guaranteed, so multiple counter variables
+    # are necessary to almost correctly keep track of the data for the user.
+    #
+    # I say "almost" here, because of the following case:
+    # 1. "t_user_1" is redirected, but "dispatch" in the ACSView takes ages
+    # 2. Now "t_user_2" is redirected and "dispatch" in the ACSView runs in-
+    #    sanely fast for some reason.
+    # 3. The "dispatch" time for "t_user_2" is now above the "dispatch" time
+    #     for "t_user_1"
+    # In this scenario the "dispatch" time of "t_user_2" would be written into
+    # the data of "t_user_1". This is not ideal but shouldn't really matter.
+    log_data = {}
+    redirect_current_test_user_id = 0
+    acs_dispatch_current_test_user_id  = 0
+    fin_acs_dispatch_current_test_user_id = 0
+    for line in saml_log:
+        if not "INFO" in line:
+            # In this case we read a DEBUG line, which is of no importance
+            continue
+        # As the evaluation time can always be found at the end of the line,
+        # we split it here to access said end.
+        split_line = line.split(" ")
+        if "redirect" in line:
+            # Every encountered redirect means that we are looking at a new
+            # user.
+            redirect_current_test_user_id += 1
+            log_data[f"t_user_{redirect_current_test_user_id}"] = {
+                "redirect_time": float(split_line[-1].rstrip())
+            }
+            # We are done with this line
+            continue
+        if "dispatch" in line and ".ACSView" in line:
+            acs_dispatch_current_test_user_id += 1
+            user = log_data[f"t_user_{acs_dispatch_current_test_user_id}"]
+            # This expands the user data by "acs_dispatch_time" in log_data,
+            # because we didn't copy the user from log_data by value, but by
+            # reference. 
+            user["acs_dispatch_time"] = float(split_line[-1].rstrip())
+            # We are done with this line
+            continue
+        if "dispatch" in line and ".FinishACSView" in line:
+            fin_acs_dispatch_current_test_user_id += 1
+            user = log_data[f"t_user_{fin_acs_dispatch_current_test_user_id}"]
+            user["finish_acs_dispatch_time"] = float(split_line[-1].rstrip())
+    
+    saml_log.close()
+    
+    # Serialize the log data.
+    with open(path_to_saml_log_json, "w") as json_file:
+        json.dump(log_data, json_file, indent = 4, )
+
+
 if __name__ == "__main__":
-    fetch_and_store_log("oidc", 300, 10)
-    serialize_oidc_log_into_json(
-        f"{client_secrets.LOG_STORAGE_PATH}/oidc-eval-300-10-1.log"
+    fetch_and_store_log("saml", 300, 10)
+    serialize_saml_log_into_json(
+        f"{client_secrets.LOG_STORAGE_PATH}/saml-eval-300-10-1.log"
         )
