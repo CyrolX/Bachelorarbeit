@@ -1,12 +1,15 @@
 from client.log_processor import EvaluationLogProcessor
 
+from collections import namedtuple
 import json
-import matplotlib
+import matplotlib.pyplot as plotter
 import numpy
 import os
 import re as regex
 from secret import client_secrets
 import subprocess
+
+RenamePathPair = namedtuple('RenamePathPair', 'old_file_path new_file_path')
 
 class EvaluationAnalyzer:
 
@@ -16,6 +19,7 @@ class EvaluationAnalyzer:
             test_length,
             number_of_users_used_in_test,
             number_of_test_cycles,
+            path_to_aggregate_data = None,
             printer = print,
             printer_args = [],
             printer_kwargs = {}
@@ -26,23 +30,46 @@ class EvaluationAnalyzer:
         self.login_method = login_method \
             if "saml" in login_method or "oidc" in login_method \
             else None
+        
         self.test_length = test_length \
             if isinstance(test_length, int) \
             else None
+        
         self.number_of_users_used_in_test = number_of_users_used_in_test \
             if isinstance(number_of_users_used_in_test, int) \
             and number_of_users_used_in_test > 0 \
             and number_of_users_used_in_test <= 1000 \
             else None
+        
         self.number_of_test_cycles = number_of_test_cycles \
             if isinstance(number_of_test_cycles, int) \
             and number_of_test_cycles > 0 \
             else None
-        self.aggregate_data_dict = self.initialize_aggregate_data_dict()
+        
+        if not path_to_aggregate_data:
+            self.aggregate_data_dict = \
+                self.initialize_aggregate_data_dict()
+        else:
+            self.aggregate_data_dict = \
+                self.initialize_aggregate_data_dict_from_json(
+                    path_to_aggregate_data
+                    )
 
         self.printer = printer
         self.printer_args = printer_args
         self.printer_kwargs = printer_kwargs
+
+
+    def initialize_aggregate_data_dict_from_json(
+            self,
+            path_to_aggregate_data
+            ):
+        
+        with open(path_to_aggregate_data, "r") as json_file:
+            aggregate_data_dict = json.load(json_file)
+        
+        return aggregate_data_dict
+
 
 
     def initialize_aggregate_data_dict(self):
@@ -109,10 +136,7 @@ class EvaluationAnalyzer:
         return log_data
 
 
-    def read_all_serialized_logs_for_current_eval(
-            self#,
-            #number_of_test_cycles
-            ):
+    def read_all_serialized_logs_for_current_eval(self):
         local_json_file_pattern = regex.compile(
             f"{self.login_method}-eval-{self.test_length}-" \
             f"{self.number_of_users_used_in_test}" \
@@ -167,60 +191,33 @@ class EvaluationAnalyzer:
         return storage_directory_name
 
 
-    def get_renaming_tuples(
+    def get_path_pair_for_rename(
             self, 
             storage_directory_name
             ):
-        file_tuple_list = []
+        path_pair_list = []
         for name in os.listdir(f"{client_secrets.LOG_STORAGE_PATH}"):
             if not (name.endswith(".json") or name.endswith(".log")):
                 continue
         
-            file_tuple_list.append(
-                (
+            path_pair_list.append(
+                RenamePathPair(
                     f"{client_secrets.LOG_STORAGE_PATH}/{name}",
                     f"{client_secrets.LOG_STORAGE_PATH}/" \
                     f"{storage_directory_name}/{name}"
                 )
             )
         
-        return file_tuple_list
-
-
-    #def get_paths_to_place_eval_files_in(
-    #        self,
-    #        eval_file_names,
-    #        storage_directory_name
-    #        ):
-    #    
-    #    new_eval_file_names = []
-    #    for file in eval_file_names:
-    #        split_file = file.split("/")
-    #        split_file[-1] = f"{storage_directory_name}/{split_file[-1]}"
-    #        new_eval_file_names.append("/".join(split_file))
-    #    
-    #    return new_eval_file_names
+        return path_pair_list
 
 
     def move_eval_data_to_storage(self):
         storage_directory_name = self.create_eval_storage_folder()
-        file_tuple_list = self.get_renaming_tuples(storage_directory_name)
-        #new_files = self.get_paths_to_place_eval_files_in(
-        #    storage_directory_name,
-        #    old_files
-        #)
+        path_pair_list = self.get_path_pair_for_rename(storage_directory_name)
         
-        for file_tuple in file_tuple_list:
-            os.rename(file_tuple[0], file_tuple[1])
-
-        #subprocess.run(
-        #    [
-        #        "move", 
-        #        f"{client_secrets.LOG_STORAGE_PATH}/*.log",
-        #        f"{client_secrets.LOG_STORAGE_PATH}/{storage_directory_name}"
-        #    ]
-        #)
-
+        for path_pair in path_pair_list:
+            old_file_path, new_file_path = path_pair
+            os.rename(old_file_path, new_file_path)
 
 
     def get_aggregate_data(self):
@@ -229,6 +226,62 @@ class EvaluationAnalyzer:
         self.move_eval_data_to_storage()
 
 
+    def get_aggregate_data_as_numpy_array(
+            self, 
+            aggregate_data_key
+            ):
+        
+        # If there is no return here, we can assume that the supplied key is
+        # correct and that we can access it.
+        if self.login_method == "oidc" \
+            and not "redirect_time" in aggregate_data_key \
+            and not "complete_login_time" in aggregate_data_key \
+            and not "dispatch_time" in aggregate_data_key:
+            return None
+        elif self.login_method == "saml" \
+            and not "redirect_time" in aggregate_data_key \
+            and not "acs_dispatch_time" in aggregate_data_key \
+            and not "finish_acs_dispatch_time" in aggregate_data_key:
+            return None
+        
+        test_user_data_as_numpy_arrays = []
+
+        data = self.aggregate_data_dict["data"]
+        for user_id in range(1, self.number_of_users_used_in_test):
+            test_user_data_as_numpy_arrays.append(
+                numpy.array(data[f"t_user_{user_id}"][aggregate_data_key])
+            )
+        
+        return test_user_data_as_numpy_arrays
+    
+
+    def plot_for_all_users(self, aggregate_data_key):
+        data = self.get_aggregate_data_as_numpy_array(aggregate_data_key)
+        plotter.autoscale(tight=True)
+        plotter.xlabel("Test Instance")
+        plotter.ylabel("Time")
+        for user_id in range(1, self.number_of_users_used_in_test):
+            plotter.plot([i for i in range(1,self.number_of_test_cycles+1)], data[user_id-1])
+
+        plotter.grid()
+        plotter.show()
+
+
+    def plot_by_user(self, user_id, aggregate_data_key):
+        data = self.get_aggregate_data_as_numpy_array(aggregate_data_key)[
+            user_id-1
+            ]
+        #figure = plotter.figure()
+        plotter.autoscale(tight=True)
+        plotter.xlabel("Test Instance")
+        plotter.ylabel("Time")
+        plotter.plot([i for i in range(1,self.number_of_test_cycles+1)], data)
+        
+        plotter.grid()
+        plotter.show()
+
+    def plot_by_test(self, test_id):
+        pass
 
 
 if __name__ == "__main__":
@@ -239,5 +292,14 @@ if __name__ == "__main__":
     #    f"{client_secrets.LOG_STORAGE_PATH}/saml-eval-300-10-1.log"
     #    )
 
-    analyzer = EvaluationAnalyzer("saml", 300, 10, 9)
-    analyzer.get_aggregate_data()
+    analyzer = EvaluationAnalyzer(
+        "saml", 
+        300, 
+        10, 
+        9, 
+        path_to_aggregate_data = f"{client_secrets.LOG_STORAGE_PATH}/" \
+            "analyze_evalstorage_saml-eval-300-10-1/" \
+            "saml-eval-300-10-aggregate.json"
+        )
+    #analyzer.get_aggregate_data_as_numpy_array("redirect_time")
+    analyzer.plot_for_all_users("redirect_time")
