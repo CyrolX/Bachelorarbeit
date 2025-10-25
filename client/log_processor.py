@@ -29,7 +29,8 @@ class EvaluationLogProcessor:
         # We can only check the ouput of ssh-add when the command can be suc-
         # cessfully run.
         ssh_add_list_output = subprocess.check_output(["ssh-add", "-l"])
-        if client_secrets.WORKSTATION_NAME_AS_BYTES not in ssh_add_list_output:
+        if client_secrets.WORKSTATION_NAME_AS_BYTES \
+            not in ssh_add_list_output:
             # In this case our key hasn't been added to the ssh-agent which
             # means it isn't setup properly.
             return False

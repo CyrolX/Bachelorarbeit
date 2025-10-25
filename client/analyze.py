@@ -6,6 +6,7 @@ import numpy
 import os
 import re as regex
 from secret import client_secrets
+import subprocess
 
 class EvaluationAnalyzer:
 
@@ -108,7 +109,7 @@ class EvaluationAnalyzer:
         return log_data
 
 
-    def read_all_serialized_logs_for_current_test(
+    def read_all_serialized_logs_for_current_eval(
             self#,
             #number_of_test_cycles
             ):
@@ -136,9 +137,97 @@ class EvaluationAnalyzer:
             json.dump(self.aggregate_data_dict, json_file, indent = 4)
 
 
+    def get_eval_id_from_folder_name(self, folder_name):
+        return int(folder_name.split("-")[-1])
+
+    
+    def create_eval_storage_folder(self):
+        
+        *_, last_subdirectory = os.walk(client_secrets.LOG_STORAGE_PATH)
+        last_subdirectory_name = last_subdirectory[0]
+        evaluation_id = 0
+        if "eval" not in last_subdirectory_name:
+            evaluation_id = 1
+        else:
+            evaluation_id = self.get_eval_id_from_folder_name(
+                last_subdirectory_name
+                )
+            evaluation_id += 1
+        
+        storage_directory_name = f"analyze_evalstorage_{self.login_method}-" \
+            f"eval-{self.test_length}-{self.number_of_users_used_in_test}-" \
+            f"{evaluation_id}"
+        
+        self.printer(f"{client_secrets.LOG_STORAGE_PATH}/{storage_directory_name}")
+
+        os.mkdir(
+            f"{client_secrets.LOG_STORAGE_PATH}/{storage_directory_name}"
+        )
+
+        return storage_directory_name
+
+
+    def get_renaming_tuples(
+            self, 
+            storage_directory_name
+            ):
+        file_tuple_list = []
+        for name in os.listdir(f"{client_secrets.LOG_STORAGE_PATH}"):
+            if not (name.endswith(".json") or name.endswith(".log")):
+                continue
+        
+            file_tuple_list.append(
+                (
+                    f"{client_secrets.LOG_STORAGE_PATH}/{name}",
+                    f"{client_secrets.LOG_STORAGE_PATH}/" \
+                    f"{storage_directory_name}/{name}"
+                )
+            )
+        
+        return file_tuple_list
+
+
+    #def get_paths_to_place_eval_files_in(
+    #        self,
+    #        eval_file_names,
+    #        storage_directory_name
+    #        ):
+    #    
+    #    new_eval_file_names = []
+    #    for file in eval_file_names:
+    #        split_file = file.split("/")
+    #        split_file[-1] = f"{storage_directory_name}/{split_file[-1]}"
+    #        new_eval_file_names.append("/".join(split_file))
+    #    
+    #    return new_eval_file_names
+
+
+    def move_eval_data_to_storage(self):
+        storage_directory_name = self.create_eval_storage_folder()
+        file_tuple_list = self.get_renaming_tuples(storage_directory_name)
+        #new_files = self.get_paths_to_place_eval_files_in(
+        #    storage_directory_name,
+        #    old_files
+        #)
+        
+        for file_tuple in file_tuple_list:
+            os.rename(file_tuple[0], file_tuple[1])
+
+        #subprocess.run(
+        #    [
+        #        "move", 
+        #        f"{client_secrets.LOG_STORAGE_PATH}/*.log",
+        #        f"{client_secrets.LOG_STORAGE_PATH}/{storage_directory_name}"
+        #    ]
+        #)
+
+
+
     def get_aggregate_data(self):
-        self.read_all_serialized_logs_for_current_test()
+        self.read_all_serialized_logs_for_current_eval()
         self.serialize_aggregate_data_dict()
+        self.move_eval_data_to_storage()
+
 
 
 
@@ -150,5 +239,5 @@ if __name__ == "__main__":
     #    f"{client_secrets.LOG_STORAGE_PATH}/saml-eval-300-10-1.log"
     #    )
 
-    analyzer = EvaluationAnalyzer("saml", 300, 10)
+    analyzer = EvaluationAnalyzer("saml", 300, 10, 9)
     analyzer.get_aggregate_data()
