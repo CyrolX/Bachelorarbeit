@@ -159,8 +159,8 @@ class EvaluationLogProcessor:
                     f"t_user_{complete_login_current_test_user_id}"
                     ]
                 # This expands the user data by "complete_login_time" in log_
-                # data, because we didn't copy the user from log_data by value,
-                # but by reference. 
+                # data, because we didn't copy the user from log_data by val-
+                # ue, but by reference. 
                 user["complete_login_time"] = \
                     self.get_eval_time_from_line(line)
                 # We are done with this line
@@ -182,7 +182,8 @@ class EvaluationLogProcessor:
         # the user.
         #
         # I say "almost" here, because of the following case:
-        # 1. "t_user_1" is redirected, but "dispatch" in the ACSView takes ages
+        # 1. "t_user_1" is redirected, but "dispatch" in the ACSView takes
+        #    ages
         # 2. Now "t_user_2" is redirected and "dispatch" in the ACSView runs
         #    insanely fast for some reason.
         # 3. The "dispatch" time for "t_user_2" is now above the "dispatch"
@@ -199,8 +200,8 @@ class EvaluationLogProcessor:
                 # In this case we read a DEBUG line, which is of no importance
                 continue
             if "redirect" in line:
-                # Every encountered redirect means that we are looking at a new
-                # user.
+                # Every encountered redirect means that we are looking at a
+                # new user.
                 redirect_current_test_user_id += 1
                 log_data[f"t_user_{redirect_current_test_user_id}"] = {
                     "redirect_time": self.get_eval_time_from_line(line)
