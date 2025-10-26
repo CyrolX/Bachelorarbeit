@@ -13,7 +13,7 @@ class EvaluationLogProcessor:
             printer_kwargs = {}
             ):
         """
-        Instantiates a KcAdministrator
+        Instantiates an EvaluationLogProcessor
         """
         self.printer = printer
         self.printer_args = printer_args
@@ -21,7 +21,8 @@ class EvaluationLogProcessor:
 
 
     def is_ssh_agent_setup(self):
-        # If the ssh-agent service isn't running, this will return with code 2.
+        # If the ssh-agent service isn't running, this will return with code
+        # 2.
         ssh_add_list_process = subprocess.run(["ssh-add", "-l"])
         if ssh_add_list_process.returncode != 0:
             return False

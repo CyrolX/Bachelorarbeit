@@ -15,10 +15,10 @@ class EvaluationAnalyzer:
 
     def __init__(
             self,
-            login_method,
-            test_length,
-            number_of_users_used_in_test,
-            number_of_test_cycles,
+            login_method = None,
+            test_length = None,
+            number_of_users_used_in_test = None,
+            number_of_test_cycles = None,
             path_to_aggregate_data = None,
             printer = print,
             printer_args = [],
@@ -27,31 +27,34 @@ class EvaluationAnalyzer:
         """
         Instantiates an EvaluationAnalyzer
         """
-        self.login_method = login_method \
-            if "saml" in login_method or "oidc" in login_method \
-            else None
-        
-        self.test_length = test_length \
-            if isinstance(test_length, int) \
-            else None
-        
-        self.number_of_users_used_in_test = number_of_users_used_in_test \
-            if isinstance(number_of_users_used_in_test, int) \
-            and number_of_users_used_in_test > 0 \
-            and number_of_users_used_in_test <= 1000 \
-            else None
-        
-        self.number_of_test_cycles = number_of_test_cycles \
-            if isinstance(number_of_test_cycles, int) \
-            and number_of_test_cycles > 0 \
-            else None
-        
         if not path_to_aggregate_data:
+            self.login_method = login_method \
+                if "saml" in login_method or "oidc" in login_method \
+                else None
+            
+            self.test_length = test_length \
+                if isinstance(test_length, int) \
+                else None
+            
+            self.number_of_users_used_in_test = number_of_users_used_in_test \
+                if isinstance(number_of_users_used_in_test, int) \
+                and number_of_users_used_in_test > 0 \
+                and number_of_users_used_in_test <= 1000 \
+                else None
+            
+            self.number_of_test_cycles = number_of_test_cycles \
+                if isinstance(number_of_test_cycles, int) \
+                and number_of_test_cycles > 0 \
+                else None
+            
             self.aggregate_data_dict = \
                 self.initialize_aggregate_data_dict()
         else:
-            self.aggregate_data_dict = \
-                self.initialize_aggregate_data_dict_from_json(
+            self.login_method, \
+            self.test_length, \
+            self.number_of_users_used_in_test, \
+            self.number_of_test_cycles, \
+            self.aggregate_data_dict = EvaluationAnalyzer.get_eval_from_json(
                     path_to_aggregate_data
                     )
 
@@ -59,16 +62,28 @@ class EvaluationAnalyzer:
         self.printer_args = printer_args
         self.printer_kwargs = printer_kwargs
 
-
-    def initialize_aggregate_data_dict_from_json(
+    @classmethod
+    def get_eval_from_json(
             self,
             path_to_aggregate_data
             ):
         
         with open(path_to_aggregate_data, "r") as json_file:
             aggregate_data_dict = json.load(json_file)
+
+        login_method = aggregate_data_dict["login_method"]
+        test_length = aggregate_data_dict["test_length"]
+        number_of_users_used_in_test = aggregate_data_dict[
+            "number_of_users_used_in_test"
+            ]
+        number_of_test_cycles = aggregate_data_dict["number_of_test_cycles"]
         
-        return aggregate_data_dict
+        return (login_method, 
+            test_length, 
+            number_of_users_used_in_test, 
+            number_of_test_cycles, 
+            aggregate_data_dict
+            )
 
 
 
@@ -167,16 +182,29 @@ class EvaluationAnalyzer:
     
     def create_eval_storage_folder(self):
         
-        *_, last_subdirectory = os.walk(client_secrets.LOG_STORAGE_PATH)
-        last_subdirectory_name = last_subdirectory[0]
-        evaluation_id = 0
-        if "eval" not in last_subdirectory_name:
-            evaluation_id = 1
-        else:
-            evaluation_id = self.get_eval_id_from_folder_name(
-                last_subdirectory_name
-                )
-            evaluation_id += 1
+        subdirectory_list = os.listdir(client_secrets.LOG_STORAGE_PATH)
+        storage_directory_pattern = regex.compile(
+            f"analyze_evalstorage_{self.login_method}-eval-" \
+            f"{self.test_length}-{self.number_of_users_used_in_test}-" \
+            f"{r'-\d+'}"
+            )
+        
+        evaluation_id = 1
+        for subdirectory in subdirectory_list:
+            if storage_directory_pattern.match(subdirectory):
+                evaluation_id += 1
+
+        # This logic is flawed when different evalstorages are created.
+        #*_, last_subdirectory = os.walk(client_secrets.LOG_STORAGE_PATH)
+        #last_subdirectory_name = last_subdirectory[0]
+        #evaluation_id = 0
+        #if "eval" not in last_subdirectory_name:
+        #    evaluation_id = 1
+        #else:
+        #    evaluation_id = self.get_eval_id_from_folder_name(
+        #        last_subdirectory_name
+        #        )
+        #    evaluation_id += 1
         
         storage_directory_name = f"analyze_evalstorage_{self.login_method}-" \
             f"eval-{self.test_length}-{self.number_of_users_used_in_test}-" \
@@ -247,7 +275,7 @@ class EvaluationAnalyzer:
         test_user_data_as_numpy_arrays = []
 
         data = self.aggregate_data_dict["data"]
-        for user_id in range(1, self.number_of_users_used_in_test):
+        for user_id in range(1, self.number_of_users_used_in_test + 1):
             test_user_data_as_numpy_arrays.append(
                 numpy.array(data[f"t_user_{user_id}"][aggregate_data_key])
             )
@@ -257,11 +285,22 @@ class EvaluationAnalyzer:
 
     def plot_for_all_users(self, aggregate_data_key):
         data = self.get_aggregate_data_as_numpy_array(aggregate_data_key)
+        print(len(data))
         plotter.autoscale(tight=True)
         plotter.xlabel("Test Instance")
         plotter.ylabel("Time")
-        for user_id in range(1, self.number_of_users_used_in_test):
-            plotter.plot([i for i in range(1,self.number_of_test_cycles+1)], data[user_id-1])
+        user_ids = [
+            user_id for user_id in range(
+                1, self.number_of_users_used_in_test + 1
+                )
+            ]
+        
+        test_ids = [
+            test_id for test_id in range(1, self.number_of_test_cycles + 1)
+            ]
+        
+        for user_id in user_ids:
+            plotter.plot(test_ids, data[user_id-1], 'ro')
 
         plotter.grid()
         plotter.show()
@@ -272,10 +311,13 @@ class EvaluationAnalyzer:
             user_id-1
             ]
         #figure = plotter.figure()
+        test_ids = [
+            test_id for test_id in range(1, self.number_of_test_cycles + 1)
+            ]
         plotter.autoscale(tight=True)
         plotter.xlabel("Test Instance")
         plotter.ylabel("Time")
-        plotter.plot([i for i in range(1,self.number_of_test_cycles+1)], data)
+        plotter.plot(test_ids, data, 'ro')
         
         plotter.grid()
         plotter.show()
@@ -285,21 +327,17 @@ class EvaluationAnalyzer:
 
 
 if __name__ == "__main__":
-    #processor = EvaluationLogProcessor()
-    #processor.process_test_log("saml", 300, 10)
-    #fetch_and_store_log("saml", 300, 10)
-    #serialize_saml_log_into_json(
-    #    f"{client_secrets.LOG_STORAGE_PATH}/saml-eval-300-10-1.log"
-    #    )
+#    processor = EvaluationLogProcessor()
+#    processor.process_test_log("saml", 300, 10)
+#    fetch_and_store_log("saml", 300, 10)
+#    serialize_saml_log_into_json(
+#        f"{client_secrets.LOG_STORAGE_PATH}/saml-eval-300-10-1.log"
+#        )
 
     analyzer = EvaluationAnalyzer(
-        "saml", 
-        300, 
-        10, 
-        9, 
         path_to_aggregate_data = f"{client_secrets.LOG_STORAGE_PATH}/" \
-            "analyze_evalstorage_saml-eval-300-10-1/" \
-            "saml-eval-300-10-aggregate.json"
+            "analyze_evalstorage_oidc-eval-30-30-1/" \
+            "oidc-eval-30-30-aggregate.json"
         )
-    #analyzer.get_aggregate_data_as_numpy_array("redirect_time")
+    analyzer.get_aggregate_data_as_numpy_array("redirect_time")
     analyzer.plot_for_all_users("redirect_time")

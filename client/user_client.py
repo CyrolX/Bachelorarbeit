@@ -1,11 +1,14 @@
 import argparse
 from client.kc_administrator import KcAdministrator
+from client.log_processor import EvaluationLogProcessor
+from client.analyze import EvaluationAnalyzer
 import os
 #from secret import client_secrets
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 import selenium.webdriver.support.expected_conditions as EC
+import sys
 import threading
 import time
 
@@ -99,7 +102,12 @@ def webbrowser_login(login_method, username, kc_admin):
     driver.delete_all_cookies()
 
 
-def evaluate_login_method(login_method, evaluation_method, number_of_users):
+def evaluate_login_method(
+        login_method,
+        evaluation_method,
+        eval_time_seconds,
+        number_of_users
+        ):
 
     if not (evaluation_method == "browser_eval"):
         print_nice(
@@ -112,7 +120,7 @@ def evaluate_login_method(login_method, evaluation_method, number_of_users):
     kc_admin = KcAdministrator(print_nice)
 
     # Evaluate over 5 minutes.
-    login_interval = get_login_interval(300, number_of_users)
+    login_interval = get_login_interval(eval_time_seconds, number_of_users)
     print_nice(f"[DEBUG | eval] Login Interval: {login_interval}")
     login_threads = []
     for user_number in range(1, number_of_users+1):
@@ -127,7 +135,7 @@ def evaluate_login_method(login_method, evaluation_method, number_of_users):
     for login_thread in login_threads:
         login_thread.join()
 
-    kc_admin.logout_all_kc_sessions()
+    kc_admin.logout_all_kc_sessions(number_of_users)
 
 
 def get_login_interval(eval_time_seconds, number_of_users):
@@ -161,10 +169,24 @@ if __name__ == "__main__":
         const = "eclient_eval"
     )
     parser.add_argument(
-        "--num_users",
+        "--num-users",
         type = int,
         help = "The amount of users to be logged in using the specified " \
             "method and flow.",
+        action = "store"
+    )
+    parser.add_argument(
+        "--eval-time-seconds",
+        type = int,
+        help = "The amount of time the test should run using the specified " \
+            "method and flow.",
+        action = "store"
+    )
+    parser.add_argument(
+        "--num-test-cycles",
+        type = int,
+        help = "The amount of test to conduct be logged in using the speci" \
+            "fied method and flow.",
         action = "store"
     )
     args = parser.parse_args()
@@ -176,18 +198,47 @@ if __name__ == "__main__":
     number_of_users = args.num_users if args.num_users <= 1000 \
         and args.num_users > 0 \
         else None
+    eval_time_seconds = args.eval_time_seconds if args.eval_time_seconds > 0 \
+        else None
+    eval_test_cycles = args.num_test_cycles if args.num_test_cycles > 0 \
+        else None
     
-    if not login_method or not evaluation_method or not number_of_users:
+    if not (
+        login_method \
+        and evaluation_method \
+        and number_of_users \
+        and eval_test_cycles
+        ):
         print_nice(
             "[INFO | main] No evaluation will take place.",
             top_line = True
             )
-    else:
+        sys.exit(0)
+
+    log_processor = EvaluationLogProcessor(print_nice)
+
+    for cycle in range(1, eval_test_cycles + 1):
         evaluate_login_method(
             login_method,
             evaluation_method,
+            eval_time_seconds,
             number_of_users
             )
+        log_processor.process_test_log(
+            login_method,
+            eval_time_seconds,
+            number_of_users
+        )
+        
+    analyzer = EvaluationAnalyzer(
+        login_method,
+        eval_time_seconds,
+        number_of_users,
+        eval_test_cycles
+        )
+    
+    analyzer.get_aggregate_data()
+
 
     #kc_admin = KcAdministrator(print_nice)
     #webbrowser_login(login_method, "t_user_611", kc_admin)

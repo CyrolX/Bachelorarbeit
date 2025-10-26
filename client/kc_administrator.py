@@ -229,9 +229,13 @@ class KcAdministrator:
             keycloak_admin.delete_user(user_id)
 
 
-    def logout_all_kc_sessions(self):
+    def logout_all_kc_sessions(self, number_of_users_to_logout = None):
         """
-        Clears all active sessions for all test users
+        Clears all active sessions for all test users. Optionally only logs
+        out only the specified number of users.
+
+        :param number_of_users_to_logout: Optional The number of users to log
+            out. Defaults to None, which logs out all 1000 users.
         """
         user_list = self.get_user_list()
         #self.printer(user_list, *self.printer_args, **self.printer_kwargs)
@@ -244,6 +248,8 @@ class KcAdministrator:
         # the user_list.
         user_ids = self.fetch_uids_from_user_list(user_list)
         #self.printer(user_ids, *self.printer_args, **self.printer_kwargs)
+        if number_of_users_to_logout:
+            user_ids = user_ids[:number_of_users_to_logout]
 
         # Clears all sessions of all known users of the current realm.
         for user_id in user_ids:
