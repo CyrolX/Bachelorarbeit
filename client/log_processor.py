@@ -2,6 +2,7 @@ import json
 import os
 import re as regex
 from secret import client_secrets
+import signal
 import subprocess
 
 class EvaluationLogProcessor:
@@ -262,13 +263,28 @@ class EvaluationLogProcessor:
 
     def clear_log_on_server(self, login_method):
         path_to_log_on_server = self.get_path_to_log_on_server(login_method)
-        subprocess.run(
-            [
-            "ssh",
-            client_secrets.CONNECTION,
-            f"truncate -s 0 {path_to_log_on_server}"
-            ]
-        )
+        with subprocess.Popen(
+            f"ssh {client_secrets.CONNECTION} truncate -s 0 " \
+            f"{path_to_log_on_server}", \
+            stdout = subprocess.PIPE, \
+            creationflags=subprocess.CREATE_NEW_PROCESS_GROUP \
+            ) as process:
+            try:
+                out, err = process.communicate(timeout=10)
+            except subprocess.TimeoutExpired:
+                process.send_signal(signal.CTRL_BREAK_EVENT)
+                process.kill()
+                out, err = process.communicate()
+
+        # YOU WERE THE CHOSEN ONE!
+        #subprocess.run(
+        #    [
+        #    "ssh",
+        #    client_secrets.CONNECTION,
+        #    f"truncate -s 0 {path_to_log_on_server}"
+        #    ]
+        #)
+
 
 
     def process_test_log(
@@ -305,13 +321,15 @@ class EvaluationLogProcessor:
         if self.is_serialized(path_to_log):
             return
         
-        log_file = open(path_to_log)
+        log_file_lines = []
+        with open(path_to_log) as log_file:
+            log_file_lines = log_file.readlines()
+        
         log_data = {}
         if login_method == "oidc":
-            log_data = self.transform_oidc_log_into_dict(log_file)
+            log_data = self.transform_oidc_log_into_dict(log_file_lines)
         elif login_method == "saml":
-            log_data = self.transform_saml_log_into_dict(log_file)
-        log_file.close()
+            log_data = self.transform_saml_log_into_dict(log_file_lines)
 
         self.serialize_log_data_into_json(log_data, path_to_log)
 

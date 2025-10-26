@@ -72,7 +72,7 @@ def webbrowser_login(login_method, username, kc_admin):
     wait.until(EC.presence_of_element_located((By.ID, "username")))
     # Saved for line 115, where we wait until the URL changes from this URL.
     last_url = driver.current_url
-    print_nice(f"[DEBUG] WEBDRIVER URL: {driver.current_url}")
+    #print_nice(f"[DEBUG] WEBDRIVER URL: {driver.current_url}")
 
     username_input_field = driver.find_element(by=By.ID, value="username")
     password_input_field = driver.find_element(by=By.ID, value="password")
@@ -86,7 +86,7 @@ def webbrowser_login(login_method, username, kc_admin):
     # If the URL changes, we most likely have been authenticated correctly and
     # have been redirected to /accounts/profile
     wait.until(EC.url_changes(last_url))
-    print_nice(f"[DEBUG] WEBDRIVER URL: {driver.current_url}")
+    #print_nice(f"[DEBUG] WEBDRIVER URL: {driver.current_url}")
     last_url = driver.current_url
 
     # Route to /protected_app, for which we need to be authenticated to par-
@@ -95,11 +95,13 @@ def webbrowser_login(login_method, username, kc_admin):
     # A wait is necessary here as well, as we can't get the page source cor-
     # rectly if we don't wait.
     wait.until(EC.url_changes(last_url))
-    print_nice(f"[DEBUG] WEBDRIVER URL: {driver.current_url}")
-    print_nice(driver.page_source)
+    #print_nice(f"[DEBUG] WEBDRIVER URL: {driver.current_url}")
+    #print_nice(driver.page_source)
     # Not really necessary. I just left it in for the irrational fear of cook-
     # ies being saved in between calls of client.py
     driver.delete_all_cookies()
+    # This may fix a lot of bugs
+    driver.quit()
 
 
 def evaluate_login_method(
@@ -123,6 +125,7 @@ def evaluate_login_method(
     login_interval = get_login_interval(eval_time_seconds, number_of_users)
     print_nice(f"[DEBUG | eval] Login Interval: {login_interval}")
     login_threads = []
+    print_nice(f"[DEBUG | eval] Starting eval")
     for user_number in range(1, number_of_users+1):
         login_thread = threading.Thread(
             target = webbrowser_login,
@@ -135,7 +138,9 @@ def evaluate_login_method(
     for login_thread in login_threads:
         login_thread.join()
 
+    print_nice(f"[DEBUG | eval] Eval concluded. Logging out users.")
     kc_admin.logout_all_kc_sessions(number_of_users)
+    print_nice(f"[DEBUG | eval] Users logged out. End eval.")
 
 
 def get_login_interval(eval_time_seconds, number_of_users):

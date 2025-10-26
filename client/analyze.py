@@ -5,7 +5,9 @@ import json
 import matplotlib.pyplot as plotter
 import numpy
 import os
+import pandas
 import re as regex
+import seaborn
 from secret import client_secrets
 import subprocess
 
@@ -283,10 +285,44 @@ class EvaluationAnalyzer:
         return test_user_data_as_numpy_arrays
     
 
+    def get_data_frame_from_aggregate_data(
+            self,
+            aggregate_data_key
+            ):
+        
+        numpy_arrays = self.get_aggregate_data_as_numpy_array(
+            aggregate_data_key
+            )
+        user_names = [
+            f"t_user_{user_id}" for user_id in range(
+                1, self.number_of_users_used_in_test + 1
+                )
+            ]
+        test_names = [
+            f"{test_id}" for test_id in range(
+                1, self.number_of_test_cycles + 1
+                )
+            ]
+        data_frame = pandas.DataFrame(
+            numpy_arrays,
+            index = user_names,
+            columns = test_names
+            )
+        
+        return data_frame
+    
+
     def plot_for_all_users(self, aggregate_data_key):
-        data = self.get_aggregate_data_as_numpy_array(aggregate_data_key)
-        print(len(data))
-        plotter.autoscale(tight=True)
+        #data = self.get_aggregate_data_as_numpy_array(aggregate_data_key)
+        data_frame = self.get_data_frame_from_aggregate_data(
+            aggregate_data_key
+            )
+        seaborn.catplot(data = data_frame, kind = "box")
+        plotter.grid()
+        plotter.show()
+        #plotter.autoscale(tight=True)
+        #plotter.autoscale()
+        """
         plotter.xlabel("Test Instance")
         plotter.ylabel("Time")
         user_ids = [
@@ -299,11 +335,18 @@ class EvaluationAnalyzer:
             test_id for test_id in range(1, self.number_of_test_cycles + 1)
             ]
         
+        expanded_test_ids = [
+            test_id for test_id in range(0, self.number_of_test_cycles + 2)
+            ]
+        plotter.xticks(expanded_test_ids)
+        plotter.yticks(numpy.linspace(0.0, 0.11, 12))
+        
         for user_id in user_ids:
             plotter.plot(test_ids, data[user_id-1], 'ro')
 
         plotter.grid()
         plotter.show()
+        """
 
 
     def plot_by_user(self, user_id, aggregate_data_key):
@@ -334,10 +377,24 @@ if __name__ == "__main__":
 #        f"{client_secrets.LOG_STORAGE_PATH}/saml-eval-300-10-1.log"
 #        )
 
+    #analyzer = EvaluationAnalyzer(
+    #    path_to_aggregate_data = f"{client_secrets.LOG_STORAGE_PATH}/" \
+    #        "analyze_evalstorage_oidc-eval-30-30-1/" \
+    #        "oidc-eval-30-30-aggregate.json"
+    #    )
+    #analyzer.get_aggregate_data_as_numpy_array("redirect_time")
+    #analyzer.plot_for_all_users("redirect_time")
+
+    #analyzer = EvaluationAnalyzer(
+    #    "oidc",
+    #    60,
+    #    60,
+    #    100
+    #)  
     analyzer = EvaluationAnalyzer(
         path_to_aggregate_data = f"{client_secrets.LOG_STORAGE_PATH}/" \
-            "analyze_evalstorage_oidc-eval-30-30-1/" \
-            "oidc-eval-30-30-aggregate.json"
+            "analyze_evalstorage_oidc-eval-60-60-1/" \
+            "oidc-eval-60-60-aggregate.json"
         )
-    analyzer.get_aggregate_data_as_numpy_array("redirect_time")
-    analyzer.plot_for_all_users("redirect_time")
+
+    analyzer.plot_for_all_users("dispatch_time")
