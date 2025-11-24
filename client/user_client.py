@@ -1,9 +1,9 @@
-import argparse
 from client.kc_administrator import KcAdministrator
 from client.log_processor import EvaluationLogProcessor
 from client.analyze import EvaluationAnalyzer
+import configparser
 import os
-#from secret import client_secrets
+from secret import client_secrets
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -111,7 +111,7 @@ def evaluate_login_method(
         number_of_users
         ):
 
-    if not (evaluation_method == "browser_eval"):
+    if not (evaluation_method == "browser"):
         print_nice(
             f"[ERROR | eval] Eval method {evaluation_method} is not sup" \
             "ported.",
@@ -148,65 +148,39 @@ def get_login_interval(eval_time_seconds, number_of_users):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    login_method_group = parser.add_mutually_exclusive_group()
-    login_method_group.add_argument(
-        "--oidc",
-        help = "Use OIDC to login",
-        action = "store_true"
-        )
-    login_method_group.add_argument(
-        "--saml",
-        help = "Use SAML to login",
-        action = "store_true"
-        )
-    evaluation_method_group = parser.add_mutually_exclusive_group()
-    evaluation_method_group.add_argument(
-        "--browser",
-        help = "Evaluate the Webbrowser Login Flow",
-        action = "store_const",
-        const = "browser_eval"
-    )
-    evaluation_method_group.add_argument(
-        "--eclient",
-        help = "Evaluate the Login Flow for enhanced clients",
-        action = "store_const",
-        const = "eclient_eval"
-    )
-    parser.add_argument(
-        "--num-users",
-        type = int,
-        help = "The amount of users to be logged in using the specified " \
-            "method and flow.",
-        action = "store"
-    )
-    parser.add_argument(
-        "--eval-time-seconds",
-        type = int,
-        help = "The amount of time the test should run using the specified " \
-            "method and flow.",
-        action = "store"
-    )
-    parser.add_argument(
-        "--num-test-cycles",
-        type = int,
-        help = "The amount of test to conduct be logged in using the speci" \
-            "fied method and flow.",
-        action = "store"
-    )
-    args = parser.parse_args()
+    config = configparser.ConfigParser()
+    config.read(client_secrets.TEST_CONFIG_PATH)
+    test_config = config["test.config"]
+    login_method = test_config["login_method"] \
+        if test_config["login_method"] == "oidc" \
+        or test_config["login_method"] == "saml" \
+        else None
+    evaluation_method = test_config["evaluation_method"] \
+        if test_config["evaluation_method"] == "browser" \
+        or test_config["evaluation_method"] == "eclient" \
+        else None
+    # The configparser getters are no good in my opinion.
+    if test_config["number_of_users"].isdecimal():
+        number_of_users = int(test_config["number_of_users"])
+        number_of_users = None if number_of_users > 1000 \
+            or number_of_users < 0 \
+            else number_of_users
+    else:
+        number_of_users = None
 
-    login_method = "oidc" if args.oidc else "saml" if args.saml else None
-    evaluation_method = "browser_eval" if args.browser \
-        else "eclient_eval" if args.eclient \
-        else None
-    number_of_users = args.num_users if args.num_users <= 1000 \
-        and args.num_users > 0 \
-        else None
-    eval_time_seconds = args.eval_time_seconds if args.eval_time_seconds > 0 \
-        else None
-    eval_test_cycles = args.num_test_cycles if args.num_test_cycles > 0 \
-        else None
+    if test_config["eval_time_seconds"].isdecimal():
+        eval_time_seconds = int(test_config["eval_time_seconds"])
+        eval_time_seconds = None if eval_time_seconds < 0 \
+            else eval_time_seconds
+    else:
+        eval_time_seconds = None
+
+    if test_config["eval_test_cycles"].isdecimal():
+        eval_test_cycles = int(test_config["eval_test_cycles"])
+        eval_test_cycles = None if eval_test_cycles < 0 \
+            else eval_test_cycles
+    else:
+        eval_test_cycles = None
     
     if not (
         login_method \

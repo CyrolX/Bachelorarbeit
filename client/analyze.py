@@ -393,8 +393,8 @@ if __name__ == "__main__":
     #)  
     analyzer = EvaluationAnalyzer(
         path_to_aggregate_data = f"{client_secrets.LOG_STORAGE_PATH}/" \
-            "analyze_evalstorage_oidc-eval-60-60-1/" \
-            "oidc-eval-60-60-aggregate.json"
+            "analyze_evalstorage_saml-eval-60-60-1/" \
+            "saml-eval-60-60-aggregate.json"
         )
 
-    analyzer.plot_for_all_users("dispatch_time")
+    analyzer.plot_for_all_users("finish_acs_dispatch_time")
