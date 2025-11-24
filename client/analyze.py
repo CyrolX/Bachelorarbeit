@@ -9,7 +9,7 @@ import pandas
 import re as regex
 import seaborn
 from secret import client_secrets
-import subprocess
+#import subprocess
 
 RenamePathPair = namedtuple('RenamePathPair', 'old_file_path new_file_path')
 
@@ -212,7 +212,7 @@ class EvaluationAnalyzer:
             f"eval-{self.test_length}-{self.number_of_users_used_in_test}-" \
             f"{evaluation_id}"
         
-        self.printer(f"{client_secrets.LOG_STORAGE_PATH}/{storage_directory_name}")
+        #self.printer(f"{client_secrets.LOG_STORAGE_PATH}/{storage_directory_name}")
 
         os.mkdir(
             f"{client_secrets.LOG_STORAGE_PATH}/{storage_directory_name}"

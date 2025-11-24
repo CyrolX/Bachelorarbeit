@@ -8,6 +8,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 import selenium.webdriver.support.expected_conditions as EC
+import subprocess
+import signal
 import sys
 import threading
 import time
@@ -140,11 +142,30 @@ def evaluate_login_method(
 
     print_nice(f"[DEBUG | eval] Eval concluded. Logging out users.")
     kc_admin.logout_all_kc_sessions(number_of_users)
-    print_nice(f"[DEBUG | eval] Users logged out. End eval.")
+    print_nice(f"[DEBUG | eval] Users logged out. Resetting state.")
+    reset_state()
+    print_nice(f"[DEBUG | eval] Users logged out. Resetting state.")
 
 
 def get_login_interval(eval_time_seconds, number_of_users):
     return eval_time_seconds / number_of_users
+
+# This is not well made at the moment. My SSH-Agent logic is in the log_pro-
+# cessor.py file, while I need to use it here. Yet invoking anything with the
+# log processor would just look weird. Perhaps I will just move the SSH-Agent
+# logic over to the user_client itself. For the moment this has to do.
+def reset_state():
+    with subprocess.Popen(
+        f"ssh {client_secrets.CONNECTION} ./reset_service.sh",
+        stdout = subprocess.PIPE, \
+        creationflags=subprocess.CREATE_NEW_PROCESS_GROUP \
+        ) as process:
+        try:
+            out, err = process.communicate(timeout=10)
+        except subprocess.TimeoutExpired:
+            process.send_signal(signal.CTRL_BREAK_EVENT)
+            process.kill()
+            out, err = process.communicate()
 
 
 if __name__ == "__main__":
@@ -217,7 +238,6 @@ if __name__ == "__main__":
         )
     
     analyzer.get_aggregate_data()
-
 
     #kc_admin = KcAdministrator(print_nice)
     #webbrowser_login(login_method, "t_user_611", kc_admin)
