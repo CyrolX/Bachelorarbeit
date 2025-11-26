@@ -144,16 +144,16 @@ def evaluate_login_method(
     kc_admin.logout_all_kc_sessions(number_of_users)
     print_nice(f"[DEBUG | eval] Users logged out. Resetting state.")
     reset_state()
-    print_nice(f"[DEBUG | eval] Users logged out. Resetting state.")
+    print_nice(f"[DEBUG | eval] State reset. Ending Evaluation")
 
 
 def get_login_interval(eval_time_seconds, number_of_users):
     return eval_time_seconds / number_of_users
 
 # This is not well made at the moment. My SSH-Agent logic is in the log_pro-
-# cessor.py file, while I need to use it here. Yet invoking anything with the
-# log processor would just look weird. Perhaps I will just move the SSH-Agent
-# logic over to the user_client itself. For the moment this has to do.
+# cessor.py file, while I may need to use it here. Yet invoking anything with
+# the log processor would just look weird. Perhaps I will just move the SSH-
+# Agent logic over to the user_client itself. For the moment this has to do.
 def reset_state():
     with subprocess.Popen(
         f"ssh {client_secrets.CONNECTION} ./reset_service.sh",
@@ -172,48 +172,80 @@ if __name__ == "__main__":
     config = configparser.ConfigParser()
     config.read(client_secrets.TEST_CONFIG_PATH)
     test_config = config["test.config"]
-    login_method = test_config["login_method"] \
-        if test_config["login_method"] == "oidc" \
-        or test_config["login_method"] == "saml" \
-        else None
-    evaluation_method = test_config["evaluation_method"] \
-        if test_config["evaluation_method"] == "browser" \
-        or test_config["evaluation_method"] == "eclient" \
-        else None
-    # The configparser getters are no good in my opinion.
-    if test_config["number_of_users"].isdecimal():
-        number_of_users = int(test_config["number_of_users"])
-        number_of_users = None if number_of_users > 1000 \
-            or number_of_users < 0 \
-            else number_of_users
-    else:
-        number_of_users = None
 
-    if test_config["eval_time_seconds"].isdecimal():
-        eval_time_seconds = int(test_config["eval_time_seconds"])
-        eval_time_seconds = None if eval_time_seconds < 0 \
-            else eval_time_seconds
-    else:
-        eval_time_seconds = None
-
-    if test_config["eval_test_cycles"].isdecimal():
-        eval_test_cycles = int(test_config["eval_test_cycles"])
-        eval_test_cycles = None if eval_test_cycles < 0 \
-            else eval_test_cycles
-    else:
-        eval_test_cycles = None
-    
-    if not (
-        login_method \
-        and evaluation_method \
-        and number_of_users \
-        and eval_test_cycles
-        ):
+    login_method = test_config["login_method"]
+    if login_method != "oidc" and login_method != "saml":
         print_nice(
-            "[INFO | main] No evaluation will take place.",
+            f"[FATAL | main] Supplied login_method ({login_method}) is " \
+            "neither 'oidc' or 'saml'. login_method must be 'oidc' or " \
+            "'saml'.",
             top_line = True
             )
-        sys.exit(0)
+        sys.exit(1)
+
+    evaluation_method = test_config["evaluation_method"]
+    if evaluation_method != "browser" and evaluation_method != "eclient":
+        print_nice(
+            f"[FATAL | main] Supplied evaluation_method (" \
+            f"{evaluation_method}) is neither 'browser' or 'eclient'. evalu" \
+            "ation_method must be 'browser' or 'eclient'.",
+            top_line = True
+            )
+        sys.exit(1)
+    # The configparser getters are no good in my opinion.
+    try:
+        number_of_users = int(test_config["number_of_users"])
+        if number_of_users > 1000 or number_of_users < 1:
+            print_nice(
+                "[FATAL | main] Supplied number_of_users (" \
+                f"{number_of_users}) is out of scope. number_of_users must " \
+                "be between 1 and 1000 inclusive.",
+                top_line = True
+                )
+            sys.exit(1)
+        eval_time_seconds = int(test_config["eval_time_seconds"])
+        if eval_time_seconds < 1:
+            print_nice(
+                f"[FATAL | main] Supplied eval_time ({eval_time_seconds}) " \
+                "is out of scope. eval_time must be 1 or greater.",
+                top_line = True
+                )
+            sys.exit(1)
+        eval_test_cycles = int(test_config["eval_test_cycles"])
+        if eval_test_cycles < 1:
+            print_nice(
+                f"[FATAL | main] Supplied eval_cycles ({eval_test_cycles}) " \
+                "is out of scope. eval_cycles must be 1 or greater.",
+                top_line = True
+                )
+            sys.exit(1)
+        ram_limit = int(test_config["ram_limit"])
+        # Do not allow anythin less than 50 MB and nothing over 2 GiB
+        if ram_limit < 49999872 or ram_limit > 2147483648:
+            print_nice(
+                f"[FATAL | main] Supplied ram_limit ({ram_limit}) is out of "\
+                "scope. ram_limit must be between 49999872 and 2147483648 " \
+                "inclusive.",
+                top_line = True
+                )
+            sys.exit(1)
+        cpu_limit = float(test_config["cpu_limit"])
+        if cpu_limit < 0.1 or ram_limit > 1.0:
+            print_nice(
+                f"[FATAL | main] Supplied ram_limit ({cpu_limit}) is out of "\
+                "scope. cpu_limit must be between 0.1 and 1.0 inclusive. Be "\
+                "aware of conversion errors.",
+                top_line = True
+                )
+            sys.exit(1)
+    except ValueError:
+        print_nice(
+            "[FATAL | main] A supplied number is not in its correct form. " \
+            "number_of_users, eval_time_seconds, eval_test_cycles and " \
+            "ram_limit must be integers. cpu_load must be a float.",
+            top_line = True
+            )
+        sys.exit(1)
 
     log_processor = EvaluationLogProcessor(print_nice)
 
