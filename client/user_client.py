@@ -220,8 +220,8 @@ if __name__ == "__main__":
                 )
             sys.exit(1)
         ram_limit = int(test_config["ram_limit"])
-        # Do not allow anythin less than 50 MB and nothing over 2 GiB
-        if ram_limit < 49999872 or ram_limit > 2147483648:
+        # Do not allow anythin less than 100 MB and nothing over 2 GiB
+        if ram_limit < 99999744 or ram_limit > 2147483648:
             print_nice(
                 f"[FATAL | main] Supplied ram_limit ({ram_limit}) is out of "\
                 "scope. ram_limit must be between 49999872 and 2147483648 " \
