@@ -230,7 +230,8 @@ if __name__ == "__main__":
                 )
             sys.exit(1)
         cpu_limit = float(test_config["cpu_limit"])
-        if cpu_limit < 0.1 or ram_limit > 1.0:
+        # minimum of 10% CPU usage should be allowed
+        if cpu_limit < 0.1 or cpu_limit > 1.0:
             print_nice(
                 f"[FATAL | main] Supplied ram_limit ({cpu_limit}) is out of "\
                 "scope. cpu_limit must be between 0.1 and 1.0 inclusive. Be "\

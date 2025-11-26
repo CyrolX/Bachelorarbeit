@@ -102,11 +102,6 @@ class EvaluationLogProcessor:
         
         path_to_log = "" \
             f"{client_secrets.LOG_STORAGE_PATH}/{local_log_file_name}"
-        
-        # This will ask for a password, as I can't pass a password to scp or
-        # ssh via options. There are security risks involved in doing so, as
-        # the password isn't encoded on the command line and is clearly visi-
-        # le in the shell history or something.
 
         path_to_log_on_server = self.get_path_to_log_on_server(login_method)
         subprocess.run(
