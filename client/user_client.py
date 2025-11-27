@@ -1,6 +1,7 @@
+from client.analyze import EvaluationAnalyzer
 from client.kc_administrator import KcAdministrator
 from client.log_processor import EvaluationLogProcessor
-from client.analyze import EvaluationAnalyzer
+from client.resource_monitor import ResourceMonitor
 import configparser
 import os
 from secret import client_secrets
@@ -110,7 +111,8 @@ def evaluate_login_method(
         login_method,
         evaluation_method,
         eval_time_seconds,
-        number_of_users
+        number_of_users,
+        resource_monitor : ResourceMonitor
         ):
 
     if not (evaluation_method == "browser"):
@@ -127,6 +129,8 @@ def evaluate_login_method(
     login_interval = get_login_interval(eval_time_seconds, number_of_users)
     print_nice(f"[DEBUG | eval] Login Interval: {login_interval}")
     login_threads = []
+    print_nice(f"[DEBUG | eval] Starting resmon")
+    resource_monitor.start_resource_monitoring()
     print_nice(f"[DEBUG | eval] Starting eval")
     for user_number in range(1, number_of_users+1):
         login_thread = threading.Thread(
@@ -140,7 +144,9 @@ def evaluate_login_method(
     for login_thread in login_threads:
         login_thread.join()
 
-    print_nice(f"[DEBUG | eval] Eval concluded. Logging out users.")
+    print_nice(f"[DEBUG | eval] Eval concluded. Terminating resmon.")
+    resource_monitor.terminate_monitor()
+    print_nice(f"[DEBUG | eval] Resmon terminated. Logging out users.")
     kc_admin.logout_all_kc_sessions(number_of_users)
     print_nice(f"[DEBUG | eval] Users logged out. Resetting state.")
     reset_state()
@@ -220,17 +226,21 @@ if __name__ == "__main__":
                 )
             sys.exit(1)
         ram_limit = int(test_config["ram_limit"])
-        # Do not allow anythin less than 100 MB and nothing over 2 GiB
-        if ram_limit < 99999744 or ram_limit > 2147483648:
+        # Do not allow anythin less than 100 MB and nothing over 2 GiB. Page
+        # size at the VM is 4096 Byte, meaning a 100 MB RAM Limit is basically
+        # equal to a 99.999744 MB limit. The maximum amount of memory that can
+        # be assigned is always one page of 4096 Bytes more, meaning the upper
+        # limit needs to be one page less than maximum.
+        if ram_limit < 99999744 or ram_limit > 2147479552:
             print_nice(
                 f"[FATAL | main] Supplied ram_limit ({ram_limit}) is out of "\
-                "scope. ram_limit must be between 49999872 and 2147483648 " \
+                "scope. ram_limit must be between 99999744 and 2147483648 " \
                 "inclusive.",
                 top_line = True
                 )
             sys.exit(1)
         cpu_limit = float(test_config["cpu_limit"])
-        # minimum of 10% CPU usage should be allowed
+        # A minimum of 10% CPU usage should be allowed
         if cpu_limit < 0.1 or cpu_limit > 1.0:
             print_nice(
                 f"[FATAL | main] Supplied ram_limit ({cpu_limit}) is out of "\
@@ -249,6 +259,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     log_processor = EvaluationLogProcessor(print_nice)
+    resource_monitor = ResourceMonitor(cpu_limit, ram_limit, print_nice)
 
     for cycle in range(1, eval_test_cycles + 1):
         evaluate_login_method(
@@ -257,6 +268,11 @@ if __name__ == "__main__":
             eval_time_seconds,
             number_of_users
             )
+        log_processor.process_resmon_record(
+            login_method,
+            eval_time_seconds,
+            number_of_users
+        )
         log_processor.process_test_log(
             login_method,
             eval_time_seconds,

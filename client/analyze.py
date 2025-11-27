@@ -64,6 +64,11 @@ class EvaluationAnalyzer:
         self.printer_args = printer_args
         self.printer_kwargs = printer_kwargs
 
+##############################################################################
+#             E V A L U A T I O N   L O G   P R O C E S S I N G              #
+##############################################################################
+
+
     @classmethod
     def get_eval_from_json(
             self,
@@ -86,7 +91,6 @@ class EvaluationAnalyzer:
             number_of_test_cycles, 
             aggregate_data_dict
             )
-
 
 
     def initialize_aggregate_data_dict(self):
@@ -255,6 +259,15 @@ class EvaluationAnalyzer:
         self.serialize_aggregate_data_dict()
         self.move_eval_data_to_storage()
 
+
+##############################################################################
+#       R E S O U R C E   M O N I T O R   L O G   P R O C E S S I N G        #
+##############################################################################
+
+
+##############################################################################
+#                              A N A L Y S I S                               #
+##############################################################################
 
     def get_aggregate_data_as_numpy_array(
             self, 

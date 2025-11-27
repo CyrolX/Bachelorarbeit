@@ -20,6 +20,9 @@ class EvaluationLogProcessor:
         self.printer_args = printer_args
         self.printer_kwargs = printer_kwargs
 
+##############################################################################
+#                               U T I L I T Y                                #
+##############################################################################
 
     def is_ssh_agent_setup(self):
         # If the ssh-agent service isn't running, this will return with code
@@ -62,6 +65,34 @@ class EvaluationLogProcessor:
             "ssh-agent service in an Admin Powershell once finished!"
             )
 
+
+    # This function has been changed so it can also be used by the resmon
+    # record processing logic
+    def change_file_extension_in_path(self, path, new_extension):
+        return '.'.join([path.split(".")[0], new_extension])
+
+
+    # This function has been changed so it can also be used by the resmon
+    # record processing logic
+    def serialize_data_into_json(self, data, path):
+        path_to_json = self.change_file_extension_in_path(
+            path, 
+            "json"
+            )
+        with open(path_to_json, "w") as json_file:
+            json.dump(data, json_file, indent = 4)
+
+
+    # This function has been changed so it can also be used by the resmon
+    # record processing logic
+    def is_serialized(self, path):
+        return os.path.isfile(
+            self.change_file_extension_in_path(path, "json")
+            )
+    
+##############################################################################
+#             E V A L U A T I O N   L O G   P R O C E S S I N G              #
+##############################################################################
 
     def get_path_to_log_on_server(self, login_method):
         log_name = f"{login_method}-eval.log"
@@ -229,25 +260,6 @@ class EvaluationLogProcessor:
         return log_data
 
 
-    def change_file_extension_in_path(self, path_to_log, new_extension):
-        return '.'.join([path_to_log.split(".")[0], new_extension])
-
-
-    def serialize_log_data_into_json(self, log_data, path_to_log):
-        path_to_log_json = self.change_file_extension_in_path(
-            path_to_log, 
-            "json"
-            )
-        with open(path_to_log_json, "w") as json_file:
-            json.dump(log_data, json_file, indent = 4)
-
-
-    def is_serialized(self, path_to_log):
-        return os.path.isfile(
-            self.change_file_extension_in_path(path_to_log, "json")
-            )
-
-
     def is_login_method_valid(self, login_method):
         return login_method == "oidc" or login_method == "saml"
 
@@ -281,7 +293,6 @@ class EvaluationLogProcessor:
         #)
 
 
-
     def process_test_log(
             self,
             login_method,
@@ -309,13 +320,16 @@ class EvaluationLogProcessor:
             )
 
         # We only need to serialize a log once. The current implementation
-        # would however doesn't allow a comparison of the file that is to be
-        # downloaded with the last file that has been downloaded. Maybe in the
-        # future this could be implemented, but for now this check is unneces-
-        # sary. I will leave the code in just in case.
+        # however doesn't allow a comparison of the content of the file that
+        # is to be downloaded with the content of the last file that has been
+        # downloaded. Maybe in the future this could be implemented, but for
+        # now this check is unnecessary. I will leave the code in just in
+        # case.
         if self.is_serialized(path_to_log):
             return
         
+        # This is not good for particularly large log files, as we write the
+        # entire log file into memory here. This will be changed in the future
         log_file_lines = []
         with open(path_to_log) as log_file:
             log_file_lines = log_file.readlines()
@@ -326,6 +340,156 @@ class EvaluationLogProcessor:
         elif login_method == "saml":
             log_data = self.transform_saml_log_into_dict(log_file_lines)
 
-        self.serialize_log_data_into_json(log_data, path_to_log)
+        self.serialize_data_into_json(log_data, path_to_log)
 
         self.clear_log_on_server(login_method)
+
+##############################################################################
+#       R E S O U R C E   M O N I T O R   L O G   P R O C E S S I N G        #
+##############################################################################
+
+    def fetch_and_store_resource_measurements(
+            self, 
+            login_method,
+            test_length,
+            number_of_users_used_in_test
+            ):
+
+        local_record_file_pattern = regex.compile(
+            f"{login_method}-eval-{test_length}-" \
+            f"{number_of_users_used_in_test}-resmon-" \
+            f"{r'-\d+\.txt'}"
+            )
+
+        # We want to save our log in the following pattern:
+        # {login_method}-eval-{test_length}-{num_users}-resmon-{id}.log
+        id_for_next_record = 1
+        for file_name in os.listdir(client_secrets.LOG_STORAGE_PATH):
+            if local_record_file_pattern.match(file_name):
+                id_for_next_record += 1
+        
+        local_record_file_name = f"{login_method}-eval-{test_length}-" \
+            f"{number_of_users_used_in_test}-resmon-{id_for_next_record}.txt"
+        
+        path_to_record = "" \
+            f"{client_secrets.LOG_STORAGE_PATH}/{local_record_file_name}"
+
+        path_to_record_on_server = ""\
+            f"{client_secrets.LOG_STORAGE_PATH_AT_ORIGIN}/resource_usage.txt"
+        subprocess.run(
+            [
+            "scp", 
+            f"{client_secrets.CONNECTION}:{path_to_record_on_server}",
+            path_to_record
+            ],
+        )
+
+        # We return the path to the log here to use it later on.
+        return path_to_record
+
+    def append_to_record_data(self, record_data, data, owner):
+        # data follows the following pattern:
+        # cpu, ram, in, out
+        # CPU is given as CPU Time
+        record_data[f'{owner}.cpu'].append(int(data[0]))
+        # RAM is given in Bytes
+        record_data[f'{owner}.ram'].append(int(data[1]))
+        # int(data) if data != str else 0 works, because the first statement
+        # is executed only if the conditional evaluates to True.
+        # I/O is given in Bytes.
+        record_data[f'{owner}.io.in'].append(
+            int(data[2]) if data[2] != '-' else 0, 
+            )
+        record_data[f'{owner}.io.out'].append(  
+            int(data[3]) if data[3] != '-' else 0
+            )
+
+    #TODO: Write to file.
+    def transform_resmon_record_into_dict(self, resmon_record):
+        record_data = {
+            'timestamps': [],
+            'eval.slice.cpu': [],
+            'eval.slice.ram': [],
+            'eval.slice.io.in': [],
+            'eval.slice.io.out': [],
+            'gunicorn.cpu': [],
+            'gunicorn.ram': [],
+            'gunicorn.io.in': [],
+            'gunicorn.io.out': [],
+            'nginx.cpu': [],
+            'nginx.ram': [],
+            'nginx.io.in': [],
+            'nginx.io.out': [],
+        }
+        with open(resmon_record) as record:
+            # The line containing the timestamp follows the structure:
+            # timestamp:{timestamp}
+            # Every other line follows the following structure:
+            # cgroup, tasks, cpu, ram, in, out
+            for line in record:
+                if "timestamp" in line:
+                    record_data["timestamps"].append(
+                        int(line.rstrip().split(":")[1])
+                    )
+                    continue
+                # If the line doesn't contain the timestamp it will be filled
+                # with spaces so we remove them here.
+                line = regex.split(' +', line.rstrip())
+                if "gunicorn" in line[0]:
+                    self.append_to_record_data(
+                        record_data,
+                        line[2:],
+                        'gunicorn'
+                        )
+                elif "nginx" in line[0]:
+                    self.append_to_record_data(
+                        record_data,
+                        line[2:],
+                        'nginx'
+                        )
+                else:
+                    self.append_to_record_data(
+                        record_data,
+                        line[2:],
+                        'eval.slice'
+                        )
+        
+        return record_data
+    
+
+    def clear_record_on_server(self):
+        path_to_record_on_server = "" \
+            f"{client_secrets.LOG_STORAGE_PATH_AT_ORIGIN}/resource_usage.txt"
+        with subprocess.Popen(
+            f"ssh {client_secrets.CONNECTION} truncate -s 0 " \
+            f"{path_to_record_on_server}", \
+            stdout = subprocess.PIPE, \
+            creationflags=subprocess.CREATE_NEW_PROCESS_GROUP \
+            ) as process:
+            try:
+                out, err = process.communicate(timeout=10)
+            except subprocess.TimeoutExpired:
+                process.send_signal(signal.CTRL_BREAK_EVENT)
+                process.kill()
+                out, err = process.communicate()
+
+
+    def process_resmon_record(
+            self,
+            login_method,
+            test_length,
+            number_of_users_used_in_test
+            ):
+        
+        path_to_record = self.fetch_and_store_resource_measurements(
+            login_method,
+            test_length,
+            number_of_users_used_in_test
+            )
+        
+        record_data = self.transform_resmon_record_into_dict(
+            path_to_record
+            )
+        
+        self.serialize_data_into_json(record_data, path_to_record)
+        self.clear_record_on_server()
