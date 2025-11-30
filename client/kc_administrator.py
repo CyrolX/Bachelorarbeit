@@ -15,16 +15,6 @@ class KcAdministrator:
     :param printer_kwargs: Keyword Arguments for the supplied printing func
         tion
     """
-
-    _kc_admin = keycloak.KeycloakAdmin(
-            server_url = kc_admin_secrets.KEYCLOAK_URL,
-            username = kc_admin_secrets.KEYCLOAK_ADMIN_USERNAME,
-            password = kc_admin_secrets.KEYCLOAK_ADMIN_PASSWORD,
-            realm_name = kc_admin_secrets.KEYCLOAK_REALM,
-            user_realm_name = kc_admin_secrets.KEYCLOAK_USER_REALM
-        )
-    
-
     def __init__(
             self,
             printer = print,
@@ -34,6 +24,13 @@ class KcAdministrator:
         """
         Instantiates a KcAdministrator
         """
+        self._kc_admin = keycloak.KeycloakAdmin(
+            server_url = kc_admin_secrets.KEYCLOAK_URL,
+            username = kc_admin_secrets.KEYCLOAK_ADMIN_USERNAME,
+            password = kc_admin_secrets.KEYCLOAK_ADMIN_PASSWORD,
+            realm_name = kc_admin_secrets.KEYCLOAK_REALM,
+            user_realm_name = kc_admin_secrets.KEYCLOAK_USER_REALM
+        )
         self.printer = printer
         self.printer_args = printer_args
         self.printer_kwargs = printer_kwargs
@@ -86,7 +83,7 @@ class KcAdministrator:
 
         :param username: Filter for the API-Call. Only UserRepresentations con
             taining the supplied username somewhere inside its username field
-            are returned. Defaults to "t_user"
+            are returned. Defaults to "t_user_"
         
         :return: A list of UserRepresentations, including only those that con
             tain the supplied username somewhere inside their username field
@@ -156,7 +153,7 @@ class KcAdministrator:
         if not self._is_user_locally_known(username):
             return None
 
-        return  kc_admin_secrets.TEST_USER_PASSWORDS[username]
+        return kc_admin_secrets.TEST_USER_PASSWORDS[username]
 
 
     def _print_user_list(self, username = "t_user"):

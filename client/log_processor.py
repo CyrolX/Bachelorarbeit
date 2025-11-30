@@ -352,12 +352,13 @@ class EvaluationLogProcessor:
             self, 
             login_method,
             test_length,
-            number_of_users_used_in_test
+            number_of_users_used_in_test,
+            origin
             ):
 
         local_record_file_pattern = regex.compile(
             f"{login_method}-eval-{test_length}-" \
-            f"{number_of_users_used_in_test}-resmon-" \
+            f"{number_of_users_used_in_test}-{origin}-resmon" \
             f"{r'-\d+\.txt'}"
             )
 
@@ -369,17 +370,30 @@ class EvaluationLogProcessor:
                 id_for_next_record += 1
         
         local_record_file_name = f"{login_method}-eval-{test_length}-" \
-            f"{number_of_users_used_in_test}-resmon-{id_for_next_record}.txt"
+            f"{number_of_users_used_in_test}-{origin}-resmon-" \
+            f"{id_for_next_record}.txt"
         
         path_to_record = "" \
             f"{client_secrets.LOG_STORAGE_PATH}/{local_record_file_name}"
 
-        path_to_record_on_server = ""\
-            f"{client_secrets.LOG_STORAGE_PATH_AT_ORIGIN}/resource_usage.txt"
+        if origin == "sp":
+            path_to_record_on_server = "" \
+                f"{client_secrets.LOG_STORAGE_PATH_AT_ORIGIN}/" \
+                "resource_usage.txt"
+            connection = client_secrets.CONNECTION
+        elif origin == "idp":
+            path_to_record_on_server = "" \
+                f"{client_secrets.LOG_STORAGE_PATH_AT_IDP}/" \
+                "resource_usage.txt"
+            connection = client_secrets.IDP_CONNECTION
+        else:
+            self.printer(f"[DEBUG] Origin {origin} doesn't exist.")
+            return
+
         subprocess.run(
             [
             "scp", 
-            f"{client_secrets.CONNECTION}:{path_to_record_on_server}",
+            f"{connection}:{path_to_record_on_server}",
             path_to_record
             ],
         )
@@ -405,8 +419,8 @@ class EvaluationLogProcessor:
             )
 
     #TODO: Write to file.
-    def transform_resmon_record_into_dict(self, resmon_record):
-        record_data = {
+    def transform_sp_resmon_record_into_dict(self, resmon_record):
+        sp_record_data = {
             'timestamps': [],
             'eval.slice.cpu': [],
             'eval.slice.ram': [],
@@ -421,6 +435,7 @@ class EvaluationLogProcessor:
             'nginx.io.in': [],
             'nginx.io.out': [],
         }
+
         with open(resmon_record) as record:
             # The line containing the timestamp follows the structure:
             # timestamp:{timestamp}
@@ -428,7 +443,7 @@ class EvaluationLogProcessor:
             # cgroup, tasks, cpu, ram, in, out
             for line in record:
                 if "timestamp" in line:
-                    record_data["timestamps"].append(
+                    sp_record_data["timestamps"].append(
                         int(line.rstrip().split(":")[1])
                     )
                     continue
@@ -437,34 +452,109 @@ class EvaluationLogProcessor:
                 line = regex.split(' +', line.rstrip())
                 if "gunicorn" in line[0]:
                     self.append_to_record_data(
-                        record_data,
+                        sp_record_data,
                         line[2:],
                         'gunicorn'
                         )
                 elif "nginx" in line[0]:
                     self.append_to_record_data(
-                        record_data,
+                        sp_record_data,
                         line[2:],
                         'nginx'
                         )
                 else:
                     self.append_to_record_data(
-                        record_data,
+                        sp_record_data,
                         line[2:],
                         'eval.slice'
                         )
         
-        return record_data
+        return sp_record_data
     
 
-    def clear_record_on_server(self):
-        path_to_record_on_server = "" \
-            f"{client_secrets.LOG_STORAGE_PATH_AT_ORIGIN}/resource_usage.txt"
+    def transform_idp_resmon_record_into_dict(self, resmon_record):
+        idp_record_data = {
+            'timestamps': [],
+            'docker.cpu': [],
+            'docker.ram': [],
+            'docker.io.in': [],
+            'docker.io.out': [],
+            'keycloak.cpu': [],
+            'keycloak.ram': [],
+            'keycloak.io.in': [],
+            'keycloak.io.out': [],
+            'postgres.cpu': [],
+            'postgres.ram': [],
+            'postgres.io.in': [],
+            'postgres.io.out': [],
+            'caddy.cpu': [],
+            'caddy.ram': [],
+            'caddy.io.in': [],
+            'caddy.io.out': [],
+        }
+
+        keycloak_container_id = None
+        postgres_container_id = None
+        caddy_container_id = None
+
+
+        with open(resmon_record) as record:
+            for line_number, line in enumerate(record):
+                if line_number <= 2:
+                    if "keycloak" in line:
+                        keycloak_container_id = line.split(" ")[0]
+                        continue
+                    elif "postgres" in line:
+                        postgres_container_id = line.split(" ")[0]
+                        continue
+                    elif "caddy" in line:
+                        caddy_container_id = line.split(" ")[0]
+                        continue
+                line = regex.split(' +', line.rstrip())
+                if keycloak_container_id in line[0]:
+                    self.append_to_record_data(
+                        idp_record_data,
+                        line[2:],
+                        'keycloak'
+                        )
+                elif postgres_container_id in line[0]:
+                    self.append_to_record_data(
+                        idp_record_data,
+                        line[2:],
+                        'postgres'
+                        )
+                elif caddy_container_id in line[0]:
+                    self.append_to_record_data(
+                        idp_record_data,
+                        line[2:],
+                        'caddy'
+                        )
+                else:
+                    self.append_to_record_data(
+                        idp_record_data,
+                        line[2:],
+                        'docker'
+                        )
+
+
+    def clear_resmon_record(self, origin):
+        if origin == "sp":
+            path_to_record_on_server = "" \
+                f"{client_secrets.LOG_STORAGE_PATH_AT_ORIGIN}/" \
+                "resource_usage.txt"
+            connection = client_secrets.CONNECTION
+        elif origin == "idp":
+            path_to_record_on_server = "" \
+                f"{client_secrets.LOG_STORAGE_PATH_AT_IDP}/" \
+                "resource_usage.txt"
+            connection = client_secrets.IDP_CONNECTION
+        else:
+            self.printer(f"[DEBUG] Origin {origin} doesn't exist.")
+            return
         with subprocess.Popen(
-            f"ssh {client_secrets.CONNECTION} truncate -s 0 " \
-            f"{path_to_record_on_server}", \
-            stdout = subprocess.PIPE, \
-            creationflags=subprocess.CREATE_NEW_PROCESS_GROUP \
+            f"ssh {connection} truncate -s 0 {path_to_record_on_server}",
+            stdout = subprocess.PIPE,
+            creationflags=subprocess.CREATE_NEW_PROCESS_GROUP
             ) as process:
             try:
                 out, err = process.communicate(timeout=10)
@@ -474,7 +564,7 @@ class EvaluationLogProcessor:
                 out, err = process.communicate()
 
 
-    def process_resmon_record(
+    def process_resmon_records(
             self,
             login_method,
             test_length,
@@ -484,12 +574,23 @@ class EvaluationLogProcessor:
         path_to_record = self.fetch_and_store_resource_measurements(
             login_method,
             test_length,
-            number_of_users_used_in_test
+            number_of_users_used_in_test,
+            "sp"
             )
-        
-        record_data = self.transform_resmon_record_into_dict(
+        sp_record_data = self.transform_sp_resmon_record_into_dict(
             path_to_record
             )
-        
-        self.serialize_data_into_json(record_data, path_to_record)
-        self.clear_record_on_server()
+        self.serialize_data_into_json(sp_record_data, path_to_record)
+        self.clear_resmon_record("sp")
+
+        path_to_record = self.fetch_and_store_resource_measurements(
+            login_method,
+            test_length,
+            number_of_users_used_in_test,
+            "idp"
+            )
+        idp_record_data = self.transform_idp_resmon_record_into_dict(
+            path_to_record
+            )
+        self.serialize_data_into_json(idp_record_data, path_to_record)
+        self.clear_resmon_record("idp")
