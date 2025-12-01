@@ -77,7 +77,7 @@ def webbrowser_login(login_method, username, kc_admin):
     wait.until(EC.presence_of_element_located((By.ID, "username")))
     # Saved for line 115, where we wait until the URL changes from this URL.
     last_url = driver.current_url
-    print_nice(f"[DEBUG] WEBDRIVER URL: {driver.current_url}")
+    #print_nice(f"[DEBUG] WEBDRIVER URL: {driver.current_url}")
     username_input_field = driver.find_element(by=By.ID, value="username")
     password_input_field = driver.find_element(by=By.ID, value="password")
     login_button = driver.find_element(by=By.ID, value="kc-login")
@@ -90,7 +90,7 @@ def webbrowser_login(login_method, username, kc_admin):
     # If the URL changes, we most likely have been authenticated correctly and
     # have been redirected to /accounts/profile
     wait.until(EC.url_changes(last_url))
-    print_nice(f"[DEBUG] WEBDRIVER URL: {driver.current_url}")
+    #print_nice(f"[DEBUG] WEBDRIVER URL: {driver.current_url}")
     last_url = driver.current_url
 
     # Route to /protected_app, for which we need to be authenticated to par-
@@ -164,7 +164,7 @@ def evaluate_login_method(
     login_threads = []
     print_nice(f"[DEBUG | eval] Starting resmon")
     resource_monitor.start_resource_monitoring()
-    print_nice(f"[DEBUG | eval] Polling Websites")
+    print_nice(f"[DEBUG | eval] Polling Websites for at max 30s.")
     poll_websites_before_eval(login_method)
     print_nice(f"[DEBUG | eval] Starting eval")
     kc_admin = KcAdministrator(print_nice)
@@ -358,9 +358,9 @@ if __name__ == "__main__":
         print_nice
         )
     
-    print_nice(f"[DEBUG | config] Setting up resource limits.")
-    resource_monitor.setup_resource_limits()
-    print_nice(f"[DEBUG | config] Resource limits set up.")
+    #print_nice(f"[DEBUG | config] Setting up resource limits.")
+    #resource_monitor.setup_resource_limits()
+    #print_nice(f"[DEBUG | config] Resource limits set up.")
     # In case something went wrong.
     #log_processor.clear_log_on_server(login_method)
     #log_processor.clear_resmon_record("sp")

@@ -64,6 +64,24 @@ class EvaluationLogProcessor:
             "[DEBUG | processor.setup] Agent setup. Remember to stop the " \
             "ssh-agent service in an Admin Powershell once finished!"
             )
+        
+
+    def process_ssh_command(self, connection, command, return_out = False):
+        with subprocess.Popen(
+            f"ssh {connection} {command}",
+            stdout = subprocess.PIPE, 
+            creationflags=subprocess.CREATE_NO_WINDOW
+            ) as process:
+            try:
+                out, err = process.communicate(timeout=10)
+                if return_out:
+                    return out
+            except subprocess.TimeoutExpired:
+                process.send_signal(signal.CTRL_BREAK_EVENT)
+                process.kill()
+                out, err = process.communicate()
+                if return_out:
+                    return out
 
 
     # This function has been changed so it can also be used by the resmon
@@ -270,18 +288,8 @@ class EvaluationLogProcessor:
 
     def clear_log_on_server(self, login_method):
         path_to_log_on_server = self.get_path_to_log_on_server(login_method)
-        with subprocess.Popen(
-            f"ssh {client_secrets.CONNECTION} truncate -s 0 " \
-            f"{path_to_log_on_server}", \
-            stdout = subprocess.PIPE, \
-            creationflags=subprocess.CREATE_NEW_PROCESS_GROUP \
-            ) as process:
-            try:
-                out, err = process.communicate(timeout=10)
-            except subprocess.TimeoutExpired:
-                process.send_signal(signal.CTRL_BREAK_EVENT)
-                process.kill()
-                out, err = process.communicate()
+        command = f"truncate -s 0 {path_to_log_on_server}"
+        self.process_ssh_command({client_secrets.CONNECTION}, command)
 
         # YOU WERE THE CHOSEN ONE!
         #subprocess.run(
@@ -401,140 +409,236 @@ class EvaluationLogProcessor:
         # We return the path to the log here to use it later on.
         return path_to_record
 
-    def append_to_record_data(self, record_data, data, owner):
-        # data follows the following pattern:
-        # cpu, ram, in, out
-        # CPU is given as CPU Time
-        record_data[f'{owner}.cpu'].append(int(data[0]))
-        # RAM is given in Bytes
-        record_data[f'{owner}.ram'].append(int(data[1]))
-        # int(data) if data != str else 0 works, because the first statement
-        # is executed only if the conditional evaluates to True.
-        # I/O is given in Bytes.
-        record_data[f'{owner}.io.in'].append(
-            int(data[2]) if data[2] != '-' else 0, 
+
+    def initialize_basic_resource_dict(self):
+        # The 'io' entry is empty and is expanded according to the used hard
+        # drives.
+        basic_resource_dict = {
+                'cpu': {
+                    'timestamps': [],
+                    'total_cpu_time': [],
+                    'user_space_cpu_time': [],
+                    'kernel_cpu_time': [],
+                    'run_periods': [],
+                    'throttled_periods': [],
+                    'total_throttled_time': []
+                },
+                'memory': {
+                    'timestamps': [],
+                    'anonymous_memory': [],
+                    'file_system_cache_memory': [],
+                    'kernel_memory': []
+                },
+                'io' : {}
+            }
+        
+        return basic_resource_dict
+        
+    # It is expected, that hdd_identifier is supplied in MAJ:MIN form.
+    def get_hdd_info(self, hdd_owner, hdd_identifier):
+        command = "\"lsblk -io KNAME,MAJ:MIN,SIZE | " \
+            f"grep '{hdd_identifier}'\""
+        
+        if hdd_owner == "sp":
+            connection = client_secrets.CONNECTION
+        elif hdd_owner == "idp":
+            connection = client_secrets.IDP_CONNECTION
+
+        hdd_info = self.process_ssh_command(
+            connection,
+            command,
+            return_out = True
             )
-        record_data[f'{owner}.io.out'].append(  
-            int(data[3]) if data[3] != '-' else 0
-            )
+        
+        hdd_info = regex.split(' +', hdd_info.decode('utf-8').rstrip())
+        # This is a list containing the hdd device name at index 0, the ID at
+        # index 1 and the size at index 2.
+        return hdd_info
+    
+    # It is expected, that the hdd_identifiers are supplied in MAJ:MIN form
+    def get_hdd_dict(self, hdd_owner, hdd_identifier):
+
+        hdd_info = self.get_hdd_info(hdd_owner, hdd_identifier)
+        # We assume no bytes are ever discarded and as such exclude
+        # discarded_bytes
+        hdd_dict = {
+            'name': hdd_info[0],
+            'size': hdd_info[2],
+            'timestamps': [],
+            'read_bytes': [],
+            'written_bytes': [],
+            'read_io_ops': [],
+            'write_io_ops': []
+        }
+        
+        return hdd_dict
+
+
+    def read_cpu_entry(self, record_entry, record_data):
+        # The first line must be processed separately to obtain the cgroup.
+        split_line = record_entry[0].split(" ")
+        cgroup = split_line[0]
+        timestamp = split_line[2]
+        # Only with the cgroup can we get the correct dict_entry out of the
+        # record_data
+        cpu_data = record_data[cgroup]['cpu']
+        cpu_data['timestamps'].append(timestamp)
+        # We need to be careful here, as throttling could lead to an empty
+        # record entry.
+        if len(record_entry) == 1:
+            cpu_data['total_cpu_time'].append(0)
+            cpu_data['user_space_cpu_time'].append(0)
+            cpu_data['kernel_cpu_time'].append(0)
+            cpu_data['run_periods'].append(0)
+            cpu_data['throttled_periods'].append(0)
+            cpu_data['total_throttled_time'].append(0)
+            return
+        # The structure of the record is known, which is why there is no need
+        # for a for loop here.
+        split_line = record_entry[1].split(" ")
+        cpu_data['total_cpu_time'].append(int(split_line[1]))
+        split_line = record_entry[2].split(" ")
+        cpu_data['user_space_cpu_time'].append(int(split_line[1]))
+        split_line = record_entry[3].split(" ")
+        cpu_data['kernel_cpu_time'].append(int(split_line[1]))
+        # The fourth line contains core_sched.force_idle_usec and is ignored.
+        if len(record_entry) > 5:
+            split_line = record_entry[5].split(" ")
+            cpu_data['run_periods'].append(int(split_line[1]))
+            split_line = record_entry[6].split(" ")
+            cpu_data['throttled_periods'].append(int(split_line[1]))
+            split_line = record_entry[7].split(" ")
+            cpu_data['total_throttled_time'].append(int(split_line[1]))
+            # Line 9 and 10 contain nr_bursts and burst_usec and are ignored.
+        else:
+            # If there aren't more than 5 lines, we get no run_periods etc.
+            # Just in case we get them we record 0 here. This is done so that
+            # the timestamps continue to index the entire measurement.
+            cpu_data['run_periods'].append(0)
+            cpu_data['throttled_periods'].append(0)
+            cpu_data['total_throttled_time'].append(0)
+
+    def read_memory_entry(self, record_entry, record_data):
+        split_line = record_entry[0].split(" ")
+        cgroup = split_line[0]
+        timestamp = split_line[2]
+
+        memory_data = record_data[cgroup]['memory']
+        memory_data['timestamps'].append(timestamp)
+
+        # We need to be careful here, as throttling could lead to an empty
+        # record entry.
+        if len(record_entry) == 1:
+            memory_data['anonymous_memory'].append(0)
+            memory_data['file_system_cache_memory'].append(0)
+            memory_data['kernel_memory'].append(0)
+            return
+        # The structure of the record is known, which is why there is no need
+        # for a for loop here.
+        split_line = record_entry[1].split(" ")
+        memory_data['anonymous_memory'].append(int(split_line[1]))
+        split_line = record_entry[2].split(" ")
+        memory_data['file_system_cache_memory'].append(int(split_line[1]))
+        split_line = record_entry[3].split(" ")
+        memory_data['kernel_memory'].append(int(split_line[1]))
+
+    def read_io_entry(self, data_owner, record_entry, record_data):
+        # In this case no hard drive is present in the record.
+        if len(record_entry) == 1:
+            return
+        
+        split_line = record_entry[0].split(" ")
+        cgroup = split_line[0]
+        timestamp = split_line[2]
+
+        io_data = record_data[cgroup]['io']
+        # The structure of the record is unknown, which is why a for loop is
+        # used here.
+        record_entry = record_entry[1:]
+        for line in record_entry:
+            # Every line follows the following format:
+            # <id> <rbytes>=<num> <wbytes>=<num> <rios>=<num> <wios>=<num> \
+            # <dbytes>=<num> <dios>=<num>
+            split_line = line.split(" ")
+            # If an ID is unknown, create a dictionary entry for it.
+            if split_line[0] not in io_data.keys():
+                io_data[split_line[0]] = self.get_hdd_dict(
+                    data_owner, 
+                    split_line[0]
+                    )
+            # Every line has a different hard drive associated with it, which
+            # is why we assign in the loop.
+            hdd_data = io_data[split_line[0]]
+            hdd_data['timestamps'].append(timestamp)
+            hdd_data['read_bytes'].append(int(split_line[1].split("=")[1]))
+            hdd_data['written_bytes'].append(int(split_line[2].split("=")[1]))
+            hdd_data['read_io_ops'].append(int(split_line[3].split("=")[1]))
+            hdd_data['write_io_ops'].append(int(split_line[4].split("=")[1]))
+            
 
     #TODO: Write to file.
-    def transform_sp_resmon_record_into_dict(self, resmon_record):
-        sp_record_data = {
-            'timestamps': [],
-            'eval.slice.cpu': [],
-            'eval.slice.ram': [],
-            'eval.slice.io.in': [],
-            'eval.slice.io.out': [],
-            'gunicorn.cpu': [],
-            'gunicorn.ram': [],
-            'gunicorn.io.in': [],
-            'gunicorn.io.out': [],
-            'nginx.cpu': [],
-            'nginx.ram': [],
-            'nginx.io.in': [],
-            'nginx.io.out': [],
-        }
-
-        with open(resmon_record) as record:
-            # The line containing the timestamp follows the structure:
-            # timestamp:{timestamp}
-            # Every other line follows the following structure:
-            # cgroup, tasks, cpu, ram, in, out
-            for line in record:
-                if "timestamp" in line:
-                    sp_record_data["timestamps"].append(
-                        int(line.rstrip().split(":")[1])
-                    )
-                    continue
-                # If the line doesn't contain the timestamp it will be filled
-                # with spaces so we remove them here.
-                line = regex.split(' +', line.rstrip())
-                if "gunicorn" in line[0]:
-                    self.append_to_record_data(
-                        sp_record_data,
-                        line[2:],
-                        'gunicorn'
-                        )
-                elif "nginx" in line[0]:
-                    self.append_to_record_data(
-                        sp_record_data,
-                        line[2:],
-                        'nginx'
-                        )
-                else:
-                    self.append_to_record_data(
-                        sp_record_data,
-                        line[2:],
-                        'eval.slice'
-                        )
+    def transform_resmon_record_into_dict(
+            self,
+            data_owner,
+            resmon_record
+            ):
         
-        return sp_record_data
-    
-
-    def transform_idp_resmon_record_into_dict(self, resmon_record):
-        idp_record_data = {
-            'timestamps': [],
-            'docker.cpu': [],
-            'docker.ram': [],
-            'docker.io.in': [],
-            'docker.io.out': [],
-            'keycloak.cpu': [],
-            'keycloak.ram': [],
-            'keycloak.io.in': [],
-            'keycloak.io.out': [],
-            'postgres.cpu': [],
-            'postgres.ram': [],
-            'postgres.io.in': [],
-            'postgres.io.out': [],
-            'caddy.cpu': [],
-            'caddy.ram': [],
-            'caddy.io.in': [],
-            'caddy.io.out': [],
-        }
-
-        keycloak_container_id = None
-        postgres_container_id = None
-        caddy_container_id = None
-
+        if data_owner == "sp":
+            record_data = {
+                'eval.slice' : self.initialize_basic_resource_dict(),
+                'nginx': self.initialize_basic_resource_dict(),
+                'gunicorn': self.initialize_basic_resource_dict()
+            }
+        elif data_owner == "idp":
+            record_data = {
+                'docker' : self.initialize_basic_resource_dict(),
+                'keycloak': self.initialize_basic_resource_dict(),
+                'postgres': self.initialize_basic_resource_dict(),
+                'caddy': self.initialize_basic_resource_dict()
+            }
 
         with open(resmon_record) as record:
-            for line_number, line in enumerate(record):
-                if line_number <= 2:
-                    if "keycloak" in line:
-                        keycloak_container_id = line.split(" ")[0]
-                        continue
-                    elif "postgres" in line:
-                        postgres_container_id = line.split(" ")[0]
-                        continue
-                    elif "caddy" in line:
-                        caddy_container_id = line.split(" ")[0]
-                        continue
-                line = regex.split(' +', line.rstrip())
-                if keycloak_container_id in line[0]:
-                    self.append_to_record_data(
-                        idp_record_data,
-                        line[2:],
-                        'keycloak'
+            record_entry = []
+            entry_type = None
+            for line in record:
+                if not line:
+                    break
+                # The first line always follows the following pattern:
+                # <cgroup> <entry_type> <timestamp_in_nanoseconds>
+                # This check also checks if this is the first line of the
+                # entry.
+                if not entry_type:
+                    entry_type = line.split(" ")[1]
+                elif '+---+' in line and entry_type == "cpu":
+                    self.read_cpu_entry(
+                        record_entry,
+                        record_data
                         )
-                elif postgres_container_id in line[0]:
-                    self.append_to_record_data(
-                        idp_record_data,
-                        line[2:],
-                        'postgres'
+                    # Cleaning up for the next entry.
+                    record_entry = []
+                    entry_type = None
+                    continue
+                elif '+---+' in line and entry_type == "memory":
+                    self.read_memory_entry(
+                        record_entry,
+                        record_data
                         )
-                elif caddy_container_id in line[0]:
-                    self.append_to_record_data(
-                        idp_record_data,
-                        line[2:],
-                        'caddy'
+                    record_entry = []
+                    entry_type = None
+                    continue
+                elif '+---+' in line:
+                    self.read_io_entry(
+                        data_owner,
+                        record_entry,
+                        record_data
                         )
-                else:
-                    self.append_to_record_data(
-                        idp_record_data,
-                        line[2:],
-                        'docker'
-                        )
+                    record_entry = []
+                    entry_type = None
+                    continue
+
+                record_entry.append(line.rstrip())
+        
+        return record_data
 
 
     def clear_resmon_record(self, origin):
@@ -551,17 +655,9 @@ class EvaluationLogProcessor:
         else:
             self.printer(f"[DEBUG] Origin {origin} doesn't exist.")
             return
-        with subprocess.Popen(
-            f"ssh {connection} truncate -s 0 {path_to_record_on_server}",
-            stdout = subprocess.PIPE,
-            creationflags=subprocess.CREATE_NEW_PROCESS_GROUP
-            ) as process:
-            try:
-                out, err = process.communicate(timeout=10)
-            except subprocess.TimeoutExpired:
-                process.send_signal(signal.CTRL_BREAK_EVENT)
-                process.kill()
-                out, err = process.communicate()
+        
+        command = f"\"truncate -s 0 {path_to_record_on_server}\""
+        self.process_ssh_command(connection, command)
 
 
     def process_resmon_records(
@@ -577,7 +673,8 @@ class EvaluationLogProcessor:
             number_of_users_used_in_test,
             "sp"
             )
-        sp_record_data = self.transform_sp_resmon_record_into_dict(
+        sp_record_data = self.transform_resmon_record_into_dict(
+            "sp",
             path_to_record
             )
         self.serialize_data_into_json(sp_record_data, path_to_record)
@@ -589,7 +686,8 @@ class EvaluationLogProcessor:
             number_of_users_used_in_test,
             "idp"
             )
-        idp_record_data = self.transform_idp_resmon_record_into_dict(
+        idp_record_data = self.transform_resmon_record_into_dict(
+            "idp",
             path_to_record
             )
         self.serialize_data_into_json(idp_record_data, path_to_record)

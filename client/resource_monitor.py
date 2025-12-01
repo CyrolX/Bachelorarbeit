@@ -27,6 +27,10 @@ class ResourceMonitor:
         self._idp_page_size = 4096
         self._sp_connection = client_secrets.CONNECTION
         self._idp_connection = client_secrets.IDP_CONNECTION
+        self._keycloak_container_id = None
+        self._postgres_container_id = None
+        self._caddy_container_id = None
+        self._docker_container_id = "docker.service"
         self.printer = printer
         self.printer_args = printer_args
         self.printer_kwargs = printer_kwargs
@@ -35,7 +39,7 @@ class ResourceMonitor:
 #                               U T I L I T Y                                #
 ##############################################################################
 
-    def process_ssh_command(self, connection, command):
+    def process_ssh_command(self, connection, command, return_out = False):
         with subprocess.Popen(
             f"ssh {connection} {command}",
             stdout = subprocess.PIPE, 
@@ -43,10 +47,14 @@ class ResourceMonitor:
             ) as process:
             try:
                 out, err = process.communicate(timeout=10)
+                if return_out:
+                    return out
             except subprocess.TimeoutExpired:
                 process.send_signal(signal.CTRL_BREAK_EVENT)
                 process.kill()
                 out, err = process.communicate()
+                if return_out:
+                    return out
 
 ##############################################################################
 #        R E S O U R C E   M O N I T O R I N G   F O R   T H E   S P         #
@@ -72,15 +80,6 @@ class ResourceMonitor:
         # This can be run as often as needed, as echo "+cpu" adds the cpu con-
         # troller to the file. If it is already present, nothing happens.
         command = f"\"sudo sh -c 'echo \"+cpu\" >> " \
-            "/sys/fs/cgroup/cgroup.subtree_control'\""
-        
-        self.process_ssh_command(self._sp_connection, command)
-
-    def enable_cpu_controller(self):
-        # This fixes a new problem that has occured. As systemd-cgtop cannot
-        # measure I/O-ops without measuring at least twice, I/O-ops need to be
-        # read out of the io controller. This isn't enabled by default.
-        command = f"\"sudo sh -c 'echo \"+io\" >> " \
             "/sys/fs/cgroup/cgroup.subtree_control'\""
         
         self.process_ssh_command(self._sp_connection, command)
@@ -154,12 +153,53 @@ class ResourceMonitor:
         self.process_ssh_command(self._idp_connection, command)
 
 
-    def write_container_names_into_idp_record(self, record_path):
-        # This utility will help distinguish the data later on.
-        command = "\"sudo docker ps --format '{{.ID}} {{.Names}}' >> " \
-            f"{record_path}\""
+    def get_container_names_in_cgroup(self):
+        command = "\"sudo docker ps --format '{{.ID}} {{.Names}}'\""
+
+        container_names = self.process_ssh_command(
+            self._idp_connection,
+            command,
+            return_out = True
+            )
+
+        # The return is a bytes-Objekt encoded in utf-8. The string contains
+        # \n chars, by which we split here. [:-1] ensures, that the last
+        # element, which is always an empty string, is ignored.        
+        container_names = container_names.decode('utf-8').rstrip().split('\n')
+        container_id_to_name_lookup = dict(
+            [item.split(" ") for item in container_names]
+            )
         
-        self.process_ssh_command(self._idp_connection, command)
+        command = "\"ls /sys/fs/cgroup/system.slice/ | grep 'docker'\""
+        containers = self.process_ssh_command(
+            self._idp_connection,
+            command,
+            return_out = True
+            )
+        containers = containers.decode('utf-8').rstrip().split('\n')
+        # To access the folder of a docker container, we need its full name.
+        # This is deduced here.
+        for id, name in container_id_to_name_lookup.items():
+            for container in containers:
+                if id in container and name == 'keycloak':
+                    self._keycloak_container_id = container
+                elif id in container and name == 'postgres':
+                    self._postgres_container_id = container
+                elif id in container:
+                    self._caddy_container_id = container
+        
+        # This depecrates write_container_names_into_idp_record
+        return container_id_to_name_lookup
+        
+
+    # DEPRECATED
+    # 
+    # def write_container_names_into_idp_record(self, record_path):
+    #    # This utility will help distinguish the data later on.
+    #    command = "\"sudo docker ps --format '{{.ID}} {{.Names}}' >> " \
+    #        f"{record_path}\""
+    #    
+    #    self.process_ssh_command(self._idp_connection, command)
 
 
     def convert_ram_limit_for_idp(self):
@@ -229,36 +269,29 @@ class ResourceMonitor:
 
 
     def start_resource_monitoring(self):
-        # The Path stays the same at the SP and IdP
-        sp_record_path = "" \
-            f"{client_secrets.LOG_STORAGE_PATH_AT_ORIGIN}/resource_usage.txt"
-        idp_record_path = "" \
-            f"{client_secrets.LOG_STORAGE_PATH_AT_IDP}/resource_usage.txt"
-        
-        self.write_container_names_into_idp_record(idp_record_path)
-        # Writes a timestamp for the current resource scan in to the record,
-        # and then writes the resource scan for the cgroup the nginx and
-        # gunicorn processes are in into the record. This is done every second
-        # until the monitor is terminated.
-        command = "\"sudo sh -c 'while true; " \
-            f"do echo -n \"timestamp: \" >> {sp_record_path}; " \
-            f"date +%s%N >> {sp_record_path}; "\
-            "systemd-cgtop --raw --cpu=time | grep eval.slice >> " \
-            f"{sp_record_path}; sleep 1; done'\""
+        container_id_to_name_lookup = self.get_container_names_in_cgroup()
+        # The eval_resource_monitor script reads cpu.stat, memory.stat and
+        # io.stat for the respective cgroups and prints their content to the
+        # resource record. Efforts have been made to make the script as
+        # efficient as possible, which means the record is not formatted all
+        # that much.
+        command = f"\"sudo sh -c '{client_secrets.SCRIPT_PATH_AT_ORIGIN}/" \
+            "eval_resource_monitor.sh'\""
         self._monitor_sp_subprocess = subprocess.Popen(
             f"ssh {self._sp_connection} {command}",
             creationflags=subprocess.CREATE_NO_WINDOW
             )
         
-        command = "\"sudo sh -c 'while true; " \
-            f"do echo -n \"timestamp: \" >> {idp_record_path}; " \
-            f"date +%s%N >> {idp_record_path}; "\
-            "systemd-cgtop --raw --cpu=time | grep docker >> " \
-            f"{idp_record_path}; sleep 1; done'\""
+        command = f"\"sudo sh -c '{client_secrets.SCRIPT_PATH_AT_IDP}/" \
+            f"eval_resource_monitor.sh {self._keycloak_container_id} " \
+            f"{self._postgres_container_id} {self._caddy_container_id}'\""
         self._monitor_idp_subprocess = subprocess.Popen(
             f"ssh {self._idp_connection} {command}",
             creationflags=subprocess.CREATE_NO_WINDOW
             )
+        
+        # This is later used in the analysis. It travels a lot.
+        return container_id_to_name_lookup
 
 
     def terminate_monitors(self):
@@ -274,7 +307,12 @@ class ResourceMonitor:
         # which is why we need to kill the shell running the script specified
         # in start_resource_monitoring. Killing the shell kills its associated
         # scripts without any issues.
-        command = "\"sudo kill $(pgrep -f 'sudo sh -c while true')\""
-
+        command = "\"sudo kill $(pgrep -f 'sudo sh -c " \
+            f"{client_secrets.SCRIPT_PATH_AT_ORIGIN}/" \
+            "eval_resource_monitor.sh')\""
         self.process_ssh_command(self._sp_connection, command)
+
+        command = "\"sudo kill $(pgrep -f 'sudo sh -c " \
+            f"{client_secrets.SCRIPT_PATH_AT_IDP}/" \
+            "eval_resource_monitor.sh')\""
         self.process_ssh_command(self._idp_connection, command)
