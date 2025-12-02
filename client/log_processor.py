@@ -185,6 +185,8 @@ class EvaluationLogProcessor:
         # really matter.
         log_data = {}
         redirect_current_test_user_id = 0
+        access_current_test_user_id = 0
+        decode_current_test_user_id = 0
         complete_login_current_test_user_id  = 0
         dispatch_current_test_user_id = 0
         for line in oidc_log:
@@ -199,6 +201,24 @@ class EvaluationLogProcessor:
                     "redirect_time": self.get_eval_time_from_line(line)
                 }
                 # We are done with this line
+                continue
+            if "get_access_token" in line:
+                access_current_test_user_id += 1
+                user = log_data[
+                    f"t_user_{access_current_test_user_id}"
+                    ]
+                
+                user["get_access_token_time"] = \
+                    self.get_eval_time_from_line(line)
+                continue
+            if "_decode_id_token" in line:
+                decode_current_test_user_id += 1
+                user = log_data[
+                    f"t_user_{decode_current_test_user_id}"
+                    ]
+                
+                user["decode_id_token_time"] = \
+                    self.get_eval_time_from_line(line)
                 continue
             if "complete_login" in line:
                 complete_login_current_test_user_id += 1
@@ -240,6 +260,8 @@ class EvaluationLogProcessor:
         # matter.
         log_data = {}
         redirect_current_test_user_id = 0
+        build_auth_current_test_user_id = 0
+        login_current_test_user_id = 0
         acs_dispatch_current_test_user_id  = 0
         fin_acs_dispatch_current_test_user_id = 0
         for line in saml_log:
@@ -255,6 +277,20 @@ class EvaluationLogProcessor:
                 }
                 # We are done with this line
                 continue
+            if "build_auth" in line:
+                build_auth_current_test_user_id += 1
+                user = log_data[
+                    f"t_user_{build_auth_current_test_user_id}"
+                    ]
+                user["build_auth_time"] = \
+                    self.get_eval_time_from_line(line)
+            if "login" in line:
+                login_current_test_user_id += 1
+                user = log_data[
+                    f"t_user_{build_auth_current_test_user_id}"
+                    ]
+                user["login_time"] = \
+                    self.get_eval_time_from_line(line)
             if "dispatch" in line and ".ACSView" in line:
                 acs_dispatch_current_test_user_id += 1
                 user = log_data[
@@ -288,8 +324,8 @@ class EvaluationLogProcessor:
 
     def clear_log_on_server(self, login_method):
         path_to_log_on_server = self.get_path_to_log_on_server(login_method)
-        command = f"truncate -s 0 {path_to_log_on_server}"
-        self.process_ssh_command({client_secrets.CONNECTION}, command)
+        command = f"\"truncate -s 0 {path_to_log_on_server}\""
+        self.process_ssh_command(client_secrets.CONNECTION, command)
 
         # YOU WERE THE CHOSEN ONE!
         #subprocess.run(

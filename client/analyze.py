@@ -155,9 +155,9 @@ class EvaluationAnalyzer:
             log_data = json.load(json_file)
         
         return log_data
+    
 
-
-    def read_all_serialized_logs_for_current_eval(self):
+    def read_all_serialized_eval_logs_for_current_eval(self):
         local_json_file_pattern = regex.compile(
             f"{self.login_method}-eval-{self.test_length}-" \
             f"{self.number_of_users_used_in_test}" \
@@ -181,12 +181,11 @@ class EvaluationAnalyzer:
         with open(path_to_aggregate_json, "w") as json_file:
             json.dump(self.aggregate_data_dict, json_file, indent = 4)
 
-
-    def get_eval_id_from_folder_name(self, folder_name):
-        return int(folder_name.split("-")[-1])
-
+    # DEPRECATED
+    #def get_eval_id_from_folder_name(self, folder_name):
+    #    return int(folder_name.split("-")[-1])
     
-    def create_eval_storage_folder(self):
+    def create_eval_storage_folders(self):
         
         subdirectory_list = os.listdir(client_secrets.LOG_STORAGE_PATH)
         storage_directory_pattern = regex.compile(
@@ -221,33 +220,67 @@ class EvaluationAnalyzer:
         os.mkdir(
             f"{client_secrets.LOG_STORAGE_PATH}/{storage_directory_name}"
         )
+        os.mkdir(
+            f"{client_secrets.LOG_STORAGE_PATH}/{storage_directory_name}"\
+            "/sp-resmon-data"
+        )
+        os.mkdir(
+            f"{client_secrets.LOG_STORAGE_PATH}/{storage_directory_name}"\
+            "/idp-resmon-data"
+        )
 
         return storage_directory_name
 
 
-    def get_path_pair_for_rename(
+    def get_path_pairs_for_rename(
             self, 
             storage_directory_name
             ):
         path_pair_list = []
         for name in os.listdir(f"{client_secrets.LOG_STORAGE_PATH}"):
-            if not (name.endswith(".json") or name.endswith(".log")):
+            if not (
+                name.endswith(".json") or 
+                name.endswith(".log") or 
+                name.endswith(".txt")
+                ):
                 continue
-        
-            path_pair_list.append(
-                RenamePathPair(
-                    f"{client_secrets.LOG_STORAGE_PATH}/{name}",
-                    f"{client_secrets.LOG_STORAGE_PATH}/" \
-                    f"{storage_directory_name}/{name}"
+            
+            if not "resmon" in name:
+                path_pair_list.append(
+                    RenamePathPair(
+                        f"{client_secrets.LOG_STORAGE_PATH}/{name}",
+                        f"{client_secrets.LOG_STORAGE_PATH}/" \
+                        f"{storage_directory_name}/{name}"
+                    )
                 )
-            )
+            elif "sp" in name:
+                path_pair_list.append(
+                    RenamePathPair(
+                        f"{client_secrets.LOG_STORAGE_PATH}/{name}",
+                        f"{client_secrets.LOG_STORAGE_PATH}/" \
+                        f"{storage_directory_name}/sp-resmon-data/" \
+                        f"{name}"
+                    )
+                )
+            elif "idp" in name:
+                path_pair_list.append(
+                    RenamePathPair(
+                        f"{client_secrets.LOG_STORAGE_PATH}/{name}",
+                        f"{client_secrets.LOG_STORAGE_PATH}/" \
+                        f"{storage_directory_name}/idp-resmon-data/" \
+                        f"{name}"
+                    )
+                )
+
         
         return path_pair_list
 
 
     def move_eval_data_to_storage(self):
-        storage_directory_name = self.create_eval_storage_folder()
-        path_pair_list = self.get_path_pair_for_rename(storage_directory_name)
+        storage_directory_name = self.create_eval_storage_folders()
+        path_pair_list = self.get_path_pairs_for_rename(
+            storage_directory_name
+            )
         
         for path_pair in path_pair_list:
             old_file_path, new_file_path = path_pair
@@ -255,15 +288,9 @@ class EvaluationAnalyzer:
 
 
     def get_aggregate_data(self):
-        self.read_all_serialized_logs_for_current_eval()
+        self.read_all_serialized_eval_logs_for_current_eval()
         self.serialize_aggregate_data_dict()
         self.move_eval_data_to_storage()
-
-
-##############################################################################
-#       R E S O U R C E   M O N I T O R   L O G   P R O C E S S I N G        #
-##############################################################################
-
 
 ##############################################################################
 #                              A N A L Y S I S                               #

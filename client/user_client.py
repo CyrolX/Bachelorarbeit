@@ -3,6 +3,7 @@ from client.kc_administrator import KcAdministrator
 from client.log_processor import EvaluationLogProcessor
 from client.resource_monitor import ResourceMonitor
 import configparser
+from enum import Enum
 import os
 from secret import client_secrets
 from selenium import webdriver
@@ -18,6 +19,12 @@ import time
 
 PROTECTED_APP_URL = "https://vm097.rz.uni-osnabrueck.de/protected_app"
 TERMINAL_SIZE = os.get_terminal_size()
+EvalState = Enum('EvalState', [
+                    ('POLL_SUCCESS', 0), 
+                    ('POLL_FAILURE', 1), 
+                    ('EVAL_START_SUCCESS', 2), 
+                    ('EVAL_START_FAILURE', 3)
+                ])
 
 
 def print_nice(text, top_line = False):
@@ -121,25 +128,55 @@ def poll_websites_before_eval(login_method):
     options.add_argument("--headless=new")
     options.add_argument("--log-level=3")
     driver = webdriver.Chrome(options = options)
-    wait = WebDriverWait(driver = driver, timeout = 30, poll_frequency = 0.01)
+    wait = WebDriverWait(driver = driver, timeout = 10, poll_frequency = 0.01)
+    sp_attempts = 0
+    while sp_attempts < 3:
+        try:
+            driver.get(sp_main_page)
+            wait.until(EC.presence_of_element_located((By.ID, "summary")))
+            print_nice("[DEBUG | poll] Polling of SP ended")
+            break
+        except TimeoutException:
+            print_nice("[WARN | poll] Polling of SP ended in Timeout")
+            sp_attempts += 1
+    if sp_attempts == 3:
+        print_nice(
+            "[ERROR | poll] Polling of SP failed completely. Eval corruption"\
+            " highly likely."
+            )
+        driver.quit()
+        return EvalState.POLL_FAILURE
 
-    try:
-        driver.get(sp_main_page)
-        wait.until(EC.presence_of_element_located((By.ID, "summary")))
-        print_nice("[DEBUG] Polling of SP ended")
-    except TimeoutException:
-        print_nice("[DEBUG] Polling of SP ended in Timeout")
-    
-    try:
-        driver.get(idp_page)
-        wait.until(EC.url_changes(idp_page))
-        print_nice(f"[DEBUG] Polling IdP now at {driver.current_url}")
-        wait.until(EC.presence_of_element_located((By.ID, "username")))
-        print_nice("[DEBUG] Polling of IdP ended")
-    except TimeoutException:
-        print_nice("[DEBUG] Polling of IdP ended in Timeout")
+    idp_attempts = 0
+    while idp_attempts < 3:
+        try:
+            driver.get(idp_page)
+            wait.until(EC.url_changes(idp_page))
+            print_nice("[DEBUG | poll] Polling IdP " \
+                       f"now at {driver.current_url}")
+            wait.until(EC.presence_of_element_located((By.ID, "username")))
+            print_nice("[DEBUG | poll] Polling of IdP ended")
+            break
+        except TimeoutException:
+            print_nice("[WARN | poll] Polling of IdP ended in Timeout")
+            sp_attempts += 1
+    if idp_attempts == 3:
+        print_nice(
+            "[ERROR | poll] Polling of IdP failed completely. Eval " \
+            "corruption highly likely."
+            )
+        driver.quit()
+        return EvalState.POLL_FAILURE
     
     driver.quit()
+    # Bugfix: We need to clear the log for the specified login_method here,
+    # as we polled the login methods login page and as such created an entry
+    # in the log. This will then break the analyzer.
+    print_nice("[DEBUG | poll] Cleaning up log")
+    log_deleter = EvaluationLogProcessor(print_nice)
+    log_deleter.clear_log_on_server(login_method)
+    print_nice("[DEBUG | poll] Log cleanup done")
+    return EvalState.POLL_SUCCESS
 
 
 def evaluate_login_method(
@@ -152,11 +189,11 @@ def evaluate_login_method(
 
     if not (evaluation_method == "browser"):
         print_nice(
-            f"[ERROR | eval] Eval method {evaluation_method} is not sup" \
+            f"[FATAL | eval] Eval method {evaluation_method} is not sup" \
             "ported.",
             top_line = True
             )
-        return
+        return EvalState.EVAL_START_FAILURE
 
     # Evaluate over 5 minutes.
     login_interval = get_login_interval(eval_time_seconds, number_of_users)
@@ -164,8 +201,22 @@ def evaluate_login_method(
     login_threads = []
     print_nice(f"[DEBUG | eval] Starting resmon")
     resource_monitor.start_resource_monitoring()
-    print_nice(f"[DEBUG | eval] Polling Websites for at max 30s.")
-    poll_websites_before_eval(login_method)
+    print_nice(f"[DEBUG | eval] Polling websites")
+
+    eval_start_attempts = 0
+    while eval_start_attempts < 3:
+        if poll_websites_before_eval(login_method) == EvalState.POLL_SUCCESS:
+            print_nice(f"[DEBUG | eval] Polling successful")
+            break
+        elif eval_start_attempts < 3:
+            reset_state()
+            eval_start_attempts += 1
+            print_nice("[WARN | eval] Polling failed. Attempts left: " \
+                       f"{3 - eval_start_attempts}"
+                       )
+        else:
+            print_nice("[FATAL | eval] Eval start failed.")
+            return EvalState.EVAL_START_FAILURE
     print_nice(f"[DEBUG | eval] Starting eval")
     kc_admin = KcAdministrator(print_nice)
     #time.sleep(5)
@@ -188,6 +239,7 @@ def evaluate_login_method(
     print_nice(f"[DEBUG | eval] Users logged out. Resetting state.")
     reset_state()
     print_nice(f"[DEBUG | eval] State reset. Ending Evaluation")
+    return EvalState.EVAL_START_SUCCESS
 
 
 def get_login_interval(eval_time_seconds, number_of_users):
@@ -198,9 +250,10 @@ def get_login_interval(eval_time_seconds, number_of_users):
 # the log processor would just look weird. Perhaps I will just move the SSH-
 # Agent logic over to the user_client itself. For the moment this has to do.
 def reset_state():
+    print_nice(f"[DEBUG | reset] Resetting SP.")
     with subprocess.Popen(
         f"ssh {client_secrets.CONNECTION} " \
-        f"{client_secrets.SCRIPT_PATH_AT_ORIGIN}/restart_service.sh",
+        f"\"{client_secrets.SCRIPT_PATH_AT_ORIGIN}/restart_service.sh\"",
         stdout = subprocess.PIPE, \
         creationflags=subprocess.CREATE_NEW_PROCESS_GROUP \
         ) as process:
@@ -210,10 +263,10 @@ def reset_state():
             process.send_signal(signal.CTRL_BREAK_EVENT)
             process.kill()
             out, err = process.communicate()
-    
+    print_nice(f"[DEBUG | reset] SP reset. Resetting IdP")
     with subprocess.Popen(
-        f"ssh {client_secrets.CONNECTION} " \
-        f"{client_secrets.SCRIPT_PATH_AT_IDP}/restart_idp.sh",
+        f"ssh {client_secrets.IDP_CONNECTION} " \
+        f"\"{client_secrets.SCRIPT_PATH_AT_IDP}/restart_idp.sh\"",
         stdout = subprocess.PIPE, \
         creationflags=subprocess.CREATE_NEW_PROCESS_GROUP \
         ) as process:
@@ -223,6 +276,7 @@ def reset_state():
             process.send_signal(signal.CTRL_BREAK_EVENT)
             process.kill()
             out, err = process.communicate()
+    print_nice(f"[DEBUG | reset] IdP reset.")
 
 
 if __name__ == "__main__":
@@ -358,41 +412,54 @@ if __name__ == "__main__":
         print_nice
         )
     
-    #print_nice(f"[DEBUG | config] Setting up resource limits.")
-    #resource_monitor.setup_resource_limits()
-    #print_nice(f"[DEBUG | config] Resource limits set up.")
+    print_nice(f"[DEBUG | config] Setting up resource limits.")
+    resource_monitor.setup_resource_limits()
+    print_nice(f"[DEBUG | config] Resource limits set up.")
     # In case something went wrong.
     #log_processor.clear_log_on_server(login_method)
     #log_processor.clear_resmon_record("sp")
     #log_processor.clear_resmon_record("idp")
 
+    has_failed_once = False
+    missing_cycles = 0
+
     for cycle in range(1, eval_test_cycles + 1):
-        evaluate_login_method(
+        is_start_successful = evaluate_login_method(
             login_method,
             evaluation_method,
             eval_time_seconds,
             number_of_users,
             resource_monitor
             )
-        log_processor.process_resmon_records(
+        if is_start_successful == EvalState.EVAL_START_SUCCESS:
+            log_processor.process_resmon_records(
+                login_method,
+                eval_time_seconds,
+                number_of_users
+            )
+            log_processor.process_test_log(
+                login_method,
+                eval_time_seconds,
+                number_of_users
+            )
+        else:
+            print_nice(f"[ERROR | main] Eval cycle '{cycle}' didn't pass")
+            missing_cycles += 1
+            has_failed_once = True
+
+    if not has_failed_once:   
+        analyzer = EvaluationAnalyzer(
             login_method,
             eval_time_seconds,
-            number_of_users
-        )
-        log_processor.process_test_log(
-            login_method,
-            eval_time_seconds,
-            number_of_users
-        )
+            number_of_users,
+            eval_test_cycles
+            )
         
-    #analyzer = EvaluationAnalyzer(
-    #    login_method,
-    #    eval_time_seconds,
-    #    number_of_users,
-    #    eval_test_cycles
-    #    )
-    
-    #analyzer.get_aggregate_data()
+        analyzer.get_aggregate_data()
+    else:
+        print_nice(f"[INFO | main] Missing '{missing_cycles}' cycles to " \
+                   "create aggregate data."
+                   )
 
     #kc_admin = KcAdministrator(print_nice)
     #webbrowser_login(login_method, "t_user_611", kc_admin)
