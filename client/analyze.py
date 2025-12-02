@@ -113,6 +113,8 @@ class EvaluationAnalyzer:
             for test_user_id in range(1, self.number_of_users_used_in_test+1):
                 data[f"t_user_{test_user_id}"] = {
                     "redirect_time": [],
+                    "get_access_token_time": [],
+                    "decode_id_token_time": [],
                     "complete_login_time": [],
                     "dispatch_time": []
                 }
@@ -120,6 +122,8 @@ class EvaluationAnalyzer:
             for test_user_id in range(1, self.number_of_users_used_in_test+1):
                 data[f"t_user_{test_user_id}"] = {
                     "redirect_time": [],
+                    "build_auth_time": [],
+                    "login_time": [],
                     "acs_dispatch_time": [],
                     "finish_acs_dispatch_time": []
                 }
@@ -135,6 +139,12 @@ class EvaluationAnalyzer:
                 )
             
             if self.login_method == "oidc":
+                data[test_user]["get_access_token_time"].append(
+                    log_data[test_user]["get_access_token_time_time"]
+                )
+                data[test_user]["decode_id_token_time"].append(
+                    log_data[test_user]["decode_id_token_time"]
+                )
                 data[test_user]["complete_login_time"].append(
                     log_data[test_user]["complete_login_time"]
                 )
@@ -142,6 +152,12 @@ class EvaluationAnalyzer:
                     log_data[test_user]["dispatch_time"]
                 )
             else:
+                data[test_user]["build_auth_time"].append(
+                    log_data[test_user]["build_auth_time_time"]
+                )
+                data[test_user]["login_time"].append(
+                    log_data[test_user]["login_time_time"]
+                )
                 data[test_user]["acs_dispatch_time"].append(
                     log_data[test_user]["acs_dispatch_time"]
                 )
@@ -295,118 +311,197 @@ class EvaluationAnalyzer:
 ##############################################################################
 #                              A N A L Y S I S                               #
 ##############################################################################
-
-    def get_aggregate_data_as_numpy_array(
-            self, 
-            aggregate_data_key
-            ):
-        
-        # If there is no return here, we can assume that the supplied key is
-        # correct and that we can access it.
+    
+    def get_aggregate_data_as_dataframe(
+        self, 
+        aggregate_data_key
+        ):
         if self.login_method == "oidc" \
             and not "redirect_time" in aggregate_data_key \
+            and not "get_access_token_time" in aggregate_data_key \
+            and not "decode_id_token_time" in aggregate_data_key \
             and not "complete_login_time" in aggregate_data_key \
             and not "dispatch_time" in aggregate_data_key:
             return None
         elif self.login_method == "saml" \
             and not "redirect_time" in aggregate_data_key \
+            and not "build_auth_time" in aggregate_data_key \
+            and not "login_time" in aggregate_data_key \
             and not "acs_dispatch_time" in aggregate_data_key \
             and not "finish_acs_dispatch_time" in aggregate_data_key:
             return None
         
-        test_user_data_as_numpy_arrays = []
-
-        data = self.aggregate_data_dict["data"]
-        for user_id in range(1, self.number_of_users_used_in_test + 1):
-            test_user_data_as_numpy_arrays.append(
-                numpy.array(data[f"t_user_{user_id}"][aggregate_data_key])
-            )
-        
-        return test_user_data_as_numpy_arrays
-    
-
-    def get_data_frame_from_aggregate_data(
-            self,
-            aggregate_data_key
-            ):
-        
-        numpy_arrays = self.get_aggregate_data_as_numpy_array(
-            aggregate_data_key
-            )
-        user_names = [
-            f"t_user_{user_id}" for user_id in range(
-                1, self.number_of_users_used_in_test + 1
-                )
-            ]
-        test_names = [
-            f"{test_id}" for test_id in range(
-                1, self.number_of_test_cycles + 1
-                )
-            ]
-        data_frame = pandas.DataFrame(
-            numpy_arrays,
-            index = user_names,
-            columns = test_names
-            )
-        
-        return data_frame
-    
-
-    def plot_for_all_users(self, aggregate_data_key):
-        #data = self.get_aggregate_data_as_numpy_array(aggregate_data_key)
-        data_frame = self.get_data_frame_from_aggregate_data(
-            aggregate_data_key
-            )
-        seaborn.catplot(data = data_frame, kind = "box")
-        plotter.grid()
-        plotter.show()
-        #plotter.autoscale(tight=True)
-        #plotter.autoscale()
-        """
-        plotter.xlabel("Test Instance")
-        plotter.ylabel("Time")
-        user_ids = [
+        uids = [
             user_id for user_id in range(
                 1, self.number_of_users_used_in_test + 1
                 )
             ]
         
-        test_ids = [
-            test_id for test_id in range(1, self.number_of_test_cycles + 1)
-            ]
-        
-        expanded_test_ids = [
-            test_id for test_id in range(0, self.number_of_test_cycles + 2)
-            ]
-        plotter.xticks(expanded_test_ids)
-        plotter.yticks(numpy.linspace(0.0, 0.11, 12))
-        
-        for user_id in user_ids:
-            plotter.plot(test_ids, data[user_id-1], 'ro')
+        data = self.aggregate_data_dict["data"]
+        test_user_data = []
+        for user_id in range(1, self.number_of_users_used_in_test + 1):
+            test_user_data.append(
+                numpy.array(data[f"t_user_{user_id}"][aggregate_data_key])
+            )
+        frame = {'User IDs': uids, 'Time': test_user_data}
+        dataframe = pandas.DataFrame(frame)
+        return dataframe
 
-        plotter.grid()
+
+    def plot_for_all_users(
+            self,
+            aggregate_data_key,
+            plot_title,
+            ylim_bottom = None,
+            ylim_top = None,
+            y_ticks = None
+            ):
+        #data = self.get_aggregate_data_as_numpy_array(aggregate_data_key)
+        data_frame = self.get_aggregate_data_as_dataframe(
+            aggregate_data_key
+            )
+        data_frame_exp = data_frame.explode('Time')
+        #seaborn.cubehelix_palette(start=2.0, rot=-1.0, as_cmap=True)
+        seaborn.catplot(
+            data = data_frame_exp,
+            x = 'User IDs',
+            y = 'Time',
+            hue = 'User IDs',
+            #palette = seaborn.color_palette("flare", as_cmap=True),
+            palette = seaborn.light_palette('#9163cb', as_cmap=True),
+            kind = "box"
+            ).set(
+                title = plot_title
+            )
+        #seaborn.set_style("whitegrid")
+        #print(data_frame_exp.head())
+        plotter.grid(axis='y')
+        if ylim_bottom and ylim_top:
+            plotter.ylim(ylim_bottom, ylim_top)
+            if y_ticks:
+                # y_ticks + 1 must be done here, because the endpoint is
+                # included. If y_ticks were to be used, the linspace would
+                # actually be calculated over 19 values.
+                plotter.yticks(
+                    numpy.linspace(ylim_bottom, ylim_top, y_ticks+1)
+                    )
+
         plotter.show()
-        """
+        #plotter.autoscale(tight=True)
+        #plotter.autoscale()
+
+    # This calculates the change rate of a resource over time.
+    # For the CPU Resource this function determines where the CPU Time has
+    # grown.
+    # For the Memory Resource this determines how much memory has been
+    # allocated or freed per measurement
+    # For the IO Resource this determines how when IO Operations have been
+    # done.
+    def get_delta(self, measurements):
+        delta_time = [0]
+        for index in range(1, len(measurements)):
+            delta_time.append(measurements[index] - measurements[index-1])
+
+        return delta_time
+
+    # This calculates the total usage of the resource or the total time it
+    # has been used.
+    # For the CPU Resource this function determines the total growth of the
+    # CPU Usage
+    # For the Memory Resource this function determines the total memory usage
+    # For the IO Resource this function determines the total amount of bytes
+    # read or written.
+    # Minor measurements are not included in the above statements.
+    def get_total(self, measurements):
+        total_time = []
+        for index in range(0, len(measurements)):
+            total_time.append(measurements[index] - measurements[0])
+
+        return total_time
 
 
-    def plot_by_user(self, user_id, aggregate_data_key):
-        data = self.get_aggregate_data_as_numpy_array(aggregate_data_key)[
-            user_id-1
-            ]
-        #figure = plotter.figure()
-        test_ids = [
-            test_id for test_id in range(1, self.number_of_test_cycles + 1)
-            ]
-        plotter.autoscale(tight=True)
-        plotter.xlabel("Test Instance")
-        plotter.ylabel("Time")
-        plotter.plot(test_ids, data, 'ro')
-        
-        plotter.grid()
+    def get_resource_measurement_as_dataframe(
+        self,
+        path_to_measurement,
+        cgroup,
+        resource,
+        variable,
+        y_name,
+        method = "total",
+        io_device = None
+        ):
+
+        with open(path_to_measurement, "r") as json_file:
+            measurement_dict = json.load(json_file)
+
+        if not io_device:
+            resource_dict = measurement_dict[cgroup][resource]
+        else:
+            resource_dict = measurement_dict[cgroup][resource][io_device]
+        # TEMPORARY. This has already been fixed.
+        timestamps = list(map(int, resource_dict['timestamps']))
+        # Timestamps as seconds.
+        timestamps = list(
+            map(lambda x: x / 1000000000, timestamps)
+            )
+        variable_values = resource_dict[variable]
+        if method == "total":
+            usage = self.get_total(variable_values)
+        elif method == "delta":
+            usage = self.get_delta(variable_values)
+        else:
+            return
+        #y_name = f"Total {resource} time" if time_method == "total" \
+        #    else f"{resource} time delta"
+        print(timestamps)
+        print(usage)
+        frame = {'Time': timestamps, f'{y_name}': usage}
+        dataframe = pandas.DataFrame(frame)
+        return dataframe
+    
+    def plot_resource_measurement(
+            self,
+            data_frame,
+            plot_title,
+            y_name,
+            ylim_bottom = None,
+            ylim_top = None,
+            y_ticks = None
+            ):
+
+        #data_frame_exp = data_frame.explode('Time')
+        #seaborn.cubehelix_palette(start=2.0, rot=-1.0, as_cmap=True)
+        seaborn.lineplot(
+            data = data_frame,
+            x = 'Time',
+            y = f'{y_name}',
+            #hue = 'Time',
+            #palette = seaborn.color_palette("flare", as_cmap=True),
+            #palette = seaborn.light_palette('#9163cb', as_cmap=True),
+            #kind = "box"
+            ).set(
+                title = plot_title
+            )
+        #seaborn.set_style("whitegrid")
+        #print(data_frame_exp.head())
+        plotter.grid(axis='y')
+        if ylim_bottom and ylim_top:
+            plotter.ylim(ylim_bottom, ylim_top)
+            if y_ticks:
+                # y_ticks + 1 must be done here, because the endpoint is
+                # included. If y_ticks were to be used, the linspace would
+                # actually be calculated over 19 values.
+                plotter.yticks(
+                    numpy.linspace(ylim_bottom, ylim_top, y_ticks+1)
+                    )
+
         plotter.show()
+        #plotter.autoscale(tight=True)
+        #plotter.autoscale()
 
-    def plot_by_test(self, test_id):
-        pass
+
+
+
 
 
 if __name__ == "__main__":
@@ -436,5 +531,31 @@ if __name__ == "__main__":
             "analyze_evalstorage_saml-eval-60-60-1/" \
             "saml-eval-60-60-aggregate.json"
         )
+    #y_name = f"Total {resource} time" if time_method == "total" \
+    #    else f"{resource} time delta"
+    y_name = "RAM change rate"
+    resource_frame = analyzer.get_resource_measurement_as_dataframe(
+        f"{client_secrets.LOG_STORAGE_PATH}/" \
+        "analyze_evalstorage_saml-eval-5-5-1/" \
+        "sp-resmon-data/saml-eval-5-5-sp-resmon-2.json",
+        "nginx",
+        "io",
+        "written_bytes",
+        y_name,
+        method = "delta",
+        io_device = "202:0"
+    )
 
-    analyzer.plot_for_all_users("finish_acs_dispatch_time")
+    analyzer.plot_resource_measurement(
+        resource_frame,
+        "RAM change rate of Nginx", 
+        y_name
+        )
+
+    #analyzer.plot_for_all_users(
+    #    "redirect_time",
+    #    "Time of the redirect function per user",
+    #    ylim_bottom = 0.0025,
+    #    ylim_top = 0.0035,
+    #    y_ticks = 20
+    #    )

@@ -518,7 +518,7 @@ class EvaluationLogProcessor:
         # Only with the cgroup can we get the correct dict_entry out of the
         # record_data
         cpu_data = record_data[cgroup]['cpu']
-        cpu_data['timestamps'].append(timestamp)
+        cpu_data['timestamps'].append(int(timestamp))
         # We need to be careful here, as throttling could lead to an empty
         # record entry.
         if len(record_entry) == 1:
@@ -560,7 +560,7 @@ class EvaluationLogProcessor:
         timestamp = split_line[2]
 
         memory_data = record_data[cgroup]['memory']
-        memory_data['timestamps'].append(timestamp)
+        memory_data['timestamps'].append(int(timestamp))
 
         # We need to be careful here, as throttling could lead to an empty
         # record entry.
@@ -605,7 +605,7 @@ class EvaluationLogProcessor:
             # Every line has a different hard drive associated with it, which
             # is why we assign in the loop.
             hdd_data = io_data[split_line[0]]
-            hdd_data['timestamps'].append(timestamp)
+            hdd_data['timestamps'].append(int(timestamp))
             hdd_data['read_bytes'].append(int(split_line[1].split("=")[1]))
             hdd_data['written_bytes'].append(int(split_line[2].split("=")[1]))
             hdd_data['read_io_ops'].append(int(split_line[3].split("=")[1]))
