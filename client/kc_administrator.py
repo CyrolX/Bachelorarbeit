@@ -138,20 +138,21 @@ class KcAdministrator:
             doesn't exist or if the user doesn't have a locally known password
         """
 
-        user_list = self.get_user_list()
-        uid_to_uname_lookup = self.build_uid_to_uname_lookup_dict(user_list)
-
-        if not username:
-            return None
-        
+        # DEPRECATED. This Code takes way too long.
+        #user_list = self.get_user_list()
+        #uid_to_uname_lookup = self.build_uid_to_uname_lookup_dict(user_list)
+        #
+        #if not username:
+        #    return None
+        #
         # Checks if the username exists.
-        user_id = self.get_uid_from_uname(username, uid_to_uname_lookup)
-        if not user_id:
-            return None
-        
+        #user_id = self.get_uid_from_uname(username, uid_to_uname_lookup)
+        #if not user_id:
+        #    return None
+        # 
         # Checks if the password for the username is known.
-        if not self._is_user_locally_known(username):
-            return None
+        #if not self._is_user_locally_known(username):
+        #    return None
 
         return kc_admin_secrets.TEST_USER_PASSWORDS[username]
 

@@ -1,0 +1,13 @@
+
+module GunicornFix 1.0;
+
+require {
+	type user_home_t;
+	type init_t;
+	type gconf_home_t;
+	class file execute;
+}
+
+#============= init_t ==============
+allow init_t gconf_home_t:file execute;
+allow init_t user_home_t:file execute;

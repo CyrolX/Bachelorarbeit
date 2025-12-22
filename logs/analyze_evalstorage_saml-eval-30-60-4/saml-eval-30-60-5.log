@@ -1,0 +1,480 @@
+[2025-12-11 20:11:22,595 | INFO]: <t_user_1> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0030319580000000013
+[2025-12-11 20:11:22,595 | INFO]: <t_user_1> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008145430000000009
+[2025-12-11 20:11:22,595 | INFO]: <t_user_1> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0021974469999999635
+[2025-12-11 20:11:23,050 | INFO]: <t_user_2> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003267357999999998
+[2025-12-11 20:11:23,050 | INFO]: <t_user_2> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009697830000000573
+[2025-12-11 20:11:23,050 | INFO]: <t_user_2> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0022709759999999246
+[2025-12-11 20:11:23,603 | INFO]: <t_user_3> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0031208940000000407
+[2025-12-11 20:11:23,603 | INFO]: <t_user_3> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008975890000000319
+[2025-12-11 20:11:23,603 | INFO]: <t_user_3> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002184982999999918
+[2025-12-11 20:11:24,056 | INFO]: <t_user_4> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0034165789999999197
+[2025-12-11 20:11:24,056 | INFO]: <t_user_4> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009086289999999941
+[2025-12-11 20:11:24,056 | INFO]: <t_user_4> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002476490999999914
+[2025-12-11 20:11:24,566 | INFO]: <t_user_5> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003556175999999911
+[2025-12-11 20:11:24,566 | INFO]: <t_user_5> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0013686079999999379
+[2025-12-11 20:11:24,566 | INFO]: <t_user_5> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002166298000000011
+[2025-12-11 20:11:25,090 | INFO]: <t_user_6> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0031184189999999834
+[2025-12-11 20:11:25,090 | INFO]: <t_user_6> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008816879999999916
+[2025-12-11 20:11:25,090 | INFO]: <t_user_6> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002213707999999981
+[2025-12-11 20:11:25,635 | INFO]: <t_user_7> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0030749589999999882
+[2025-12-11 20:11:25,635 | INFO]: <t_user_7> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008879699999999602
+[2025-12-11 20:11:25,635 | INFO]: <t_user_7> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.00216206200000002
+[2025-12-11 20:11:25,842 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:25,849 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0038032000000000066
+[2025-12-11 20:11:25,886 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:25,919 | INFO]: <t_user_1> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.022182693999999947
+[2025-12-11 20:11:25,919 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:25,934 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:25,940 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003936016000000042
+[2025-12-11 20:11:25,950 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:25,989 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0038963440000000515
+[2025-12-11 20:11:26,004 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:26,010 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003384585000000051
+[2025-12-11 20:11:26,021 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:26,027 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0035949330000000224
+[2025-12-11 20:11:26,093 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:26,120 | INFO]: <t_user_2> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.01649818000000003
+[2025-12-11 20:11:26,120 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:26,133 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:26,190 | INFO]: <t_user_3> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016772281000000056
+[2025-12-11 20:11:26,190 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:26,214 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:26,239 | INFO]: <t_user_5> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016051879000000047
+[2025-12-11 20:11:26,239 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:26,288 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:26,313 | INFO]: <t_user_4> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.01654874400000006
+[2025-12-11 20:11:26,313 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:26,326 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:26,330 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0028806930000000452
+[2025-12-11 20:11:26,424 | INFO]: <t_user_8> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0030665530000000274
+[2025-12-11 20:11:26,424 | INFO]: <t_user_8> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008405019999999652
+[2025-12-11 20:11:26,424 | INFO]: <t_user_8> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0022016449999999743
+[2025-12-11 20:11:26,516 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:26,542 | INFO]: <t_user_6> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016389601000000198
+[2025-12-11 20:11:26,542 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:26,692 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:26,697 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003463035000000003
+[2025-12-11 20:11:26,829 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:26,902 | INFO]: <t_user_7> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.018209552999999934
+[2025-12-11 20:11:26,902 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:26,943 | INFO]: <t_user_9> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003100284999999925
+[2025-12-11 20:11:26,944 | INFO]: <t_user_9> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008611199999999375
+[2025-12-11 20:11:26,944 | INFO]: <t_user_9> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002218215000000079
+[2025-12-11 20:11:27,128 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:27,134 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003194362999999978
+[2025-12-11 20:11:27,206 | INFO]: <t_user_10> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0030074220000000373
+[2025-12-11 20:11:27,206 | INFO]: <t_user_10> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008354919999999932
+[2025-12-11 20:11:27,206 | INFO]: <t_user_10> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0021523329999999508
+[2025-12-11 20:11:27,218 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:27,244 | INFO]: <t_user_8> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016745177
+[2025-12-11 20:11:27,244 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:27,633 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:27,639 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.004278554999999962
+[2025-12-11 20:11:27,689 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:27,727 | INFO]: <t_user_9> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.024030777000000114
+[2025-12-11 20:11:27,727 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:27,814 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:27,820 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003381550999999927
+[2025-12-11 20:11:27,855 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:27,881 | INFO]: <t_user_10> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016355979000000076
+[2025-12-11 20:11:27,881 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:28,038 | INFO]: <t_user_11> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003071701999999954
+[2025-12-11 20:11:28,038 | INFO]: <t_user_11> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008773799999999277
+[2025-12-11 20:11:28,038 | INFO]: <t_user_11> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0021719209999999656
+[2025-12-11 20:11:28,158 | INFO]: <t_user_12> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0032292779999998356
+[2025-12-11 20:11:28,158 | INFO]: <t_user_12> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009928280000000012
+[2025-12-11 20:11:28,158 | INFO]: <t_user_12> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0022133369999999264
+[2025-12-11 20:11:28,618 | INFO]: <t_user_13> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0031276569999998394
+[2025-12-11 20:11:28,618 | INFO]: <t_user_13> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009390549999999109
+[2025-12-11 20:11:28,618 | INFO]: <t_user_13> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0021679930000000347
+[2025-12-11 20:11:28,643 | INFO]: <t_user_14> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003578941000000002
+[2025-12-11 20:11:28,643 | INFO]: <t_user_14> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0013852599999999438
+[2025-12-11 20:11:28,643 | INFO]: <t_user_14> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002173704000000054
+[2025-12-11 20:11:28,748 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:28,753 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.00324397700000012
+[2025-12-11 20:11:28,792 | INFO]: <t_user_15> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0031032899999998698
+[2025-12-11 20:11:28,792 | INFO]: <t_user_15> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009036300000000441
+[2025-12-11 20:11:28,792 | INFO]: <t_user_15> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002170025999999936
+[2025-12-11 20:11:28,818 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:28,843 | INFO]: <t_user_11> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016468684999999983
+[2025-12-11 20:11:28,844 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:29,024 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:29,029 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0031467839999999025
+[2025-12-11 20:11:29,066 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:29,092 | INFO]: <t_user_12> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.017128118000000025
+[2025-12-11 20:11:29,092 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:29,425 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:29,431 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003318702999999923
+[2025-12-11 20:11:29,467 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:29,493 | INFO]: <t_user_14> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016936859000000082
+[2025-12-11 20:11:29,493 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:29,516 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:29,521 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0031825199999999665
+[2025-12-11 20:11:29,557 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:29,596 | INFO]: <t_user_13> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016584077000000086
+[2025-12-11 20:11:29,596 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:29,609 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:29,614 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0035693719999998486
+[2025-12-11 20:11:29,690 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:29,714 | INFO]: <t_user_15> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.01552405900000009
+[2025-12-11 20:11:29,714 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:30,122 | INFO]: <t_user_16> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003118258000000207
+[2025-12-11 20:11:30,123 | INFO]: <t_user_16> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009032570000000462
+[2025-12-11 20:11:30,123 | INFO]: <t_user_16> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0021923890000001833
+[2025-12-11 20:11:30,637 | INFO]: <t_user_17> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0031588459999998264
+[2025-12-11 20:11:30,637 | INFO]: <t_user_17> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.000915301000000035
+[2025-12-11 20:11:30,637 | INFO]: <t_user_17> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0022209319999997312
+[2025-12-11 20:11:30,897 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:30,903 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0038700519999999017
+[2025-12-11 20:11:30,940 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:30,969 | INFO]: <t_user_16> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.0183892499999998
+[2025-12-11 20:11:30,969 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:31,120 | INFO]: <t_user_18> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0031482060000000978
+[2025-12-11 20:11:31,120 | INFO]: <t_user_18> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.000895996000000121
+[2025-12-11 20:11:31,120 | INFO]: <t_user_18> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0022302490000001285
+[2025-12-11 20:11:31,419 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:31,425 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0034806439999996996
+[2025-12-11 20:11:31,468 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:31,503 | INFO]: <t_user_17> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.025207039000000098
+[2025-12-11 20:11:31,503 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:31,665 | INFO]: <t_user_19> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0030649160000000286
+[2025-12-11 20:11:31,665 | INFO]: <t_user_19> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008595659999999228
+[2025-12-11 20:11:31,665 | INFO]: <t_user_19> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002184410999999997
+[2025-12-11 20:11:31,813 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:31,823 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0037783710000001136
+[2025-12-11 20:11:31,860 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:31,886 | INFO]: <t_user_18> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.017392743999999905
+[2025-12-11 20:11:31,886 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:32,095 | INFO]: <t_user_20> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003186279000000347
+[2025-12-11 20:11:32,096 | INFO]: <t_user_20> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008726020000002777
+[2025-12-11 20:11:32,096 | INFO]: <t_user_20> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0022903329999999222
+[2025-12-11 20:11:32,300 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:32,306 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0036405179999996484
+[2025-12-11 20:11:32,342 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:32,370 | INFO]: <t_user_19> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.018784152999999915
+[2025-12-11 20:11:32,370 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:32,608 | INFO]: <t_user_21> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0031165469999998585
+[2025-12-11 20:11:32,609 | INFO]: <t_user_21> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.000891575999999894
+[2025-12-11 20:11:32,609 | INFO]: <t_user_21> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002201606999999939
+[2025-12-11 20:11:32,698 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:32,704 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0034893429999995895
+[2025-12-11 20:11:32,741 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:32,767 | INFO]: <t_user_20> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.01725644699999984
+[2025-12-11 20:11:32,767 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:33,126 | INFO]: <t_user_22> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003086080000000102
+[2025-12-11 20:11:33,126 | INFO]: <t_user_22> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008717800000002107
+[2025-12-11 20:11:33,126 | INFO]: <t_user_22> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0021929299999996488
+[2025-12-11 20:11:33,320 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:33,327 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.004334901000000002
+[2025-12-11 20:11:33,364 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:33,390 | INFO]: <t_user_21> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.017318187999999957
+[2025-12-11 20:11:33,390 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:33,845 | INFO]: <t_user_23> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003118980999999632
+[2025-12-11 20:11:33,845 | INFO]: <t_user_23> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.000884773999999755
+[2025-12-11 20:11:33,845 | INFO]: <t_user_23> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0022133470000000877
+[2025-12-11 20:11:34,048 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:34,053 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0033001559999998875
+[2025-12-11 20:11:34,090 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:34,117 | INFO]: <t_user_22> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.018348522000000145
+[2025-12-11 20:11:34,117 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:34,135 | INFO]: <t_user_24> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003029391999999742
+[2025-12-11 20:11:34,135 | INFO]: <t_user_24> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008368129999998253
+[2025-12-11 20:11:34,135 | INFO]: <t_user_24> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0021713199999999766
+[2025-12-11 20:11:34,434 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:34,440 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0035239570000000775
+[2025-12-11 20:11:34,476 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:34,502 | INFO]: <t_user_23> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016806681000000268
+[2025-12-11 20:11:34,502 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:34,630 | INFO]: <t_user_25> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0030991639999999876
+[2025-12-11 20:11:34,631 | INFO]: <t_user_25> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008821490000001653
+[2025-12-11 20:11:34,631 | INFO]: <t_user_25> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002189614000000173
+[2025-12-11 20:11:34,705 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:34,711 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0034295389999998704
+[2025-12-11 20:11:34,747 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:34,772 | INFO]: <t_user_24> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016553474999999818
+[2025-12-11 20:11:34,772 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:35,222 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:35,228 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0035068280000003504
+[2025-12-11 20:11:35,265 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:35,292 | INFO]: <t_user_25> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.018008036999999977
+[2025-12-11 20:11:35,292 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:35,505 | INFO]: <t_user_26> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003179934000000273
+[2025-12-11 20:11:35,505 | INFO]: <t_user_26> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009158420000003886
+[2025-12-11 20:11:35,505 | INFO]: <t_user_26> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002243212999999855
+[2025-12-11 20:11:35,643 | INFO]: <t_user_27> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003133598999999876
+[2025-12-11 20:11:35,643 | INFO]: <t_user_27> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009055019999997249
+[2025-12-11 20:11:35,643 | INFO]: <t_user_27> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002202399000000188
+[2025-12-11 20:11:36,092 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:36,098 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003067575000000211
+[2025-12-11 20:11:36,112 | INFO]: <t_user_28> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0030842349999997687
+[2025-12-11 20:11:36,112 | INFO]: <t_user_28> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008936500000000791
+[2025-12-11 20:11:36,112 | INFO]: <t_user_28> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002169685999999782
+[2025-12-11 20:11:36,134 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:36,207 | INFO]: <t_user_26> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.02151409400000004
+[2025-12-11 20:11:36,207 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:36,226 | INFO]: <t_user_29> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003257366999999789
+[2025-12-11 20:11:36,226 | INFO]: <t_user_29> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009575589999997192
+[2025-12-11 20:11:36,226 | INFO]: <t_user_29> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0022728480000000495
+[2025-12-11 20:11:36,293 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:36,299 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0035473639999996642
+[2025-12-11 20:11:36,397 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:36,424 | INFO]: <t_user_27> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.01698390800000027
+[2025-12-11 20:11:36,424 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:36,440 | INFO]: <t_user_30> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0032581499999997376
+[2025-12-11 20:11:36,441 | INFO]: <t_user_30> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.000861129000000016
+[2025-12-11 20:11:36,441 | INFO]: <t_user_30> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0023778750000000848
+[2025-12-11 20:11:36,830 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:36,835 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003404284000000146
+[2025-12-11 20:11:36,871 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:36,929 | INFO]: <t_user_28> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.04288116499999983
+[2025-12-11 20:11:36,929 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:36,950 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:36,958 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0031718589999996105
+[2025-12-11 20:11:37,002 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:37,027 | INFO]: <t_user_29> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.01616163799999981
+[2025-12-11 20:11:37,027 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:37,091 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:37,096 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0032115120000000275
+[2025-12-11 20:11:37,132 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:37,200 | INFO]: <t_user_30> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016423925000000228
+[2025-12-11 20:11:37,201 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:37,614 | INFO]: <t_user_31> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003037978999999691
+[2025-12-11 20:11:37,614 | INFO]: <t_user_31> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008376559999998534
+[2025-12-11 20:11:37,614 | INFO]: <t_user_31> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0021779010000000376
+[2025-12-11 20:11:38,143 | INFO]: <t_user_32> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0030437100000000328
+[2025-12-11 20:11:38,144 | INFO]: <t_user_32> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008735719999997116
+[2025-12-11 20:11:38,144 | INFO]: <t_user_32> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0021497899999998182
+[2025-12-11 20:11:38,300 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:38,305 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0034634969999993714
+[2025-12-11 20:11:38,342 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:38,367 | INFO]: <t_user_31> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.015791361999999864
+[2025-12-11 20:11:38,367 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:38,615 | INFO]: <t_user_33> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002964411999999861
+[2025-12-11 20:11:38,615 | INFO]: <t_user_33> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008252530000003588
+[2025-12-11 20:11:38,615 | INFO]: <t_user_33> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002118058999999839
+[2025-12-11 20:11:38,866 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:38,872 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0034897920000007687
+[2025-12-11 20:11:38,908 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:38,932 | INFO]: <t_user_32> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.015773378999999643
+[2025-12-11 20:11:38,932 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:39,110 | INFO]: <t_user_34> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003084074999999409
+[2025-12-11 20:11:39,110 | INFO]: <t_user_34> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008213249999995398
+[2025-12-11 20:11:39,110 | INFO]: <t_user_34> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002242692000000268
+[2025-12-11 20:11:39,225 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:39,231 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.00357507200000029
+[2025-12-11 20:11:39,268 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:39,296 | INFO]: <t_user_33> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.019580195000000522
+[2025-12-11 20:11:39,296 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:39,715 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:39,721 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0033197789999999117
+[2025-12-11 20:11:39,757 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:39,782 | INFO]: <t_user_34> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.01582686500000019
+[2025-12-11 20:11:39,782 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:39,816 | INFO]: <t_user_35> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0031097430000004422
+[2025-12-11 20:11:39,816 | INFO]: <t_user_35> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008429070000000038
+[2025-12-11 20:11:39,816 | INFO]: <t_user_35> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0022458070000004327
+[2025-12-11 20:11:40,130 | INFO]: <t_user_36> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003042917000000145
+[2025-12-11 20:11:40,130 | INFO]: <t_user_36> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.000845951000000511
+[2025-12-11 20:11:40,130 | INFO]: <t_user_36> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0021704469999992426
+[2025-12-11 20:11:40,521 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:40,526 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0032579190000001645
+[2025-12-11 20:11:40,561 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:40,600 | INFO]: <t_user_35> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.019518200000000263
+[2025-12-11 20:11:40,600 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:40,618 | INFO]: <t_user_37> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0031064769999993302
+[2025-12-11 20:11:40,618 | INFO]: <t_user_37> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009061329999999757
+[2025-12-11 20:11:40,618 | INFO]: <t_user_37> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002179654999999947
+[2025-12-11 20:11:40,718 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:40,724 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0035102010000001016
+[2025-12-11 20:11:40,759 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:40,805 | INFO]: <t_user_36> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.017323163999999558
+[2025-12-11 20:11:40,805 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:41,227 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:41,233 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0033926689999992377
+[2025-12-11 20:11:41,269 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:41,294 | INFO]: <t_user_37> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016985100999999503
+[2025-12-11 20:11:41,294 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:41,499 | INFO]: <t_user_38> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0030504510000000096
+[2025-12-11 20:11:41,499 | INFO]: <t_user_38> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008615000000000705
+[2025-12-11 20:11:41,499 | INFO]: <t_user_38> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002160918999999595
+[2025-12-11 20:11:41,631 | INFO]: <t_user_39> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0030537589999992676
+[2025-12-11 20:11:41,632 | INFO]: <t_user_39> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008765189999992984
+[2025-12-11 20:11:41,632 | INFO]: <t_user_39> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0021532150000007633
+[2025-12-11 20:11:42,090 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:42,099 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003493732999999999
+[2025-12-11 20:11:42,134 | INFO]: <t_user_40> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003114630999999868
+[2025-12-11 20:11:42,134 | INFO]: <t_user_40> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009392849999994013
+[2025-12-11 20:11:42,134 | INFO]: <t_user_40> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.00215397599999978
+[2025-12-11 20:11:42,146 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:42,171 | INFO]: <t_user_38> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.015403140000000093
+[2025-12-11 20:11:42,171 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:42,310 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:42,316 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0032582889999996922
+[2025-12-11 20:11:42,352 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:42,378 | INFO]: <t_user_39> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.017783105000000354
+[2025-12-11 20:11:42,378 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:42,637 | INFO]: <t_user_41> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003024544999999712
+[2025-12-11 20:11:42,637 | INFO]: <t_user_41> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.000821567000000023
+[2025-12-11 20:11:42,637 | INFO]: <t_user_41> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0021828999999993215
+[2025-12-11 20:11:42,787 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:42,792 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0034583760000002073
+[2025-12-11 20:11:42,829 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:42,854 | INFO]: <t_user_40> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.01680997700000031
+[2025-12-11 20:11:42,854 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:43,116 | INFO]: <t_user_42> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003353229000000013
+[2025-12-11 20:11:43,117 | INFO]: <t_user_42> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009828770000002152
+[2025-12-11 20:11:43,117 | INFO]: <t_user_42> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0023446229999999346
+[2025-12-11 20:11:43,236 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:43,241 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0035337059999998033
+[2025-12-11 20:11:43,278 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:43,303 | INFO]: <t_user_41> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.0169940930000001
+[2025-12-11 20:11:43,303 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:43,642 | INFO]: <t_user_44> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0033240939999998886
+[2025-12-11 20:11:43,642 | INFO]: <t_user_44> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009808449999999524
+[2025-12-11 20:11:43,642 | INFO]: <t_user_44> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002314015000000502
+[2025-12-11 20:11:43,694 | INFO]: <t_user_43> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003508320999999981
+[2025-12-11 20:11:43,694 | INFO]: <t_user_43> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009520089999996983
+[2025-12-11 20:11:43,694 | INFO]: <t_user_43> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0025183100000001346
+[2025-12-11 20:11:43,793 | INFO]: <t_user_45> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0030984730000005456
+[2025-12-11 20:11:43,793 | INFO]: <t_user_45> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008465540000006655
+[2025-12-11 20:11:43,793 | INFO]: <t_user_45> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002230948999999427
+[2025-12-11 20:11:43,854 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:43,859 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0032231469999999263
+[2025-12-11 20:11:43,899 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:43,924 | INFO]: <t_user_42> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.01592437900000032
+[2025-12-11 20:11:43,924 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:44,317 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:44,323 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003523085999999509
+[2025-12-11 20:11:44,360 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:44,385 | INFO]: <t_user_44> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016538957000000742
+[2025-12-11 20:11:44,385 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:44,412 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:44,417 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0033790160000002345
+[2025-12-11 20:11:44,453 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:44,493 | INFO]: <t_user_43> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.01679007699999957
+[2025-12-11 20:11:44,493 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:44,534 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:44,540 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003511332999999617
+[2025-12-11 20:11:44,602 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:44,628 | INFO]: <t_user_45> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.01701332400000055
+[2025-12-11 20:11:44,628 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:45,188 | INFO]: <t_user_46> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0035474710000000798
+[2025-12-11 20:11:45,188 | INFO]: <t_user_46> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.001008786000000761
+[2025-12-11 20:11:45,188 | INFO]: <t_user_46> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0025072659999993974
+[2025-12-11 20:11:45,629 | INFO]: <t_user_47> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0030899269999995482
+[2025-12-11 20:11:45,629 | INFO]: <t_user_47> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008768999999997362
+[2025-12-11 20:11:45,629 | INFO]: <t_user_47> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.00219180699999999
+[2025-12-11 20:11:45,809 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:45,815 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003911514000000338
+[2025-12-11 20:11:45,851 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:45,881 | INFO]: <t_user_46> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.01940762699999965
+[2025-12-11 20:11:45,881 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:46,164 | INFO]: <t_user_48> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.00326579400000071
+[2025-12-11 20:11:46,164 | INFO]: <t_user_48> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009626090000001142
+[2025-12-11 20:11:46,164 | INFO]: <t_user_48> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002277788000000669
+[2025-12-11 20:11:46,216 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:46,226 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003961057999999795
+[2025-12-11 20:11:46,264 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:46,292 | INFO]: <t_user_47> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.019478490000000015
+[2025-12-11 20:11:46,292 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:46,611 | INFO]: <t_user_49> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0031018970000005197
+[2025-12-11 20:11:46,611 | INFO]: <t_user_49> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008542470000003632
+[2025-12-11 20:11:46,611 | INFO]: <t_user_49> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0022268309999997626
+[2025-12-11 20:11:46,718 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:46,724 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003531941000000316
+[2025-12-11 20:11:46,760 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:46,788 | INFO]: <t_user_48> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.018515306000000287
+[2025-12-11 20:11:46,788 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:47,120 | INFO]: <t_user_50> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003166410000000397
+[2025-12-11 20:11:47,120 | INFO]: <t_user_50> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008914769999996963
+[2025-12-11 20:11:47,120 | INFO]: <t_user_50> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0022511280000001577
+[2025-12-11 20:11:47,199 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:47,205 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003524187000000012
+[2025-12-11 20:11:47,253 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:47,287 | INFO]: <t_user_49> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.017575586999999615
+[2025-12-11 20:11:47,288 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:47,679 | INFO]: <t_user_51> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0031654950000001847
+[2025-12-11 20:11:47,679 | INFO]: <t_user_51> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009067639999997823
+[2025-12-11 20:11:47,679 | INFO]: <t_user_51> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0022348470000004284
+[2025-12-11 20:11:47,739 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:47,745 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003661784000000168
+[2025-12-11 20:11:47,780 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:47,805 | INFO]: <t_user_50> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016785388999999817
+[2025-12-11 20:11:47,806 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:48,144 | INFO]: <t_user_52> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003196947000000172
+[2025-12-11 20:11:48,144 | INFO]: <t_user_52> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008872589999997516
+[2025-12-11 20:11:48,144 | INFO]: <t_user_52> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0022866950000004493
+[2025-12-11 20:11:48,296 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:48,307 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0039860240000004765
+[2025-12-11 20:11:48,345 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:48,371 | INFO]: <t_user_51> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.017454050000000443
+[2025-12-11 20:11:48,372 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:48,696 | INFO]: <t_user_53> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003108920999999931
+[2025-12-11 20:11:48,696 | INFO]: <t_user_53> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.000866809000000579
+[2025-12-11 20:11:48,696 | INFO]: <t_user_53> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002205041999999935
+[2025-12-11 20:11:48,751 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:48,757 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.00343722599999996
+[2025-12-11 20:11:48,793 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:48,821 | INFO]: <t_user_52> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.01805146199999985
+[2025-12-11 20:11:48,821 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:49,144 | INFO]: <t_user_54> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0031033310000001535
+[2025-12-11 20:11:49,144 | INFO]: <t_user_54> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008714499999999958
+[2025-12-11 20:11:49,144 | INFO]: <t_user_54> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0022106709999993868
+[2025-12-11 20:11:49,323 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:49,332 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0035575279999999765
+[2025-12-11 20:11:49,371 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:49,396 | INFO]: <t_user_53> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016699534999999877
+[2025-12-11 20:11:49,396 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:49,630 | INFO]: <t_user_55> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0030443710000005453
+[2025-12-11 20:11:49,630 | INFO]: <t_user_55> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008495780000004061
+[2025-12-11 20:11:49,630 | INFO]: <t_user_55> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0021726009999998297
+[2025-12-11 20:11:49,790 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:49,795 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003371775000000632
+[2025-12-11 20:11:49,831 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:49,856 | INFO]: <t_user_54> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016490121000000357
+[2025-12-11 20:11:49,856 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:50,152 | INFO]: <t_user_56> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003212205000000523
+[2025-12-11 20:11:50,152 | INFO]: <t_user_56> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008232890000003934
+[2025-12-11 20:11:50,152 | INFO]: <t_user_56> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0023679070000000024
+[2025-12-11 20:11:50,249 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:50,255 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0034390780000004284
+[2025-12-11 20:11:50,291 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:50,317 | INFO]: <t_user_55> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.017071312999999755
+[2025-12-11 20:11:50,317 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:50,618 | INFO]: <t_user_57> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0031861659999998793
+[2025-12-11 20:11:50,618 | INFO]: <t_user_57> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009165140000000349
+[2025-12-11 20:11:50,618 | INFO]: <t_user_57> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002248503000000568
+[2025-12-11 20:11:50,753 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:50,759 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0034598600000004254
+[2025-12-11 20:11:50,795 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:50,820 | INFO]: <t_user_56> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.0163839320000001
+[2025-12-11 20:11:50,820 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:51,162 | INFO]: <t_user_59> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003320787999999908
+[2025-12-11 20:11:51,163 | INFO]: <t_user_59> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009324029999993044
+[2025-12-11 20:11:51,163 | INFO]: <t_user_59> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.002363359000000287
+[2025-12-11 20:11:51,197 | INFO]: <t_user_58> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003289469000000267
+[2025-12-11 20:11:51,197 | INFO]: <t_user_58> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0009535029999998557
+[2025-12-11 20:11:51,197 | INFO]: <t_user_58> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.00230741300000048
+[2025-12-11 20:11:51,213 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:51,218 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0031826280000002427
+[2025-12-11 20:11:51,297 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:51,323 | INFO]: <t_user_57> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016789927000000482
+[2025-12-11 20:11:51,323 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:51,352 | INFO]: <t_user_60> 'redirect' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.003024954999999885
+[2025-12-11 20:11:51,352 | INFO]: <t_user_60> 'build_auth' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0008611909999993728
+[2025-12-11 20:11:51,352 | INFO]: <t_user_60> 'login' @ allauth.socialaccount.providers.saml.provider called w/ eval time 0.0021438170000003254
+[2025-12-11 20:11:51,826 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:51,833 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003431092999999663
+[2025-12-11 20:11:51,842 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:51,847 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.0029633879999995116
+[2025-12-11 20:11:51,868 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:51,893 | INFO]: <t_user_59> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.01656065599999934
+[2025-12-11 20:11:51,893 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:51,905 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:51,930 | INFO]: <t_user_58> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016226230000000008
+[2025-12-11 20:11:51,931 | DEBUG]: Execution of 'dispatch' was successful.
+[2025-12-11 20:11:52,003 | DEBUG]: The ACSView's dispatch method has been called.
+[2025-12-11 20:11:52,008 | INFO]: 'dispatch' @ allauth.socialaccount.providers.saml.views.ACSView called w/ eval time 0.003260544999999837
+[2025-12-11 20:11:52,044 | DEBUG]: The FinishACSView's dispatch method has been called.
+[2025-12-11 20:11:52,100 | INFO]: <t_user_60> 'dispatch' @ allauth.socialaccount.providers.saml.views.FinishACSView called w/ eval time 0.016865974999999978
+[2025-12-11 20:11:52,100 | DEBUG]: Execution of 'dispatch' was successful.

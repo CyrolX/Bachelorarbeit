@@ -1,0 +1,11 @@
+
+module NginxSSLFix 1.0;
+
+require {
+	type httpd_t;
+	type admin_home_t;
+	class file read;
+}
+
+#============= httpd_t ==============
+allow httpd_t admin_home_t:file read;

@@ -1,0 +1,18 @@
+
+module GunicornFixTheSecond 1.0;
+
+require {
+	type gconf_home_t;
+	type init_t;
+	type user_home_t;
+	class file { execute open read };
+}
+
+#============= init_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow init_t gconf_home_t:file execute;
+
+#!!!! This avc is allowed in the current policy
+allow init_t user_home_t:file execute;
+allow init_t user_home_t:file { open read };

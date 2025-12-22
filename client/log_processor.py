@@ -167,9 +167,13 @@ class EvaluationLogProcessor:
 
     def get_eval_time_from_line(self, line):
         return float(line.split(" ")[-1].rstrip())
+    
+
+    def get_user_from_line(self, line):
+        return line.split("<")[1].split(">")[0]
 
 
-    def transform_oidc_log_into_dict(self, oidc_log):
+    def transform_oidc_log_into_dict(self, path_to_oidc_log):
         # Ordering in the log cannot be guaranteed, so multiple counter var-
         # iables are necessary to almost correctly keep track of the data for
         # the user.
@@ -183,67 +187,64 @@ class EvaluationLogProcessor:
         # In this scenario the "complete_login" time of "t_user_2" would be
         # written into the data of "t_user_1". This is not ideal but shouldn't
         # really matter.
+        ###
+        # The above statement mentioned a true problem, yet proposes it does
+        # not matter that the ordering cant be guaranteed. This absolutely
+        # matters and as such the logging procedure has been edited according-
+        # ly.
         log_data = {}
-        redirect_current_test_user_id = 0
-        access_current_test_user_id = 0
-        decode_current_test_user_id = 0
-        complete_login_current_test_user_id  = 0
-        dispatch_current_test_user_id = 0
-        for line in oidc_log:
-            if "INFO" not in line:
-                # In this case we read a DEBUG line, which is of no importance
-                continue
-            if "redirect" in line:
-                # Every encountered redirect means that we are looking at a
-                # new user.
-                redirect_current_test_user_id += 1
-                log_data[f"t_user_{redirect_current_test_user_id}"] = {
-                    "redirect_time": self.get_eval_time_from_line(line)
-                }
-                # We are done with this line
-                continue
-            if "get_access_token" in line:
-                access_current_test_user_id += 1
-                user = log_data[
-                    f"t_user_{access_current_test_user_id}"
-                    ]
-                
-                user["get_access_token_time"] = \
-                    self.get_eval_time_from_line(line)
-                continue
-            if "_decode_id_token" in line:
-                decode_current_test_user_id += 1
-                user = log_data[
-                    f"t_user_{decode_current_test_user_id}"
-                    ]
-                
-                user["decode_id_token_time"] = \
-                    self.get_eval_time_from_line(line)
-                continue
-            if "complete_login" in line:
-                complete_login_current_test_user_id += 1
-                user = log_data[
-                    f"t_user_{complete_login_current_test_user_id}"
-                    ]
-                # This expands the user data by "complete_login_time" in log_
-                # data, because we didn't copy the user from log_data by val-
-                # ue, but by reference. 
-                user["complete_login_time"] = \
-                    self.get_eval_time_from_line(line)
-                # We are done with this line
-                continue
-            if "dispatch" in line:
-                dispatch_current_test_user_id += 1
-                user = log_data[
-                    f"t_user_{dispatch_current_test_user_id}"
-                    ]
-                user["dispatch_time"] = \
-                    self.get_eval_time_from_line(line)
+        with open(path_to_oidc_log) as oidc_log:
+            for line in oidc_log:
+                if "INFO" not in line:
+                    # In this case we read a DEBUG line, which is of no im
+                    # portance
+                    continue
+                username = self.get_user_from_line(line)
+                if "redirect" in line:
+                    # Every encountered redirect means that we are looking at 
+                    # a new user.
+                    log_data[f"{username}"] = {
+                        "redirect_time": self.get_eval_time_from_line(line)
+                    }
+                    # We are done with this line
+                    continue
+                if "pkce" in line:
+                    user = log_data[f"{username}"]
+
+                    user["pkce_time"] = \
+                        self.get_eval_time_from_line(line)
+                    continue
+                if "get_access_token" in line:
+                    user = log_data[f"{username}"]
+                    
+                    user["get_access_token_time"] = \
+                        self.get_eval_time_from_line(line)
+                    continue
+                if "_decode_id_token" in line:
+                    user = log_data[f"{username}"]
+                    
+                    user["decode_id_token_time"] = \
+                        self.get_eval_time_from_line(line)
+                    continue
+                if "complete_login" in line:
+                    user = log_data[f"{username}"]
+                    # This expands the user data by "complete_login_time" in
+                    # log_data, because we didn't copy the user from log_data
+                    # by value, but by reference. 
+                    user["complete_login_time"] = \
+                        self.get_eval_time_from_line(line)
+                    # We are done with this line
+                    continue
+                if "dispatch" in line:
+                    user = log_data[f"{username}"]
+
+                    user["dispatch_time"] = \
+                        self.get_eval_time_from_line(line)
         
         return log_data
 
 
-    def transform_saml_log_into_dict(self, saml_log):
+    def transform_saml_log_into_dict(self, path_to_saml_log):
         # Ordering in the log cannot be guaranteed, so multiple counter vari-
         # ables are necessary to almost correctly keep track of the data for
         # the user.
@@ -258,58 +259,56 @@ class EvaluationLogProcessor:
         # In this scenario the "dispatch" time of "t_user_2" would be written
         # into the data of "t_user_1". This is not ideal but shouldn't really
         # matter.
+        ###
+        # The above statement mentioned a true problem, yet proposes it does
+        # not matter that the ordering cant be guaranteed. This absolutely
+        # matters and as such the logging procedure has been edited according-
+        # ly.
         log_data = {}
-        redirect_current_test_user_id = 0
-        build_auth_current_test_user_id = 0
-        login_current_test_user_id = 0
-        acs_dispatch_current_test_user_id  = 0
-        fin_acs_dispatch_current_test_user_id = 0
-        for line in saml_log:
-            if "INFO" not in line:
-                # In this case we read a DEBUG line, which is of no importance
-                continue
-            if "redirect" in line:
-                # Every encountered redirect means that we are looking at a
-                # new user.
-                redirect_current_test_user_id += 1
-                log_data[f"t_user_{redirect_current_test_user_id}"] = {
-                    "redirect_time": self.get_eval_time_from_line(line)
-                }
-                # We are done with this line
-                continue
-            if "build_auth" in line:
-                build_auth_current_test_user_id += 1
-                user = log_data[
-                    f"t_user_{build_auth_current_test_user_id}"
-                    ]
-                user["build_auth_time"] = \
-                    self.get_eval_time_from_line(line)
-            if "login" in line:
-                login_current_test_user_id += 1
-                user = log_data[
-                    f"t_user_{build_auth_current_test_user_id}"
-                    ]
-                user["login_time"] = \
-                    self.get_eval_time_from_line(line)
-            if "dispatch" in line and ".ACSView" in line:
-                acs_dispatch_current_test_user_id += 1
-                user = log_data[
-                    f"t_user_{acs_dispatch_current_test_user_id}"
-                    ]
-                # This expands the user data by "acs_dispatch_time" in log-
-                # _data, because we didn't copy the user from log_data by val-
-                # ue, but byreference. 
-                user["acs_dispatch_time"] = \
-                    self.get_eval_time_from_line(line)
-                # We are done with this line
-                continue
-            if "dispatch" in line and ".FinishACSView" in line:
-                fin_acs_dispatch_current_test_user_id += 1
-                user = log_data[
-                    f"t_user_{fin_acs_dispatch_current_test_user_id}"
-                    ]
-                user["finish_acs_dispatch_time"] = \
-                    self.get_eval_time_from_line(line)
+        acs_log_queue = []
+        with open(path_to_saml_log) as saml_log:
+            for line in saml_log:
+                if "INFO" not in line:
+                    # In this case we read a DEBUG line, which is of no impor-
+                    # tance
+                    continue
+                # We do this before redirect because this does nothing to the
+                # log_data dictionary.
+                if "dispatch" in line and ".ACSView" in line:
+                    # For technical reasons, we cannot know the ACSViews user 
+                    # until we read a FinishACSView file. We queue the ACSView
+                    # lines and deque a line when we read a FinishACSView line
+                    #
+                    # append acts as enqueue here
+                    acs_log_queue.append(self.get_eval_time_from_line(line))
+                    # We are done with this line
+                    continue
+                username = self.get_user_from_line(line)
+                if "redirect" in line:
+                    # Every encountered redirect means that we are looking at 
+                    # a new user.
+                    log_data[f"{username}"] = {
+                        "redirect_time": self.get_eval_time_from_line(line)
+                    }
+                    # We are done with this line
+                    continue
+                if "build_auth" in line:
+                    user = log_data[f"{username}"]
+
+                    user["build_auth_time"] = \
+                        self.get_eval_time_from_line(line)
+                if "login" in line:
+                    user = log_data[f"{username}"]
+
+                    user["login_time"] = \
+                        self.get_eval_time_from_line(line)
+                if "dispatch" in line and ".FinishACSView" in line:
+                    user = log_data[f"{username}"]
+                    
+                    user["acs_dispatch_time"] = acs_log_queue.pop(0)
+
+                    user["finish_acs_dispatch_time"] = \
+                        self.get_eval_time_from_line(line)
 
         return log_data
 
@@ -352,8 +351,10 @@ class EvaluationLogProcessor:
 
         # In order for processing to go smoothly, we need an SSH-Agent to re-
         # member our login data to the Service.
-        if not self.is_ssh_agent_setup():
-            self.setup_ssh_agent()
+        # This shouldn't be necessary anymore at this point in the code, as
+        # this is already done in the user_client
+        #if not self.is_ssh_agent_setup():
+        #    self.setup_ssh_agent()
 
         # We now know that the login method is valid and the number of users
         # used makes sense, so we can now fetch the logs.
@@ -374,15 +375,15 @@ class EvaluationLogProcessor:
         
         # This is not good for particularly large log files, as we write the
         # entire log file into memory here. This will be changed in the future
-        log_file_lines = []
-        with open(path_to_log) as log_file:
-            log_file_lines = log_file.readlines()
+        #log_file_lines = []
+        #with open(path_to_log) as log_file:
+        #    log_file_lines = log_file.readlines()
         
         log_data = {}
         if login_method == "oidc":
-            log_data = self.transform_oidc_log_into_dict(log_file_lines)
+            log_data = self.transform_oidc_log_into_dict(path_to_log)
         elif login_method == "saml":
-            log_data = self.transform_saml_log_into_dict(log_file_lines)
+            log_data = self.transform_saml_log_into_dict(path_to_log)
 
         self.serialize_data_into_json(log_data, path_to_log)
 
@@ -461,6 +462,7 @@ class EvaluationLogProcessor:
                 },
                 'memory': {
                     'timestamps': [],
+                    'total_memory_usage': [],
                     'anonymous_memory': [],
                     'file_system_cache_memory': [],
                     'kernel_memory': []
@@ -571,12 +573,17 @@ class EvaluationLogProcessor:
             return
         # The structure of the record is known, which is why there is no need
         # for a for loop here.
+        total_memory = 0
         split_line = record_entry[1].split(" ")
         memory_data['anonymous_memory'].append(int(split_line[1]))
+        total_memory += memory_data['anonymous_memory'][-1]
         split_line = record_entry[2].split(" ")
         memory_data['file_system_cache_memory'].append(int(split_line[1]))
+        total_memory += memory_data['file_system_cache_memory'][-1]
         split_line = record_entry[3].split(" ")
         memory_data['kernel_memory'].append(int(split_line[1]))
+        total_memory += memory_data['kernel_memory'][-1]
+        memory_data['total_memory_usage'].append(total_memory)
 
     def read_io_entry(self, data_owner, record_entry, record_data):
         # In this case no hard drive is present in the record.
@@ -662,7 +669,7 @@ class EvaluationLogProcessor:
                     record_entry = []
                     entry_type = None
                     continue
-                elif '+---+' in line:
+                elif '+---+' in line and entry_type == "io":
                     self.read_io_entry(
                         data_owner,
                         record_entry,
@@ -694,6 +701,53 @@ class EvaluationLogProcessor:
         
         command = f"\"truncate -s 0 {path_to_record_on_server}\""
         self.process_ssh_command(connection, command)
+
+
+    def restore_resource(self,
+            eval_stor,
+            login_method,
+            test_length,
+            number_of_users_used_in_test
+            ):
+        local_idp_json_file_pattern = regex.compile(
+            f"{login_method}-eval-{test_length}-" \
+            f"{number_of_users_used_in_test}-idp-resmon" \
+            f"{r'-\d+\.json'}"
+            )
+        
+        idp_path = f"{client_secrets.LOG_STORAGE_PATH}/{eval_stor}/idp-resmon-data"
+
+        local_sp_json_file_pattern = regex.compile(
+            f"{login_method}-eval-{test_length}-" \
+            f"{number_of_users_used_in_test}-sp-resmon" \
+            f"{r'-\d+\.json'}"
+            )
+        
+        sp_path = f"{client_secrets.LOG_STORAGE_PATH}/{eval_stor}/sp-resmon-data"
+        
+        for file_name in os.listdir(idp_path):
+            if local_idp_json_file_pattern.match(file_name):
+                os.remove(f"{idp_path}/{file_name}")
+                txt_name = '.'.join([file_name.split('.')[0], 'txt'])
+                path_to_record = f"{idp_path}/{txt_name}"
+                idp_record_data = self.transform_resmon_record_into_dict(
+                    "idp",
+                    path_to_record
+                )
+                self.serialize_data_into_json(idp_record_data, path_to_record)
+        
+        
+        for file_name in os.listdir(sp_path):
+            if local_sp_json_file_pattern.match(file_name):
+                print(file_name)
+                os.remove(f"{sp_path}/{file_name}")
+                txt_name = '.'.join([file_name.split('.')[0], 'txt'])
+                path_to_record = f"{sp_path}/{txt_name}"
+                sp_record_data = self.transform_resmon_record_into_dict(
+                    "sp",
+                    path_to_record
+                )
+                self.serialize_data_into_json(sp_record_data, path_to_record)
 
 
     def process_resmon_records(

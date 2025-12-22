@@ -94,7 +94,8 @@ SOCIALACCOUNT_PROVIDERS = {
                 "client_id": "test1",
                 "secret": service_secrets.OIDC_KEY,
                 "settings": {
-                    "server_url": "https://kc-ba-runtemund-iam-openstack.uni-osnabrueck.de/realms/BA-Service/.well-known/openid-configuration"
+                    "server_url": "https://kc-ba-runtemund-iam-openstack.uni-osnabrueck.de/realms/BA-Service/.well-known/openid-configuration",
+                    "oauth_pkce_enabled": True
                 }
             }
         ]

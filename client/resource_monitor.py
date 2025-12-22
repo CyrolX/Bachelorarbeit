@@ -54,7 +54,8 @@ class ResourceMonitor:
                 process.kill()
                 out, err = process.communicate()
                 if return_out:
-                    return out
+                    print('timeout')
+                    return (out, err)
 
 ##############################################################################
 #        R E S O U R C E   M O N I T O R I N G   F O R   T H E   S P         #
@@ -64,14 +65,14 @@ class ResourceMonitor:
         command = "" \
             f"\"{client_secrets.SCRIPT_PATH_AT_ORIGIN}/stop_service.sh\""
         
-        self.process_ssh_command(self._idp_connection, command)
+        self.process_ssh_command(self._sp_connection, command)
 
     
     def start_sp(self):
         command = "" \
             f"\"{client_secrets.SCRIPT_PATH_AT_ORIGIN}/start_service.sh\""
         
-        self.process_ssh_command(self._idp_connection, command)
+        self.process_ssh_command(self._sp_connection, command)
 
 
     def enable_cpu_controller(self):
@@ -106,12 +107,16 @@ class ResourceMonitor:
 
         self.process_ssh_command(self._sp_connection, command)
 
+        # DEPRECATED
+        # I have deemed it unnecessary to set memory.max to anything but max.
+        # This is because we do not want our process to be killed.
+        #
         # We add a page extra here just in case. Killing the process actually
         # isn't the goal, so maybe adding more pages then one here is the
         # better solution.
-        command = "\"sudo sh -c " \
-            f"'echo \"{self.convert_ram_limit_for_sp() + self._page_size}\"" \
-            " >> /sys/fs/cgroup/eval.slice/memory.max'\""
+        #command = "\"sudo sh -c " \
+        #    f"'echo \"{self.convert_ram_limit_for_sp() + self._page_size}\"" \
+        #    " >> /sys/fs/cgroup/eval.slice/memory.max'\""
         
         self.process_ssh_command(self._sp_connection, command)
 
@@ -127,10 +132,11 @@ class ResourceMonitor:
         
         self.process_ssh_command(self._sp_connection, command)
 
-        command = f"\"sudo sh -c 'echo \"max\" >> " \
-            "/sys/fs/cgroup/eval.slice/memory.max'\""
-        
-        self.process_ssh_command(self._sp_connection, command)
+        # DEPRECATED see l.109
+        #command = f"\"sudo sh -c 'echo \"max\" >> " \
+        #    "/sys/fs/cgroup/eval.slice/memory.max'\""
+        # 
+        #self.process_ssh_command(self._sp_connection, command)
 
         command = f"\"sudo sh -c 'echo \"max\" >> " \
             "/sys/fs/cgroup/eval.slice/memory.high'\""
@@ -153,6 +159,34 @@ class ResourceMonitor:
         self.process_ssh_command(self._idp_connection, command)
 
 
+    # Evil Startup-Boost Hack
+    # This is really bad practice because Docker itself should be the only
+    # Process editing the cgroup here.  
+    def _boost_idp(self):
+        # Just in case it hasn't been called before
+        container_id_to_name_lookup = self.get_container_names_in_cgroup()
+        self.printer("[DEBUG | resmon] Boosting Keycloak in Container " \
+                    f"{self._keycloak_container_id}")
+        command = f"\"sudo sh -c 'echo \"max 100000\" >> " \
+            f"/sys/fs/cgroup/system.slice/{self._keycloak_container_id}/" \
+            "cpu.max'\""
+        
+        self.process_ssh_command(self._idp_connection, command)
+
+
+    def _end_idp_boost(self):
+        # Yes you read that correctly. It is intentional.
+        cgroup_cpu_limit = int(self.idp_cpu_limit * 100000)
+        self.printer("[DEBUG | resmon] Ending Keycloak-Boost in Container " \
+                    f"{self._keycloak_container_id}")
+        command = "\"sudo sh -c " \
+            f"'echo \"{cgroup_cpu_limit} 100000\" >> " \
+            f"/sys/fs/cgroup/system.slice/{self._keycloak_container_id}/" \
+            "cpu.max'\""
+        
+        self.process_ssh_command(self._idp_connection, command)
+
+
     def get_container_names_in_cgroup(self):
         command = "\"sudo docker ps --format '{{.ID}} {{.Names}}'\""
 
@@ -164,12 +198,13 @@ class ResourceMonitor:
 
         # The return is a bytes-Objekt encoded in utf-8. The string contains
         # \n chars, by which we split here. [:-1] ensures, that the last
-        # element, which is always an empty string, is ignored.        
+        # element, which is always an empty string, is ignored.
+        #self.printer(f"[DEBUG | resmon] CName: {container_names}")
         container_names = container_names.decode('utf-8').rstrip().split('\n')
         container_id_to_name_lookup = dict(
             [item.split(" ") for item in container_names]
             )
-        
+
         command = "\"ls /sys/fs/cgroup/system.slice/ | grep 'docker'\""
         containers = self.process_ssh_command(
             self._idp_connection,
@@ -220,10 +255,12 @@ class ResourceMonitor:
         # the memory limits after the line containing this string. This string
         # is confirmed to be unique in the config file.
         # Resource limits are set for Keycloak only, and not for the DB.
-        command = "\"sed -i \'/        restart: true/a\\    " \
-            "deploy:\\n      resources:\\n        " \
-            f"cpus: \"{self.idp_cpu_limit}\"\\n        " \
-            f"memory: {self.convert_ram_limit_for_idp()}\' " \
+        command = "\"sudo sed -i \'/        restart: true/a\\" \
+            "    deploy:\\n" \
+            "      resources:\\n" \
+            "        limits:\\n" \
+            f"          cpus: \\\"{self.idp_cpu_limit}\\\"\\n" \
+            f"          memory: {self.convert_ram_limit_for_idp()}\' " \
             f"{client_secrets.IDP_CONFIG_PATH}\""
         
         self.process_ssh_command(self._idp_connection, command)
@@ -235,9 +272,10 @@ class ResourceMonitor:
         # "word" character.
         # It has been confirmed, that no other lines contain the listed words
         # so no extra lines can be deleted.
-        command = "\"sed -i \'/\\(    \\bdeploy\\b\\|      " \
-            "\\bresources\\b\\|        \\bcpus\\b\\|        " \
-            f"\\bmemory\\b\\)\\+/d\' {client_secrets.IDP_CONFIG_PATH}\""
+        command = "\"sudo sed -i \'/\\(    \\bdeploy\\b\\|" \
+            "      \\bresources\\b\\|        \\blimits\\b\\|"\
+            "          \\bcpus\\b\\|          \\bmemory\\b\\)\\+/d\' " \
+            f"{client_secrets.IDP_CONFIG_PATH}\""
         
         self.process_ssh_command(self._idp_connection, command)
 

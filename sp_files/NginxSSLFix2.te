@@ -1,0 +1,14 @@
+
+module NginxSSLFix2 1.0;
+
+require {
+	type admin_home_t;
+	type httpd_t;
+	class file { open read };
+}
+
+#============= httpd_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t admin_home_t:file read;
+allow httpd_t admin_home_t:file open;

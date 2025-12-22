@@ -1,0 +1,660 @@
+[2025-12-13 02:32:53,162 | INFO]: <t_user_1> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.014267517000000007
+[2025-12-13 02:32:53,162 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:32:53,162 | INFO]: <t_user_1> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004458299999999
+[2025-12-13 02:32:53,162 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:32:53,735 | INFO]: <t_user_2> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.014484872000000037
+[2025-12-13 02:32:53,735 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:32:53,735 | INFO]: <t_user_2> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00006488199999999
+[2025-12-13 02:32:53,736 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:32:54,239 | INFO]: <t_user_3> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.013265178000000044
+[2025-12-13 02:32:54,239 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:32:54,239 | INFO]: <t_user_3> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004426299999993
+[2025-12-13 02:32:54,239 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:32:54,666 | INFO]: <t_user_4> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.01419072499999996
+[2025-12-13 02:32:54,666 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:32:54,666 | INFO]: <t_user_4> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004206899999992
+[2025-12-13 02:32:54,666 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:32:55,234 | INFO]: <t_user_5> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.015465805000000055
+[2025-12-13 02:32:55,234 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:32:55,234 | INFO]: <t_user_5> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00012168799999990
+[2025-12-13 02:32:55,234 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:32:55,672 | INFO]: <t_user_6> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012911867000000021
+[2025-12-13 02:32:55,673 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:32:55,673 | INFO]: <t_user_6> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003679700000003
+[2025-12-13 02:32:55,673 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:32:55,880 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:32:56,356 | INFO]: <t_user_1> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.011394581999999986
+[2025-12-13 02:32:56,356 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:32:56,492 | INFO]: <t_user_1> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.0006182049999999828
+[2025-12-13 02:32:56,493 | INFO]: <t_user_1> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.013922122000000092
+[2025-12-13 02:32:56,512 | INFO]: <t_user_1> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.05304748100000001
+[2025-12-13 02:32:56,512 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:32:56,524 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:32:56,637 | INFO]: <t_user_3> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.012465158000000032
+[2025-12-13 02:32:56,637 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:32:56,657 | INFO]: <t_user_3> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00017357499999992587
+[2025-12-13 02:32:56,659 | INFO]: <t_user_3> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.01226694099999992
+[2025-12-13 02:32:56,671 | INFO]: <t_user_3> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.045803660000000024
+[2025-12-13 02:32:56,671 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:32:56,683 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:32:56,767 | INFO]: <t_user_2> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010977028
+[2025-12-13 02:32:56,767 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:32:56,790 | INFO]: <t_user_2> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00017510600000003596
+[2025-12-13 02:32:56,792 | INFO]: <t_user_2> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012364010999999953
+[2025-12-13 02:32:56,810 | INFO]: <t_user_2> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.049427683
+[2025-12-13 02:32:56,810 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:32:56,823 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:32:56,906 | INFO]: <t_user_4> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010471706999999997
+[2025-12-13 02:32:56,906 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:32:56,934 | INFO]: <t_user_4> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.0001987420000000295
+[2025-12-13 02:32:56,936 | INFO]: <t_user_4> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012222469999999985
+[2025-12-13 02:32:56,949 | INFO]: <t_user_4> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04364511800000004
+[2025-12-13 02:32:56,949 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:32:56,976 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:32:57,076 | INFO]: <t_user_5> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.012335663999999857
+[2025-12-13 02:32:57,076 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:32:57,127 | INFO]: <t_user_5> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00021620500000008036
+[2025-12-13 02:32:57,129 | INFO]: <t_user_5> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012407457999999982
+[2025-12-13 02:32:57,141 | INFO]: <t_user_5> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04574219899999987
+[2025-12-13 02:32:57,141 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:32:57,172 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:32:57,327 | INFO]: <t_user_6> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.011165963000000056
+[2025-12-13 02:32:57,327 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:32:57,359 | INFO]: <t_user_6> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00017264299999997235
+[2025-12-13 02:32:57,360 | INFO]: <t_user_6> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.019464589999999893
+[2025-12-13 02:32:57,372 | INFO]: <t_user_6> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.05319337700000015
+[2025-12-13 02:32:57,372 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:32:57,468 | INFO]: <t_user_7> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.013641683999999987
+[2025-12-13 02:32:57,468 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:32:57,468 | INFO]: <t_user_7> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004281000000006
+[2025-12-13 02:32:57,468 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:32:57,572 | INFO]: <t_user_8> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012954270000000045
+[2025-12-13 02:32:57,572 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:32:57,572 | INFO]: <t_user_8> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003713899999980
+[2025-12-13 02:32:57,572 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:32:57,653 | INFO]: <t_user_9> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.0129171480000001
+[2025-12-13 02:32:57,653 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:32:57,653 | INFO]: <t_user_9> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003534700000007
+[2025-12-13 02:32:57,653 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:32:57,802 | INFO]: <t_user_10> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012835802999999979
+[2025-12-13 02:32:57,802 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:32:57,802 | INFO]: <t_user_10> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003611800000014
+[2025-12-13 02:32:57,802 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:32:58,235 | INFO]: <t_user_11> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.013022596000000108
+[2025-12-13 02:32:58,236 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:32:58,236 | INFO]: <t_user_11> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004465399999987
+[2025-12-13 02:32:58,236 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:32:58,405 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:32:58,536 | INFO]: <t_user_7> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010542516999999973
+[2025-12-13 02:32:58,536 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:32:58,560 | INFO]: <t_user_7> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00018992499999992418
+[2025-12-13 02:32:58,562 | INFO]: <t_user_7> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.011982973999999924
+[2025-12-13 02:32:58,574 | INFO]: <t_user_7> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04332240800000009
+[2025-12-13 02:32:58,574 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:32:58,586 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:32:58,671 | INFO]: <t_user_8> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.01044938800000006
+[2025-12-13 02:32:58,671 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:32:58,731 | INFO]: <t_user_8> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.0001964770000000282
+[2025-12-13 02:32:58,732 | INFO]: <t_user_8> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012133195999999957
+[2025-12-13 02:32:58,744 | INFO]: <t_user_8> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.046638509000000106
+[2025-12-13 02:32:58,745 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:32:58,846 | INFO]: <t_user_12> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012756306999999856
+[2025-12-13 02:32:58,846 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:32:58,846 | INFO]: <t_user_12> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003512499999991
+[2025-12-13 02:32:58,846 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:32:58,900 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:32:58,969 | INFO]: <t_user_10> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010687977999999987
+[2025-12-13 02:32:58,969 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:32:59,043 | INFO]: <t_user_10> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.0002484130000000029
+[2025-12-13 02:32:59,045 | INFO]: <t_user_10> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.015149367999999885
+[2025-12-13 02:32:59,067 | INFO]: <t_user_10> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.048425253
+[2025-12-13 02:32:59,067 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:32:59,082 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:32:59,154 | INFO]: <t_user_9> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010909528000000002
+[2025-12-13 02:32:59,154 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:32:59,171 | INFO]: <t_user_9> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00017691100000005733
+[2025-12-13 02:32:59,172 | INFO]: <t_user_9> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012035707999999978
+[2025-12-13 02:32:59,185 | INFO]: <t_user_9> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04447239199999986
+[2025-12-13 02:32:59,185 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:32:59,294 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:32:59,365 | INFO]: <t_user_11> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.012269111000000166
+[2025-12-13 02:32:59,365 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:32:59,382 | INFO]: <t_user_11> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00017465599999999526
+[2025-12-13 02:32:59,383 | INFO]: <t_user_11> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012543756999999989
+[2025-12-13 02:32:59,398 | INFO]: <t_user_11> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04645011700000001
+[2025-12-13 02:32:59,399 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:32:59,443 | INFO]: <t_user_13> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012388971999999887
+[2025-12-13 02:32:59,443 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:32:59,443 | INFO]: <t_user_13> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003715900000012
+[2025-12-13 02:32:59,443 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:32:59,478 | INFO]: <t_user_14> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.015559735000000074
+[2025-12-13 02:32:59,478 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:32:59,478 | INFO]: <t_user_14> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003604700000004
+[2025-12-13 02:32:59,478 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:32:59,574 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:32:59,645 | INFO]: <t_user_12> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010837701000000255
+[2025-12-13 02:32:59,645 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:32:59,665 | INFO]: <t_user_12> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00020387100000007763
+[2025-12-13 02:32:59,666 | INFO]: <t_user_12> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012674929000000112
+[2025-12-13 02:32:59,684 | INFO]: <t_user_12> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04804757199999976
+[2025-12-13 02:32:59,684 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:00,175 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:00,232 | INFO]: <t_user_14> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010676228000000343
+[2025-12-13 02:33:00,232 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:00,250 | INFO]: <t_user_14> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00018813100000025784
+[2025-12-13 02:33:00,251 | INFO]: <t_user_14> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.011785528000000323
+[2025-12-13 02:33:00,270 | INFO]: <t_user_14> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04328400599999993
+[2025-12-13 02:33:00,270 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:00,290 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:00,365 | INFO]: <t_user_13> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010868267999999848
+[2025-12-13 02:33:00,365 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:00,388 | INFO]: <t_user_13> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00020030399999981796
+[2025-12-13 02:33:00,390 | INFO]: <t_user_13> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.01625652199999994
+[2025-12-13 02:33:00,402 | INFO]: <t_user_13> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.0488978969999998
+[2025-12-13 02:33:00,403 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:00,435 | INFO]: <t_user_15> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012184116999999883
+[2025-12-13 02:33:00,435 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:00,435 | INFO]: <t_user_15> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003241999999970
+[2025-12-13 02:33:00,435 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:00,706 | INFO]: <t_user_16> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.01254515600000028
+[2025-12-13 02:33:00,707 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:00,707 | INFO]: <t_user_16> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003682800000027
+[2025-12-13 02:33:00,707 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:01,022 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:01,104 | INFO]: <t_user_15> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010804395000000078
+[2025-12-13 02:33:01,104 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:01,129 | INFO]: <t_user_15> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00016149099999962502
+[2025-12-13 02:33:01,130 | INFO]: <t_user_15> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.011822645999999715
+[2025-12-13 02:33:01,143 | INFO]: <t_user_15> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.044103455000000125
+[2025-12-13 02:33:01,143 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:01,245 | INFO]: <t_user_17> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012800682000000396
+[2025-12-13 02:33:01,245 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:01,245 | INFO]: <t_user_17> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003842099999973
+[2025-12-13 02:33:01,245 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:01,318 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:01,390 | INFO]: <t_user_16> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.011559952000000262
+[2025-12-13 02:33:01,390 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:01,407 | INFO]: <t_user_16> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00016977800000006482
+[2025-12-13 02:33:01,411 | INFO]: <t_user_16> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.01479436899999964
+[2025-12-13 02:33:01,425 | INFO]: <t_user_16> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04909705099999995
+[2025-12-13 02:33:01,425 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:01,764 | INFO]: <t_user_18> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012705359999999999
+[2025-12-13 02:33:01,764 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:01,764 | INFO]: <t_user_18> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003747099999973
+[2025-12-13 02:33:01,764 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:01,860 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:01,930 | INFO]: <t_user_17> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.013560827000000053
+[2025-12-13 02:33:01,930 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:01,948 | INFO]: <t_user_17> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00018339299999992065
+[2025-12-13 02:33:01,949 | INFO]: <t_user_17> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012577032999999904
+[2025-12-13 02:33:01,961 | INFO]: <t_user_17> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.047595779999999976
+[2025-12-13 02:33:01,961 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:02,217 | INFO]: <t_user_19> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.013310924999999862
+[2025-12-13 02:33:02,218 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:02,218 | INFO]: <t_user_19> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00006207499999977
+[2025-12-13 02:33:02,218 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:02,324 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:02,384 | INFO]: <t_user_18> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.014006376000000209
+[2025-12-13 02:33:02,384 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:02,403 | INFO]: <t_user_18> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.0001677529999999372
+[2025-12-13 02:33:02,404 | INFO]: <t_user_18> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.011920331999999867
+[2025-12-13 02:33:02,417 | INFO]: <t_user_18> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04692613200000029
+[2025-12-13 02:33:02,417 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:02,695 | INFO]: <t_user_20> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.01310611099999992
+[2025-12-13 02:33:02,695 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:02,695 | INFO]: <t_user_20> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00023933700000001
+[2025-12-13 02:33:02,695 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:02,783 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:02,849 | INFO]: <t_user_19> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.014253436999999813
+[2025-12-13 02:33:02,850 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:02,866 | INFO]: <t_user_19> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.0001839040000000125
+[2025-12-13 02:33:02,868 | INFO]: <t_user_19> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.011944853000000144
+[2025-12-13 02:33:02,880 | INFO]: <t_user_19> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.047369763999999925
+[2025-12-13 02:33:02,880 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:03,203 | INFO]: <t_user_21> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.013973876999999746
+[2025-12-13 02:33:03,203 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:03,203 | INFO]: <t_user_21> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004497400000014
+[2025-12-13 02:33:03,203 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:03,242 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:03,304 | INFO]: <t_user_20> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.012728311000000048
+[2025-12-13 02:33:03,304 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:03,333 | INFO]: <t_user_20> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.000213798999999959
+[2025-12-13 02:33:03,335 | INFO]: <t_user_20> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.021709223000000222
+[2025-12-13 02:33:03,349 | INFO]: <t_user_20> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.05694690400000013
+[2025-12-13 02:33:03,349 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:03,695 | INFO]: <t_user_22> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.013460949999999805
+[2025-12-13 02:33:03,695 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:03,695 | INFO]: <t_user_22> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004145800000011
+[2025-12-13 02:33:03,695 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:03,750 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:03,802 | INFO]: <t_user_21> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.013382612000000016
+[2025-12-13 02:33:03,802 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:03,820 | INFO]: <t_user_21> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00021708500000006126
+[2025-12-13 02:33:03,822 | INFO]: <t_user_21> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012493887999999842
+[2025-12-13 02:33:03,834 | INFO]: <t_user_21> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04744439399999978
+[2025-12-13 02:33:03,834 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:04,193 | INFO]: <t_user_23> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.014243595000000386
+[2025-12-13 02:33:04,193 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:04,193 | INFO]: <t_user_23> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004104699999985
+[2025-12-13 02:33:04,193 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:04,310 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:04,373 | INFO]: <t_user_22> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010463982999999732
+[2025-12-13 02:33:04,373 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:04,388 | INFO]: <t_user_22> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00017489700000039576
+[2025-12-13 02:33:04,390 | INFO]: <t_user_22> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.011624363000000137
+[2025-12-13 02:33:04,402 | INFO]: <t_user_22> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.043455021000000205
+[2025-12-13 02:33:04,402 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:04,694 | INFO]: <t_user_24> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012995189000000185
+[2025-12-13 02:33:04,694 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:04,694 | INFO]: <t_user_24> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003929400000002
+[2025-12-13 02:33:04,694 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:04,725 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:04,783 | INFO]: <t_user_23> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010256794999999652
+[2025-12-13 02:33:04,783 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:04,802 | INFO]: <t_user_23> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00016810400000011327
+[2025-12-13 02:33:04,803 | INFO]: <t_user_23> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.01133598499999966
+[2025-12-13 02:33:04,821 | INFO]: <t_user_23> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.047452802000000016
+[2025-12-13 02:33:04,821 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:05,189 | INFO]: <t_user_25> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012657711000000127
+[2025-12-13 02:33:05,190 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:05,190 | INFO]: <t_user_25> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003960500000000
+[2025-12-13 02:33:05,190 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:05,318 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:05,363 | INFO]: <t_user_24> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.013275847000000063
+[2025-12-13 02:33:05,363 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:05,379 | INFO]: <t_user_24> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.0001778329999999606
+[2025-12-13 02:33:05,380 | INFO]: <t_user_24> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012093839999999911
+[2025-12-13 02:33:05,394 | INFO]: <t_user_24> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.0473141130000001
+[2025-12-13 02:33:05,394 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:05,711 | INFO]: <t_user_26> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.0147504030000003
+[2025-12-13 02:33:05,711 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:05,711 | INFO]: <t_user_26> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004064699999962
+[2025-12-13 02:33:05,711 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:05,770 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:05,829 | INFO]: <t_user_25> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.01085746700000012
+[2025-12-13 02:33:05,829 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:05,855 | INFO]: <t_user_25> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00020689699999998368
+[2025-12-13 02:33:05,856 | INFO]: <t_user_25> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012906445000000044
+[2025-12-13 02:33:05,869 | INFO]: <t_user_25> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04584111299999982
+[2025-12-13 02:33:05,869 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:06,209 | INFO]: <t_user_27> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012529662000000386
+[2025-12-13 02:33:06,209 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:06,209 | INFO]: <t_user_27> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003699899999976
+[2025-12-13 02:33:06,209 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:06,259 | INFO]: <t_user_28> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012322278000000075
+[2025-12-13 02:33:06,259 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:06,259 | INFO]: <t_user_28> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003651799999993
+[2025-12-13 02:33:06,259 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:06,272 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:06,331 | INFO]: <t_user_26> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010459403000000478
+[2025-12-13 02:33:06,331 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:06,356 | INFO]: <t_user_26> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.0001797159999998854
+[2025-12-13 02:33:06,357 | INFO]: <t_user_26> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012101955999999525
+[2025-12-13 02:33:06,371 | INFO]: <t_user_26> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04627895600000009
+[2025-12-13 02:33:06,371 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:06,872 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:06,940 | INFO]: <t_user_27> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010673632999999683
+[2025-12-13 02:33:06,940 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:06,959 | INFO]: <t_user_27> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00018365299999967277
+[2025-12-13 02:33:06,960 | INFO]: <t_user_27> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012246142000000404
+[2025-12-13 02:33:06,974 | INFO]: <t_user_27> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.0459465769999996
+[2025-12-13 02:33:06,974 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:06,986 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:07,071 | INFO]: <t_user_28> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.011124230000000068
+[2025-12-13 02:33:07,071 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:07,129 | INFO]: <t_user_28> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00022126399999944368
+[2025-12-13 02:33:07,130 | INFO]: <t_user_28> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.017810942999999746
+[2025-12-13 02:33:07,148 | INFO]: <t_user_28> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.050442225000000285
+[2025-12-13 02:33:07,148 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:07,267 | INFO]: <t_user_29> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012884384999999554
+[2025-12-13 02:33:07,267 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:07,267 | INFO]: <t_user_29> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003962399999935
+[2025-12-13 02:33:07,267 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:07,741 | INFO]: <t_user_30> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012477806999999785
+[2025-12-13 02:33:07,741 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:07,741 | INFO]: <t_user_30> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003815100000004
+[2025-12-13 02:33:07,741 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:07,803 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:07,849 | INFO]: <t_user_29> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.012725709000000585
+[2025-12-13 02:33:07,849 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:07,866 | INFO]: <t_user_29> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00017658999999969893
+[2025-12-13 02:33:07,867 | INFO]: <t_user_29> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.01176037799999996
+[2025-12-13 02:33:07,879 | INFO]: <t_user_29> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04523144900000009
+[2025-12-13 02:33:07,880 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:08,221 | INFO]: <t_user_31> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012728064000000039
+[2025-12-13 02:33:08,221 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:08,221 | INFO]: <t_user_31> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003900300000037
+[2025-12-13 02:33:08,221 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:08,322 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:08,371 | INFO]: <t_user_30> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010203213999999683
+[2025-12-13 02:33:08,371 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:08,387 | INFO]: <t_user_30> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00019932300000036207
+[2025-12-13 02:33:08,389 | INFO]: <t_user_30> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012002896000000263
+[2025-12-13 02:33:08,402 | INFO]: <t_user_30> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04498919800000056
+[2025-12-13 02:33:08,402 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:08,674 | INFO]: <t_user_32> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.013220837999999624
+[2025-12-13 02:33:08,675 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:08,675 | INFO]: <t_user_32> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003979300000001
+[2025-12-13 02:33:08,675 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:08,826 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:08,873 | INFO]: <t_user_31> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010557105000000178
+[2025-12-13 02:33:08,873 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:08,888 | INFO]: <t_user_31> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00018841199999997116
+[2025-12-13 02:33:08,889 | INFO]: <t_user_31> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.011453166999999986
+[2025-12-13 02:33:08,908 | INFO]: <t_user_31> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04980991100000054
+[2025-12-13 02:33:08,909 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:09,214 | INFO]: <t_user_33> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.013723781000000379
+[2025-12-13 02:33:09,214 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:09,214 | INFO]: <t_user_33> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004463299999991
+[2025-12-13 02:33:09,215 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:09,228 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:09,303 | INFO]: <t_user_32> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.011883122000000412
+[2025-12-13 02:33:09,303 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:09,325 | INFO]: <t_user_32> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00022866700000001572
+[2025-12-13 02:33:09,326 | INFO]: <t_user_32> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.017195147999999882
+[2025-12-13 02:33:09,339 | INFO]: <t_user_32> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.05160617300000059
+[2025-12-13 02:33:09,339 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:09,731 | INFO]: <t_user_34> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.014281647999999869
+[2025-12-13 02:33:09,731 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:09,731 | INFO]: <t_user_34> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00005241800000011
+[2025-12-13 02:33:09,731 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:09,785 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:09,834 | INFO]: <t_user_33> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.013840150999999246
+[2025-12-13 02:33:09,834 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:09,851 | INFO]: <t_user_33> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00017149099999969053
+[2025-12-13 02:33:09,852 | INFO]: <t_user_33> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.011560992999999797
+[2025-12-13 02:33:09,865 | INFO]: <t_user_33> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04772042600000059
+[2025-12-13 02:33:09,865 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:10,210 | INFO]: <t_user_35> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.013474837000000406
+[2025-12-13 02:33:10,210 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:10,210 | INFO]: <t_user_35> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003733000000050
+[2025-12-13 02:33:10,210 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:10,367 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:10,414 | INFO]: <t_user_34> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010244361999999896
+[2025-12-13 02:33:10,414 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:10,431 | INFO]: <t_user_34> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00018107899999986188
+[2025-12-13 02:33:10,433 | INFO]: <t_user_34> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.011452788999999797
+[2025-12-13 02:33:10,445 | INFO]: <t_user_34> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04212045600000014
+[2025-12-13 02:33:10,446 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:10,733 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:10,788 | INFO]: <t_user_35> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010195369999999926
+[2025-12-13 02:33:10,788 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:10,807 | INFO]: <t_user_35> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00022892800000029467
+[2025-12-13 02:33:10,808 | INFO]: <t_user_35> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.01181227699999976
+[2025-12-13 02:33:10,821 | INFO]: <t_user_35> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04316103000000027
+[2025-12-13 02:33:10,822 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:10,856 | INFO]: <t_user_36> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.016018786000000063
+[2025-12-13 02:33:10,857 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:10,857 | INFO]: <t_user_36> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003918300000016
+[2025-12-13 02:33:10,857 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:11,210 | INFO]: <t_user_37> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.01240568299999989
+[2025-12-13 02:33:11,210 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:11,210 | INFO]: <t_user_37> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003672799999954
+[2025-12-13 02:33:11,210 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:11,505 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:11,559 | INFO]: <t_user_36> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.011178196000000362
+[2025-12-13 02:33:11,560 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:11,580 | INFO]: <t_user_36> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.0001937029999998785
+[2025-12-13 02:33:11,581 | INFO]: <t_user_36> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.01620631699999997
+[2025-12-13 02:33:11,600 | INFO]: <t_user_36> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04982776900000019
+[2025-12-13 02:33:11,600 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:11,721 | INFO]: <t_user_38> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012618912000000648
+[2025-12-13 02:33:11,721 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:11,721 | INFO]: <t_user_38> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004106699999973
+[2025-12-13 02:33:11,721 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:11,745 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:11,798 | INFO]: <t_user_37> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.015676512000000642
+[2025-12-13 02:33:11,798 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:11,817 | INFO]: <t_user_37> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00021536199999960814
+[2025-12-13 02:33:11,818 | INFO]: <t_user_37> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.013391515999999548
+[2025-12-13 02:33:11,832 | INFO]: <t_user_37> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.054745016000000035
+[2025-12-13 02:33:11,832 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:12,384 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:12,463 | INFO]: <t_user_38> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.011375466999999695
+[2025-12-13 02:33:12,463 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:12,482 | INFO]: <t_user_38> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00021697500000072978
+[2025-12-13 02:33:12,489 | INFO]: <t_user_38> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.01834541299999959
+[2025-12-13 02:33:12,502 | INFO]: <t_user_38> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.05187932199999956
+[2025-12-13 02:33:12,503 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:12,598 | INFO]: <t_user_39> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.01234386000000054
+[2025-12-13 02:33:12,598 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:12,598 | INFO]: <t_user_39> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003557600000015
+[2025-12-13 02:33:12,598 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:12,840 | INFO]: <t_user_40> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.01286998199999978
+[2025-12-13 02:33:12,841 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:12,841 | INFO]: <t_user_40> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003616800000028
+[2025-12-13 02:33:12,841 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:13,166 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:13,224 | INFO]: <t_user_39> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.011013143000000447
+[2025-12-13 02:33:13,225 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:13,245 | INFO]: <t_user_39> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00018038700000033714
+[2025-12-13 02:33:13,246 | INFO]: <t_user_39> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.011499957999999921
+[2025-12-13 02:33:13,262 | INFO]: <t_user_39> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.0452793680000001
+[2025-12-13 02:33:13,263 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:13,309 | INFO]: <t_user_41> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012422184000000058
+[2025-12-13 02:33:13,309 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:13,309 | INFO]: <t_user_41> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003711899999992
+[2025-12-13 02:33:13,309 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:13,366 | INFO]: <t_user_42> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012218128999999855
+[2025-12-13 02:33:13,366 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:13,366 | INFO]: <t_user_42> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003790100000067
+[2025-12-13 02:33:13,366 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:13,409 | INFO]: <t_user_43> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.01201603200000001
+[2025-12-13 02:33:13,409 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:13,409 | INFO]: <t_user_43> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003419399999949
+[2025-12-13 02:33:13,409 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:13,441 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:13,481 | INFO]: <t_user_40> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.011361263999999593
+[2025-12-13 02:33:13,481 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:13,511 | INFO]: <t_user_40> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00018169899999964656
+[2025-12-13 02:33:13,512 | INFO]: <t_user_40> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012052589000000502
+[2025-12-13 02:33:13,524 | INFO]: <t_user_40> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04406557200000005
+[2025-12-13 02:33:13,524 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:13,983 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:14,070 | INFO]: <t_user_42> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.01045698399999928
+[2025-12-13 02:33:14,070 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:14,129 | INFO]: <t_user_42> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00021634400000003495
+[2025-12-13 02:33:14,131 | INFO]: <t_user_42> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012415036000000157
+[2025-12-13 02:33:14,143 | INFO]: <t_user_42> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04471611700000011
+[2025-12-13 02:33:14,143 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:14,156 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:14,223 | INFO]: <t_user_41> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.01080708300000044
+[2025-12-13 02:33:14,223 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:14,248 | INFO]: <t_user_41> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00019038599999987582
+[2025-12-13 02:33:14,249 | INFO]: <t_user_41> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.01808211999999987
+[2025-12-13 02:33:14,261 | INFO]: <t_user_41> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.050735478
+[2025-12-13 02:33:14,262 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:14,274 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:14,336 | INFO]: <t_user_43> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.011085015000000809
+[2025-12-13 02:33:14,336 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:14,364 | INFO]: <t_user_43> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00020514300000051833
+[2025-12-13 02:33:14,366 | INFO]: <t_user_43> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.01339862699999994
+[2025-12-13 02:33:14,380 | INFO]: <t_user_43> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04513888299999991
+[2025-12-13 02:33:14,380 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:14,719 | INFO]: <t_user_44> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.013036103000000132
+[2025-12-13 02:33:14,719 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:14,719 | INFO]: <t_user_44> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003861199999999
+[2025-12-13 02:33:14,719 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:15,199 | INFO]: <t_user_45> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.013389300000000048
+[2025-12-13 02:33:15,199 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:15,199 | INFO]: <t_user_45> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004156800000032
+[2025-12-13 02:33:15,199 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:15,274 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:15,332 | INFO]: <t_user_44> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.01286466300000022
+[2025-12-13 02:33:15,332 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:15,347 | INFO]: <t_user_44> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00015881699999997778
+[2025-12-13 02:33:15,348 | INFO]: <t_user_44> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.01113691100000036
+[2025-12-13 02:33:15,361 | INFO]: <t_user_44> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04492473100000005
+[2025-12-13 02:33:15,361 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:15,697 | INFO]: <t_user_46> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012287536999999737
+[2025-12-13 02:33:15,697 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:15,697 | INFO]: <t_user_46> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003726899999990
+[2025-12-13 02:33:15,697 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:15,722 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:15,780 | INFO]: <t_user_45> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010755730000000518
+[2025-12-13 02:33:15,780 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:15,798 | INFO]: <t_user_45> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00016987800000034525
+[2025-12-13 02:33:15,800 | INFO]: <t_user_45> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.0153042439999993
+[2025-12-13 02:33:15,812 | INFO]: <t_user_45> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04674771200000016
+[2025-12-13 02:33:15,812 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:16,191 | INFO]: <t_user_47> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012621234000000037
+[2025-12-13 02:33:16,191 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:16,191 | INFO]: <t_user_47> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003911299999970
+[2025-12-13 02:33:16,191 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:16,204 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:16,256 | INFO]: <t_user_46> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.018978748999999517
+[2025-12-13 02:33:16,256 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:16,272 | INFO]: <t_user_46> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00019273000000019636
+[2025-12-13 02:33:16,274 | INFO]: <t_user_46> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012936711000000045
+[2025-12-13 02:33:16,286 | INFO]: <t_user_46> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.05258264600000029
+[2025-12-13 02:33:16,286 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:16,693 | INFO]: <t_user_48> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.013749631999999679
+[2025-12-13 02:33:16,693 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:16,693 | INFO]: <t_user_48> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003996500000003
+[2025-12-13 02:33:16,693 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:16,706 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:16,756 | INFO]: <t_user_47> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.011224061000000063
+[2025-12-13 02:33:16,756 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:16,774 | INFO]: <t_user_47> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.0001955460000004905
+[2025-12-13 02:33:16,777 | INFO]: <t_user_47> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.011867084999999555
+[2025-12-13 02:33:16,794 | INFO]: <t_user_47> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04483116900000006
+[2025-12-13 02:33:16,794 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:17,207 | INFO]: <t_user_49> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.013711229000000102
+[2025-12-13 02:33:17,207 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:17,207 | INFO]: <t_user_49> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004313099999997
+[2025-12-13 02:33:17,207 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:17,233 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:17,286 | INFO]: <t_user_48> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.012141047000000071
+[2025-12-13 02:33:17,287 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:17,309 | INFO]: <t_user_48> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00023100100000039703
+[2025-12-13 02:33:17,311 | INFO]: <t_user_48> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.018123530999999637
+[2025-12-13 02:33:17,325 | INFO]: <t_user_48> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.053674791999999805
+[2025-12-13 02:33:17,325 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:17,698 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:17,749 | INFO]: <t_user_49> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.011917176999999946
+[2025-12-13 02:33:17,749 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:17,765 | INFO]: <t_user_49> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00019992400000035104
+[2025-12-13 02:33:17,767 | INFO]: <t_user_49> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.01344558100000004
+[2025-12-13 02:33:17,779 | INFO]: <t_user_49> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04890473499999981
+[2025-12-13 02:33:17,779 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:17,810 | INFO]: <t_user_50> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012492651999999715
+[2025-12-13 02:33:17,810 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:17,810 | INFO]: <t_user_50> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003592799999996
+[2025-12-13 02:33:17,810 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:18,338 | INFO]: <t_user_51> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012747076000000135
+[2025-12-13 02:33:18,338 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:18,338 | INFO]: <t_user_51> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003800200000015
+[2025-12-13 02:33:18,338 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:18,351 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:18,393 | INFO]: <t_user_50> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010194805999999446
+[2025-12-13 02:33:18,393 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:18,412 | INFO]: <t_user_50> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00017525800000051106
+[2025-12-13 02:33:18,413 | INFO]: <t_user_50> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.015550490999999944
+[2025-12-13 02:33:18,427 | INFO]: <t_user_50> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04602503000000002
+[2025-12-13 02:33:18,427 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:18,764 | INFO]: <t_user_52> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.01566164499999978
+[2025-12-13 02:33:18,764 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:18,764 | INFO]: <t_user_52> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00005059500000026
+[2025-12-13 02:33:18,764 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:18,875 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:18,931 | INFO]: <t_user_51> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010842387999999481
+[2025-12-13 02:33:18,931 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:18,946 | INFO]: <t_user_51> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00017676000000044212
+[2025-12-13 02:33:18,947 | INFO]: <t_user_51> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.01205814800000038
+[2025-12-13 02:33:18,960 | INFO]: <t_user_51> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.046122450999999565
+[2025-12-13 02:33:18,960 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:19,232 | INFO]: <t_user_53> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.013353634999999642
+[2025-12-13 02:33:19,232 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:19,232 | INFO]: <t_user_53> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004960299999990
+[2025-12-13 02:33:19,233 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:19,294 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:19,347 | INFO]: <t_user_52> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.014248457999999964
+[2025-12-13 02:33:19,347 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:19,368 | INFO]: <t_user_52> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.0002542249999999413
+[2025-12-13 02:33:19,370 | INFO]: <t_user_52> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.015517856000000663
+[2025-12-13 02:33:19,383 | INFO]: <t_user_52> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.05318452199999957
+[2025-12-13 02:33:19,383 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:19,709 | INFO]: <t_user_54> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.013347808000000683
+[2025-12-13 02:33:19,709 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:19,709 | INFO]: <t_user_54> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004189800000098
+[2025-12-13 02:33:19,709 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:19,785 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:19,850 | INFO]: <t_user_53> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.013589914000000647
+[2025-12-13 02:33:19,850 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:19,864 | INFO]: <t_user_53> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00018442500000048767
+[2025-12-13 02:33:19,865 | INFO]: <t_user_53> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.01159145100000103
+[2025-12-13 02:33:19,878 | INFO]: <t_user_53> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04600164500000048
+[2025-12-13 02:33:19,878 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:20,229 | INFO]: <t_user_55> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.01397738000000004
+[2025-12-13 02:33:20,229 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:20,229 | INFO]: <t_user_55> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004188800000016
+[2025-12-13 02:33:20,229 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:20,308 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:20,363 | INFO]: <t_user_54> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.013825772000000569
+[2025-12-13 02:33:20,363 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:20,380 | INFO]: <t_user_54> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00020492400000016175
+[2025-12-13 02:33:20,382 | INFO]: <t_user_54> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.01369603300000044
+[2025-12-13 02:33:20,395 | INFO]: <t_user_54> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04982645199999958
+[2025-12-13 02:33:20,395 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:20,730 | INFO]: <t_user_57> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.01370458499999927
+[2025-12-13 02:33:20,730 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:20,730 | INFO]: <t_user_57> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004290999999945
+[2025-12-13 02:33:20,730 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:20,780 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:20,843 | INFO]: <t_user_55> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010153710999999177
+[2025-12-13 02:33:20,844 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:20,870 | INFO]: <t_user_55> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00019481400000032068
+[2025-12-13 02:33:20,871 | INFO]: <t_user_55> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.011818466999999444
+[2025-12-13 02:33:20,888 | INFO]: <t_user_55> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04639559099999957
+[2025-12-13 02:33:20,888 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:20,919 | INFO]: <t_user_56> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012659453000001264
+[2025-12-13 02:33:20,920 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:20,920 | INFO]: <t_user_56> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003612699999955
+[2025-12-13 02:33:20,920 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:21,316 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:21,362 | INFO]: <t_user_57> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010982403999999946
+[2025-12-13 02:33:21,362 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:21,381 | INFO]: <t_user_57> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.0001864989999997846
+[2025-12-13 02:33:21,382 | INFO]: <t_user_57> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.012455320999999131
+[2025-12-13 02:33:21,406 | INFO]: <t_user_57> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.05660109699999971
+[2025-12-13 02:33:21,406 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:21,499 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:21,554 | INFO]: <t_user_56> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010879768999998873
+[2025-12-13 02:33:21,555 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:21,574 | INFO]: <t_user_56> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00018209099999921818
+[2025-12-13 02:33:21,575 | INFO]: <t_user_56> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.01197565900000086
+[2025-12-13 02:33:21,593 | INFO]: <t_user_56> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.05033352600000107
+[2025-12-13 02:33:21,593 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:21,767 | INFO]: <t_user_58> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.012993192999999792
+[2025-12-13 02:33:21,768 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:21,768 | INFO]: <t_user_58> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003716899999873
+[2025-12-13 02:33:21,768 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:22,209 | INFO]: <t_user_59> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.01309494300000047
+[2025-12-13 02:33:22,210 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:22,210 | INFO]: <t_user_59> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00004261900000024
+[2025-12-13 02:33:22,210 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:22,273 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:22,330 | INFO]: <t_user_58> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010508570000000717
+[2025-12-13 02:33:22,331 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:22,348 | INFO]: <t_user_58> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00018351299999963544
+[2025-12-13 02:33:22,350 | INFO]: <t_user_58> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.011931211000000275
+[2025-12-13 02:33:22,362 | INFO]: <t_user_58> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04522513000000039
+[2025-12-13 02:33:22,362 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:22,716 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:22,768 | INFO]: <t_user_59> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.01067910999999988
+[2025-12-13 02:33:22,768 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:22,789 | INFO]: <t_user_59> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.0001867900000007694
+[2025-12-13 02:33:22,790 | INFO]: <t_user_59> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.011651784999999748
+[2025-12-13 02:33:22,804 | INFO]: <t_user_59> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.0433824240000007
+[2025-12-13 02:33:22,804 | DEBUG]: Execution of 'dispatch' successful.
+[2025-12-13 02:33:22,841 | INFO]: <t_user_60> 'redirect' @ allauth.socialaccount.providers.oauth2.provider called w/ eval time 0.013742542000001023
+[2025-12-13 02:33:22,841 | DEBUG]: The execution of 'redirect' was successful.
+[2025-12-13 02:33:22,841 | INFO]: <t_user_60> 'pkce' @ allauth.socialaccount.providers.oauth2.provider calculated w/ eval time 0.00003862199999993
+[2025-12-13 02:33:22,841 | DEBUG]: PKCE Parameters successfully initialized
+[2025-12-13 02:33:23,347 | DEBUG]: The OAuth2CallbackView's dispatch method has been called.
+[2025-12-13 02:33:23,393 | INFO]: <t_user_60> 'get_access_token' @ allauth.socialaccount.providers.oauth2.client called w/ eval time 0.010495402000000098
+[2025-12-13 02:33:23,393 | DEBUG]: The execution of 'get_access_token' was successful.
+[2025-12-13 02:33:23,414 | INFO]: <t_user_60> '_decode_id_token' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.00017686199999999985
+[2025-12-13 02:33:23,415 | INFO]: <t_user_60> 'complete_login' @ allauth.socialaccount.providers.openid_connect.views called w/ eval time 0.014775327999998922
+[2025-12-13 02:33:23,429 | INFO]: <t_user_60> 'dispatch' @ allauth.socialaccount.providers.oauth2.views.OAuth2CallbackView called w/ eval time 0.04729491000000152
+[2025-12-13 02:33:23,429 | DEBUG]: Execution of 'dispatch' successful.
